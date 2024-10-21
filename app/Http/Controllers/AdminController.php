@@ -11,15 +11,17 @@ class AdminController extends Controller
      */
     public function index()
     {
-       return view('admin.dashboard');
+       return view('admin.index');
     }
 
     /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    * Display a dashboard to authenticated users.
+    * 
+    * @return Illuminate\Http\Response
+    */
+    public function dashboard()
     {
-        //
+        return view('admin.dashboard');
     }
 
     /**
