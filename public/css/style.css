@@ -1,0 +1,96 @@
+body {
+    font-family: Fredoka;
+    margin: 0;
+    padding: 0;
+    background-color: #ffffff;
+    height: 100vh;
+    overflow-x: hidden;
+}
+
+/* ----------LAYOUT BLADE---------- */
+/* Menu navigasi di tengah */
+.navbar-collapse {
+    justify-content: center;
+}
+
+/* Style untuk item menu */
+.nav-link {
+    color: #555; /* Warna default */
+    padding: 10px 20px;
+    font-size: 16px; 
+    font-weight: 500;
+}
+
+.nav-link.active {
+    color: #0A4833 !important; 
+}
+
+/* Hover effect untuk navigasi */
+.nav-link:hover {
+    color: #0A4833;
+}
+
+footer {
+    background-color: #275241;
+    color: white;
+    padding: 20px;
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    
+}
+
+.footer-logo img {
+    max-width: 100px; /* Restrict logo size */
+    height: auto;
+}
+
+.footer p {
+    font-size: 14px; /* Font size for text */
+    margin: 0;
+}
+
+.footer .mb-1 {
+    font-size: 1.2rem; /* Ukuran lebih besar */
+}
+
+/* Ikon media sosial */
+.social-icons a {
+    font-size: 1.5rem; /* Ukuran ikon lebih besar */
+    color: #ffffff;
+    transition: color 0.3s ease;
+}
+
+/* Hover untuk ikon media sosial */
+.social-icons a:hover {
+    color: #A4C3B2; /* Warna saat hover */
+}
+
+
+/* ---------------INDEX BLADE--------------- */
+/* Custom tombol previous berbentuk segitiga */
+.carousel-control-prev-icon {
+    display: inline-block;
+    width: 0;
+    height: 0;
+    border-top: 15px solid transparent;
+    border-bottom: 15px solid transparent;
+    border-right: 25px solid #676767;  /* Warna segitiga */
+}
+
+/* Custom tombol next berbentuk segitiga */
+.carousel-control-next-icon {
+    display: inline-block;
+    width: 0;
+    height: 0;
+    border-top: 15px solid transparent;
+    border-bottom: 15px solid transparent;
+    border-left: 25px solid #676767;  /* Warna segitiga */
+}
+
+/* Hover effect untuk mengubah warna tombol saat di-hover */
+.carousel-control-prev-icon:hover,
+.carousel-control-next-icon:hover {
+    border-color: #555; /* Warna berubah saat di-hover */
+}
