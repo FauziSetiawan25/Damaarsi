@@ -19,7 +19,7 @@
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-lg bg-body-tertiary shadow">
+        <nav class="navbar navbar-expand-lg bg-body-tertiary shadow fixed-top">
             <div class="container">
                 <a class="navbar-brand" href="#">
                   <img src="/images/logo1.png" alt="Damaarsi brand" width="270" height="70">
@@ -27,19 +27,19 @@
               <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                   <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="#">Home</a>
+                    <a class="nav-link active" aria-current="page" href="/">Home</a>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link" href="#">Catalog</a>
+                    <a class="nav-link" href="/catalog">Catalog</a>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link" href="#">Portofolio</a>
+                    <a class="nav-link" href="/portofolio">Portofolio</a>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link" href="#">About</a>
+                    <a class="nav-link" href="/about">About</a>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link" href="#">Contact</a>
+                    <a class="nav-link" href="/contact">Contact</a>
                   </li>
                 </ul>
               </div>

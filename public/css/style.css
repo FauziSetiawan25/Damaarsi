@@ -5,7 +5,9 @@ body {
     background-color: #ffffff;
     height: 100vh;
     overflow-x: hidden;
+    padding-top: 70px;
 }
+
 
 /* ----------LAYOUT BLADE---------- */
 /* Menu navigasi di tengah */
@@ -93,4 +95,93 @@ footer {
 .carousel-control-prev-icon:hover,
 .carousel-control-next-icon:hover {
     border-color: #555; /* Warna berubah saat di-hover */
+}
+
+
+/* ---------------CATALOG BLADE-------------- */
+.card {
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.card img {
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    height: 200px;
+    object-fit: cover;
+}
+
+.card-body {
+    text-align: left;
+}
+
+.card-title {
+    margin-top: 10px;
+}
+
+.search-bar {
+    position: relative;
+    width: 450px; /* Adjust width as needed */
+}
+
+.search-bar input {
+    border-radius: 10px; /* Rounded corners */
+    padding-left: 45px; /* Space for search icon */
+    height: 40px;
+}
+
+.search-btn {
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 100%;
+    width: 40px;
+    background-color: #0A4833;
+    border: none;
+    color: #000; /* Adjust icon color */
+    border-radius: 0 10px 10px 0; /* Match input's border radius */
+    cursor: pointer;
+}
+
+.search-bar i {
+    position: absolute;
+    top: 50%;
+    left: 15px;
+    transform: translateY(-50%);
+    font-size: 18px;
+    color: #C1C1C1; /* Adjust icon color */
+}
+
+.search-bar input::placeholder {
+    color: #C1C1C1; /* Placeholder color */
+}
+
+
+/* ------------CONTACT BLADE-------------- */
+/* Gaya untuk Header Contact */
+.contact-header {
+    background-image: url('/images/bgcontact.png'); /* Ganti dengan path gambar yang benar */
+    background-size: cover;
+    background-position: center;
+    height: 100px;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Gaya untuk teks di dalam header agar selalu di tengah */
+.contact-header h1 {
+    line-height: 160px; /* Tinggi sama dengan container */
+    color: white; /* Warna teks */
+}
+
+.custom-card {
+    width: 1000px; 
+    height: auto; 
+    margin: 0 auto;
+}
+
+iframe {
+    width: 100% !important;
 }
