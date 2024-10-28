@@ -4,25 +4,16 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-class AdminController extends Controller
+class PortofolioController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-       return view('admin.index');
+       return view('admin.portofolio');
     }
 
-    /**
-    * Display a dashboard to authenticated users.
-    * 
-    * @return Illuminate\Http\Response
-    */
-    public function dashboard()
-    {
-        return view('admin.dashboard');
-    }
 
     /**
      * Store a newly created resource in storage.
@@ -35,9 +26,9 @@ class AdminController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show()
+    public function show(string $id)
     {
-        return view('admin.dataadmin');
+        //
     }
 
     /**

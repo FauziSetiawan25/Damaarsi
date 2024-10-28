@@ -33,7 +33,7 @@
                     <div class="text-center fs-3 mt-3" style="font-weight: bold; color: black; font-size: 20px;">Login</div>
                     <div class="card-body">
                         {{-- <form action="{{ route('authenticate') }}" method="post"> --}}
-                        <form action="#" method="post">
+                        <form action="{{ route('admin.dashboard') }}" method="get">
                             @csrf
                             <div class="mb-3 row">
                                 <div class="col-md-12">

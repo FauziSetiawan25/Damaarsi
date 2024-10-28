@@ -4,24 +4,22 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-class AdminController extends Controller
+class TestimoniController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-       return view('admin.index');
+       return view('admin.testimoni');
     }
 
     /**
-    * Display a dashboard to authenticated users.
-    * 
-    * @return Illuminate\Http\Response
-    */
-    public function dashboard()
+     * Show the form for creating a new resource.
+     */
+    public function create()
     {
-        return view('admin.dashboard');
+        return view('admin.addtesti');
     }
 
     /**
@@ -35,9 +33,9 @@ class AdminController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show()
+    public function show(string $id)
     {
-        return view('admin.dataadmin');
+        //
     }
 
     /**

@@ -23,6 +23,7 @@ return new class extends Migration
         });
         Schema::create('produk',function(Blueprint $table){
             $table->id();
+            $table->unsignedBigInteger('id_admin');
             $table->date('terahir_diubah');
             $table->string('nama_produk');
             $table->text('deskripsi');
@@ -31,6 +32,8 @@ return new class extends Migration
             $table->string('gambar2')->nullable();;
             $table->string('gambar3')->nullable();;
             $table->timestamps();
+            
+            $table->foreign('id_admin')->references('id')->on('admin')->onUpdate('cascade')->onDelete('cascade');
         });
         Schema::create('testimoni',function(Blueprint $table){
             $table->id();
