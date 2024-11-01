@@ -5,7 +5,15 @@ body {
     background-color: #ffffff;
     height: 100vh;
     overflow-x: hidden;
-    padding-top: 70px;
+    padding-top: 90px;
+}
+
+hr {
+    opacity: 1;
+    border: none; /* Menghilangkan border default */
+    height: 2px; /* Tinggi garis */
+    background-color: black; /* Warna garis */
+    margin: 15px 0; /* Jarak atas dan bawah */
 }
 
 
@@ -97,6 +105,34 @@ footer {
     border-color: #555; /* Warna berubah saat di-hover */
 }
 
+.btn-outline-success {
+    background-color: #275241; /* Warna border tombol */
+    color: white; /* Warna teks tombol */
+}
+
+.btn-outline-success:hover {
+    background-color: #517F6D; /* Warna latar belakang saat hover */
+    color: white; /* Warna teks saat hover */
+}
+
+.custom-text {
+    color:#F4D2A3; /* Ganti dengan warna yang diinginkan */
+}
+
+.container .info h2{
+    color: #0A4833;
+    font-size: 40px;
+}
+
+.container .info p{
+    font-size: 20px;
+}
+
+.recommendations {
+    margin-top: 150px !important; 
+}
+
+
 
 /* ---------------CATALOG BLADE-------------- */
 .card {
@@ -160,6 +196,7 @@ footer {
 /* ------------CONTACT BLADE-------------- */
 /* Gaya untuk Header Contact */
 .contact-header {
+    position: relative;
     background-image: url('/images/bgcontact.png'); /* Ganti dengan path gambar yang benar */
     background-size: cover;
     background-position: center;
@@ -170,10 +207,23 @@ footer {
     justify-content: center;
 }
 
+.contact-header::before {
+    content: ''; /* Menghasilkan elemen kosong */
+    position: absolute; /* Menempatkan overlay di atas gambar */
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5); /* Warna hitam dengan transparansi 50% */
+    z-index: 1; /* Menempatkan overlay di atas gambar */
+}
+
 /* Gaya untuk teks di dalam header agar selalu di tengah */
 .contact-header h1 {
     line-height: 160px; /* Tinggi sama dengan container */
     color: white; /* Warna teks */
+    position: relative;
+    z-index: 2;
 }
 
 .custom-card {
@@ -184,4 +234,23 @@ footer {
 
 iframe {
     width: 100% !important;
+}
+
+/* ------------PORTOFOLIO BLADE----------- */
+.line-horizontal {
+    width: 40%;
+    height: 2px;
+    background-color: #000;
+    margin: 10px 0;
+}
+
+.logo {
+    max-width: 100px;
+    height: auto;
+    margin-right: 10px;
+}
+
+.text-left p {
+    margin: 0;
+    font-size: 1.2em;
 }
