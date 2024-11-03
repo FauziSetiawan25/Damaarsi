@@ -54,8 +54,6 @@
                                         <div>
                                             <button type="button" class="btn btn-danger btn-sm" style="width: 100px;" onclick="toggleColor(this)">Nonaktifkan</button>
                                         </div>
-                                        <div class="mt-2">
-                                        </div>
                                     </div>
                                 </td>
                             </tr>
@@ -71,11 +69,11 @@
         if (button.classList.contains('btn-danger')) {
             button.classList.remove('btn-danger');
             button.classList.add('btn-success'); // Menjadi hijau
-            button.textContent = "Nonaktif"; // Mengubah teks
+            button.textContent = "Tampilkan"; // Mengubah teks
         } else {
             button.classList.remove('btn-success');
             button.classList.add('btn-danger'); // Menjadi merah
-            button.textContent = "Tampilkan"; // Mengubah kembali teks
+            button.textContent = "Nonaktifkan"; // Mengubah kembali teks
         }
     }
 </script>

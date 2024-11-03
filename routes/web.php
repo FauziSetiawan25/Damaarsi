@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\PengaturanController;
 use App\Http\Controllers\PortofolioController;
 use App\Http\Controllers\ProdukController;
 use App\Http\Controllers\TestimoniController;
@@ -38,6 +39,6 @@ Route::get('/admin/customer', function () {return view('admin.customer');})-> na
 
 Route::get('/admin/dataadmin', [AdminController::class,'show'])-> name('admin.dataadmin');
 
-Route::get('/admin/pengaturan', [PortofolioController::class,'index'])-> name('admin.pengaturan');
+Route::get('/admin/pengaturan', [PengaturanController::class,'index'])-> name('admin.pengaturan');
 
 

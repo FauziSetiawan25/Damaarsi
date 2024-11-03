@@ -10,7 +10,7 @@
     </div>
     <div class="card shadow mb-4 animated--grow-in">
         <div class="card-header py-3 d-flex justify-content-between align-items-center">
-            <h6 class="m-0 font-weight-bold text-dark">Tabel Katalog</h6>
+            <h6 class="m-0 font-weight-bold text-dark">Tabel Portofolio</h6>
             <a href="#" class="btn" style="background-color: #0088FF; color: white" data-toggle="modal" data-target="#addPortoModal">Tambah Portofolio</a>
         </div>
             <div class="card-body">

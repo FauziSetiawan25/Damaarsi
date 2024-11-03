@@ -24,9 +24,7 @@
                             <th>Nama Produk</th>
                             <th>Deskripsi</th>
                             <th>Harga</th>
-                            <th>Gambar1</th>
-                            <th>Gambar2</th>
-                            <th>Gambar3</th>
+                            <th>Gambar</th>
                             <th>Aksi</th>
                             </tr>
                         </thead>
@@ -38,9 +36,7 @@
                                 <td>Classic</td>
                                 <td>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. </b></td>
                                 <td>Rp. 100.000</td>
-                                <td align="Center"><img src="{{ asset('asset/img/logo.png') }}" style="width: 100px;height: auto;"></td>
-                                <td align="Center"><img src="{{ asset('asset/img/logo.png') }}" style="width: 100px;height: auto;"></td>
-                                <td align="Center"><img src="{{ asset('asset/img/logo.png') }}" style="width: 100px;height: auto;"></td>
+                                <td><a href="#">Lihat Gambar</a></td>
                                 <td>
                                     <div class="d-flex flex-column align-items-start">
                                         <div>
