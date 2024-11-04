@@ -11,7 +11,7 @@
     <div class="card shadow mb-4 animated--grow-in">
         <div class="card-header py-3 d-flex justify-content-between align-items-center">
             <h6 class="m-0 font-weight-bold text-dark">Tabel Testimoni</h6>
-            <a href="{{ route('admin.addtesti') }}" class="btn" style="background-color: #0088FF; color: white">Tambah Testimoni</a>
+            <a href="{{ route('admin.addtesti') }}" class="btn" style="background-color: #0088FF; color: white" target="_blank">Tambah Testimoni</a>
         </div>
             <div class="card-body">
                 <div class="table-responsive">

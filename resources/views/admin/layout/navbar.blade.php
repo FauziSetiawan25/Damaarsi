@@ -85,7 +85,7 @@
         <div id="content-wrapper" class="d-flex flex-column">
 
             <!-- Main Content -->
-            <div id="content" style="{{ request()->is('admin/dashboard') ? '' : 'background-color: #4D6A58;' }}">
+            <div id="content" style="background-color: #4D6A58;">
 
                 <!-- Topbar -->
                 <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">

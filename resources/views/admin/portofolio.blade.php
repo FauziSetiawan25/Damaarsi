@@ -38,7 +38,7 @@
                                 <td>Classic</td>
                                 <td>11 Oktober 2024</b></td>
                                 <td>200</td>
-                                <td><a href="#">Lihat Gambar</a></td>
+                                <td><a href="#" class="view-images" data-images='["{{ asset('asset/img/logo.png') }}", "{{ asset('asset/img/logo.png') }}", "{{ asset('asset/img/logo.png') }}", "{{ asset('asset/img/logo.png') }}"]'>Lihat Gambar</a></td>
                                 <td>
                                     <div class="d-flex flex-column align-items-start">
                                         <div>
@@ -179,4 +179,67 @@
         </div>
     </div>
 </div>
+<!-- Modal untuk menampilkan gambar sebagai slider -->
+<div class="modal fade" id="imageModal" tabindex="-1" role="dialog" aria-labelledby="imageModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="imageModalLabel">Gambar Portofolio</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div id="imageCarousel" class="carousel slide" data-ride="carousel">
+                    <div class="carousel-inner" id="carouselImages">
+                        <!-- Gambar akan ditambahkan di sini -->
+                    </div>
+                    <div class="carousel-controls">
+                        <a class="carousel-control-prev" href="#imageCarousel" role="button" data-slide="prev" style="color: black;">
+                            <span class="carousel-control-prev-icon" aria-hidden="true" style="background-color: black;"></span>
+                            <span class="sr-only">Previous</span>
+                        </a>
+                        <a class="carousel-control-next" href="#imageCarousel" role="button" data-slide="next" style="color: black;">
+                            <span class="carousel-control-next-icon" aria-hidden="true" style="background-color: black;"></span>
+                            <span class="sr-only">Next</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Script untuk menangani klik tautan dan menampilkan gambar -->
+<script>
+    document.querySelectorAll('.view-images').forEach(link => {
+        link.addEventListener('click', function(event) {
+            event.preventDefault();
+            const images = JSON.parse(this.getAttribute('data-images'));
+            const carouselImages = document.getElementById('carouselImages');
+            carouselImages.innerHTML = ''; // Kosongkan isi carousel sebelumnya
+    
+            images.forEach((image, index) => {
+                const activeClass = index === 0 ? 'active' : ''; // Gambar pertama menjadi aktif
+                const carouselItem = document.createElement('div');
+                carouselItem.className = `carousel-item ${activeClass}`;
+    
+                const img = document.createElement('img');
+                img.src = image; // Ubah dengan path gambar yang sesuai
+                img.className = 'd-block w-100'; // Untuk ukuran responsif
+    
+                // Membuat elemen caption di luar img
+                const caption = document.createElement('div');
+                caption.className = 'text-center'; // Tambahkan kelas untuk meratakan teks
+                caption.innerHTML = `<h5>Gambar ${index + 1}</h5>`; // Keterangan gambar ke berapa
+    
+                carouselItem.appendChild(img);
+                carouselItem.appendChild(caption);
+                carouselImages.appendChild(carouselItem);
+            });
+    
+            // Tampilkan modal
+            $('#imageModal').modal('show');
+        });
+    });
+</script>
 @endsection
