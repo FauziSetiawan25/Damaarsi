@@ -20,14 +20,13 @@
             <div class="col-md-6"> <!-- Kolom Kanan -->
                 <div class="p-4">
                     <h3>Address</h3>
-                    <p>JL. Mr. Wilopo, RT.02/RW.03, Rw. III, Doplang,<br>
-                    Kec. Purworejo, Kabupaten Purworejo, Jawa Tengah 54114</p>
+                    <p>{{ $contactInfo['address'] }}</p>
 
                     <h3>Let's Talk</h3>
-                    <p>(+62)123456789</p>
+                    <p>{{ $contactInfo['phone'] }}</p>
 
                     <h3>Support</h3>
-                    <p>abcdefg@mail.com</p>
+                    <p>{{ $contactInfo['email'] }}</p>
                 </div>
             </div>
         </div>

@@ -6,61 +6,47 @@
 <main class="container my-5">
     <form class="d-flex search-bar ms-auto">
         <input class="form-control me-2" type="search" placeholder="Search...">
-        <button type="submit" class="btn search-btn"><i class="fas fa-search"></i></button>
+        <button type="submit" class="btn search-btn"></button>
     </form>
-    <section>
-        <h2>Katalog Paket</h2>
-        <div class="row">
-            <div class="col-md-4">
-                <div class="card">
-                    <img src="/images/sample.png" class="card-img-top" alt="Package">
-                    <div class="card-body">
-                        <p class="card-text">Penjelasan Paket</p>
+
+    <section class="mt-5">
+        <h2 class="underline-heading">Katalog Paket</h2>
+        <div class="row mt-4">
+            @foreach ($packages as $package)
+                <div class="col-md-3 mb-4">
+                    <div class="card">
+                        <img src="{{ asset($package['image']) }}" class="card-img-top" alt="Package">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ $package['title'] }}</h5>
+                            <hr>
+                            <a href="#" class="btn btn-outline-success">
+                                Detail Paket<i class="fas fa-arrow-right" style="margin-left: 5px;"></i>
+                            </a>
+                        </div>
                     </div>
                 </div>
-            </div>
+            @endforeach
         </div>
     </section>
 
     <section class="mt-5">
-        <h2>Katalog Desain</h2>
-        <div class="row">
-            <div class="col-md-3">
-                <div class="card">
-                    <img src="/images/sample.png" class="card-img-top" alt="Desain 1">
-                    <div class="card-body">
-                        <h5 class="card-title">Desain 1</h5>
-                        <p class="card-text">Harga mulai dari <br> Rp 999999999</p>
+        <h2 class="underline-heading">Katalog Desain</h2>
+        <div class="row mt-4">
+            @foreach ($designs as $design)
+                <div class="col-md-4 mb-4">
+                    <div class="card">
+                        <img src="{{ asset($design['image']) }}" class="card-img-top" alt="{{ $design['title'] }}">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ $design['title'] }}</h5>
+                            <p class="card-text">Harga mulai dari <br> Rp {{ number_format($design['price'], 0, ',', '.') }}</p>
+                            <hr>
+                            <a href="#" class="btn btn-outline-success">
+                                Detail Desain<i class="fas fa-arrow-right" style="margin-left: 5px;"></i>
+                            </a>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-md-3">
-                <div class="card">
-                    <img src="/images/sample.png" class="card-img-top" alt="Desain 1">
-                    <div class="card-body">
-                        <h5 class="card-title">Desain 1</h5>
-                        <p class="card-text">Harga mulai dari <br> Rp 999999999</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="card">
-                    <img src="/images/sample.png" class="card-img-top" alt="Desain 1">
-                    <div class="card-body">
-                        <h5 class="card-title">Desain 1</h5>
-                        <p class="card-text">Harga mulai dari <br> Rp 999999999</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="card">
-                    <img src="/images/sample.png" class="card-img-top" alt="Desain 1">
-                    <div class="card-body">
-                        <h5 class="card-title">Desain 1</h5>
-                        <p class="card-text">Harga mulai dari <br> Rp 999999999</p>
-                    </div>
-                </div>
-            </div>
+            @endforeach
         </div>
     </section>
 </main>

@@ -16,6 +16,12 @@ hr {
     margin: 15px 0; /* Jarak atas dan bawah */
 }
 
+.underline-heading {
+    text-decoration: underline; /* Apply underline to the text */
+    text-decoration-color: #000; /* Optional: specify the color of the underline */
+}
+
+
 
 /* ----------LAYOUT BLADE---------- */
 /* Menu navigasi di tengah */
@@ -79,31 +85,79 @@ footer {
 
 
 /* ---------------INDEX BLADE--------------- */
-/* Custom tombol previous berbentuk segitiga */
-.carousel-control-prev-icon {
-    display: inline-block;
+/* --- Tombol Carousel di Banner --- */
+.banner-control-prev, .banner-control-next {
+    width: 60px;
+    height: 60px;
+    background-color: rgba(217, 217, 217, 0.5) !important; /* Warna latar semi-transparan */
+    border-radius: 50%; /* Bentuk lingkaran */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    top: 50%;
+    transform: translateY(-50%); /* Posisikan di tengah vertikal */
+  }
+  
+  .banner-control-prev:hover, .banner-control-next:hover {
+    background-color: rgba(217, 217, 217, 0.8) !important; /* Latar lebih terang saat di-hover */
+  }
+  
+  .banner-control-prev .carousel-control-prev-icon,
+  .banner-control-next .carousel-control-next-icon {
+    background-image: none; /* Hapus ikon bawaan */
     width: 0;
     height: 0;
-    border-top: 15px solid transparent;
-    border-bottom: 15px solid transparent;
-    border-right: 25px solid #676767;  /* Warna segitiga */
-}
-
-/* Custom tombol next berbentuk segitiga */
-.carousel-control-next-icon {
-    display: inline-block;
+    border-style: solid;
+  }
+  
+  /* Segitiga kiri untuk tombol banner */
+  .banner-control-prev .carousel-control-prev-icon {
+    border-width: 12px 18px 12px 0;
+    border-color: transparent #676767 transparent transparent;
+  }
+  
+  /* Segitiga kanan untuk tombol banner */
+  .banner-control-next .carousel-control-next-icon {
+    border-width: 12px 0 12px 18px;
+    border-color: transparent transparent transparent #676767;
+  }
+  
+  /* --- Tombol Carousel untuk Bagian Lain --- */
+  .carousel-control-prev, .carousel-control-next {
+    width: 50px;
+    height: 50px;
+    background-color: rgba(33, 68, 58, 0.8); /* Warna latar */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+  
+  .carousel-control-prev:hover, .carousel-control-next:hover {
+    background-color: rgba(33, 68, 58, 1); /* Latar lebih gelap saat di-hover */
+  }
+  
+  .carousel-control-prev-icon, .carousel-control-next-icon {
+    background-image: none;
     width: 0;
     height: 0;
-    border-top: 15px solid transparent;
-    border-bottom: 15px solid transparent;
-    border-left: 25px solid #676767;  /* Warna segitiga */
-}
+    border-style: solid;
+  }
+  
+  /* Segitiga kiri untuk carousel lainnya */
+  .carousel-control-prev .carousel-control-prev-icon {
+    border-width: 10px 15px 10px 0;
+    border-color: transparent white transparent transparent;
+  }
+  
+  /* Segitiga kanan untuk carousel lainnya */
+  .carousel-control-next .carousel-control-next-icon {
+    border-width: 10px 0 10px 15px;
+    border-color: transparent transparent transparent white;
+  }
+  
 
-/* Hover effect untuk mengubah warna tombol saat di-hover */
-.carousel-control-prev-icon:hover,
-.carousel-control-next-icon:hover {
-    border-color: #555; /* Warna berubah saat di-hover */
-}
 
 .btn-outline-success {
     background-color: #275241; /* Warna border tombol */
@@ -132,7 +186,120 @@ footer {
     margin-top: 150px !important; 
 }
 
+.recommendations .card {
+    box-shadow: 0 8px 8px rgba(0, 0, 0, 0.1);
+}
 
+.why-choose-us {
+    margin-top: 100px !important;
+}
+.why-choose-us .card {
+    min-height: 350px; /* Adjust this value as needed */
+}
+
+.design-packages {
+    margin-top: 100px !important;
+}
+
+.latest-projects {
+    margin-top: 100px !important;
+}
+
+.image-container {
+    position: relative;
+    display: flex;
+    justify-content: flex-end;
+    align-items: stretch;
+    height: 100%;
+}
+
+
+
+.testimonial-img {
+    object-fit: cover;       /* Ensures the image covers the entire height */
+    height: 100%;            /* Makes the image take the full height of the container */
+    width: auto;             /* Keeps the image's aspect ratio */
+    max-width: 100%;         /* Ensures the image doesn't exceed container's width */
+    border-radius: 0;        /* Removes any rounded corners if applied */
+}
+.testimonial-controls {
+    display: flex;
+    gap: 10px;
+}
+
+.testimonial-controls .btn {
+    background-color: #275241; /* Customize button color */
+    color: #ffffff;
+    border: none;
+    border-radius: 0%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    transition: background-color 0.3s ease;
+}
+
+.testimonial-controls .btn:hover {
+    background-color: #333333; /* Darken on hover */
+}
+
+.testimonial-controls .btn-prev i,
+.testimonial-controls .btn-next i {
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+}
+
+
+  /* Accordion Item Styles */
+  .accordion-item {
+    border: 2px solid #CCC0C0;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    overflow: hidden;
+  }
+  
+  /* Accordion Button Styles */
+  .accordion-button {
+    background-color: #F5F3F3; 
+    color: #000000; /* Dark text color */
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border: none; /* Remove default border */
+    box-shadow: none; /* Remove shadow */
+    padding: 10px 15px; /* Custom padding */
+    border-radius: 8px;
+    transition: background-color 0.3s ease;
+  }
+  
+  .accordion-button::after {
+    display: none; /* Hide default caret */
+  }
+  
+  /* Custom Arrow Icon */
+  .accordion-button::before {
+    content: "▼"; /* Triangle pointing down */
+    font-size: 18px;
+    color: #275241; /* Dark green color */
+    transition: transform 0.3s ease;
+  }
+  
+  /* Rotate arrow on expand */
+  .accordion-button[aria-expanded="true"]::before {
+    content: "▲"; /* Triangle pointing up */
+  }
+  
+  /* Accordion Body */
+  .accordion-body {
+    background-color: #FFFFFF; /* Light gray background */
+    padding: 15px; /* Spacing inside */
+    border-top: 1px solid #ddd;
+    font-size: 14px;
+    color: #666666; /* Text color */
+  }
+  
 
 /* ---------------CATALOG BLADE-------------- */
 .card {
