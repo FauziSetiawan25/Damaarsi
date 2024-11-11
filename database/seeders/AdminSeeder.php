@@ -11,11 +11,10 @@ class AdminSeeder extends Seeder
     public function run()
     {
         Admin::create([
-            'nama_admin' => 'Ujang',
-            'username' => 'damaarsi01',
+            'nama_admin' => 'Udin',
+            'username' => 'admin01',
             'password' => Hash::make('qwerty'),  // Pastikan password di-hash
-            'role' => 'superadmin',
+            'role' => 'admin',
         ]);
     }
 }
-

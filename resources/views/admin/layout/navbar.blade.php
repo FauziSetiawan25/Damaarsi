@@ -66,17 +66,18 @@
             </li>
             
             {{-- SuperAdmin --}}
-            {{-- <hr class="sidebar-divider" style="border-color: black;"> --}}
+            @if (Auth::guard('admin')->user()->role === 'superadmin')
+                <li class="nav-item {{ request()->is('admin/dataadmin') ? 'active' : '' }}" style="{{ (request()->is('admin/dataadmin')) ? 'background-color: #4D6A58;' : '' }}">
+                    <a class="nav-link" style="{{ (request()->is('admin/dataadmin')) ? '' : 'color: black' }}" href="{{ route('admin.dataadmin') }}">
+                        <span>Data Admin</span></a>
+                </li>
 
-            <li class="nav-item {{ request()->is('admin/dataadmin') ? 'active' : '' }}" style="{{ (request()->is('admin/dataadmin')) ? 'background-color: #4D6A58;' : '' }}">
-                <a class="nav-link" style="{{ (request()->is('admin/dataadmin')) ? '' : 'color: black' }}" href="{{ route('admin.dataadmin') }}">
-                    <span>Data Admin</span></a>
-            </li>
-
-            <li class="nav-item {{ request()->is('admin/pengaturan') ? 'active' : '' }}" style="{{ (request()->is('admin/pengaturan')) ? 'background-color: #4D6A58;' : '' }}">
-                <a class="nav-link" style="{{ (request()->is('admin/pengaturan')) ? '' : 'color: black' }}" href="{{ route('admin.pengaturan') }}">
-                    <span>Pengaturan Web</span></a>
-            </li>
+                <li class="nav-item {{ request()->is('admin/pengaturan') ? 'active' : '' }}" style="{{ (request()->is('admin/pengaturan')) ? 'background-color: #4D6A58;' : '' }}">
+                    <a class="nav-link" style="{{ (request()->is('admin/pengaturan')) ? '' : 'color: black' }}" href="{{ route('admin.pengaturan') }}">
+                        <span>Pengaturan Web</span></a>
+                </li>
+            @endif
+            
 
         </ul>
         <!-- End of Sidebar -->
@@ -104,7 +105,9 @@
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <img class="img-profile rounded-circle"
                                     src="{{ asset('asset/img/undraw_profile.svg') }}">
-                                <span class="ml-2 d-none d-lg-inline text-gray-600 small">Douglas McGee</span>
+                                    <span class="ml-2 d-none d-lg-inline text-gray-600 small">
+                                        {{ Auth::guard('admin')->user()->nama_admin }}
+                                    </span>
                             </a>
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
@@ -155,7 +158,11 @@ aria-hidden="true">
     <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
     <div class="modal-footer">
         <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-        <a class="btn btn-danger" href="{{ route('admin.index') }}">Logout</a>
+        
+        <form id="logout-form" action="{{ route('logout') }}" method="POST">
+            @csrf
+            <button type="submit" class="btn btn-danger">Logout</button>
+        </form>
     </div>
 </div>
 </div>

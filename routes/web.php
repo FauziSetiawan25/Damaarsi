@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\PengaturanController;
 use App\Http\Controllers\PortofolioController;
 use App\Http\Controllers\ProdukController;
@@ -22,23 +23,32 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/admin', [AdminController::class,'index'])-> name('admin.index');
 
 
-Route::get('/admin/dashboard', [AdminController::class,'dashboard'])-> name('admin.dashboard');
+Route::controller(LoginController::class)->group(function() {
 
-Route::get('/admin/produk', [ProdukController::class,'index'])-> name('admin.produk');
+    Route::get('/admin', 'login')->name('login');
 
-Route::get('/admin/testimoni', [TestimoniController::class,'index'])-> name('admin.testimoni');
+    Route::post('/authenticate', 'authenticate')->name('authenticate');
 
-Route::get('/addtesti', [TestimoniController::class,'create'])-> name('admin.addtesti');
+    Route::post('/logout', 'logout')->name('logout');
+ });
 
-Route::get('/admin/portofolio', [PortofolioController::class,'index'])-> name('admin.portofolio');
+ Route::middleware('admin')->group(function () {
+    
+    Route::get('/admin/dashboard', [AdminController::class,'dashboard'])-> name('admin.dashboard');
 
-Route::get('/admin/customer', function () {return view('admin.customer');})-> name('admin.customer');
+    Route::get('/admin/produk', [ProdukController::class,'index'])-> name('admin.produk');
 
-Route::get('/admin/dataadmin', [AdminController::class,'show'])-> name('admin.dataadmin');
+    Route::get('/admin/testimoni', [TestimoniController::class,'index'])-> name('admin.testimoni');
 
-Route::get('/admin/pengaturan', [PengaturanController::class,'index'])-> name('admin.pengaturan');
+    Route::get('/addtesti', [TestimoniController::class,'create'])-> name('admin.addtesti');
 
+    Route::get('/admin/portofolio', [PortofolioController::class,'index'])-> name('admin.portofolio');
 
+    Route::get('/admin/customer', function () {return view('admin.customer');})-> name('admin.customer');
+
+    Route::get('/admin/dataadmin', [AdminController::class,'show'])-> name('admin.dataadmin');
+
+    Route::get('/admin/pengaturan', [PengaturanController::class,'index'])-> name('admin.pengaturan');
+});

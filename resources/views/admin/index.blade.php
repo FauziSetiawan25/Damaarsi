@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>SB Admin 2 - Dashboard</title>
+    <title>Damaarsi</title>
 
     <!-- Custom fonts for this template-->
     <link href="{{ asset('asset/vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet" type="text/css">
@@ -32,22 +32,21 @@
                     </div>
                     <div class="text-center fs-3 mt-3" style="font-weight: bold; color: black; font-size: 20px;">Login</div>
                     <div class="card-body">
-                        {{-- <form action="{{ route('authenticate') }}" method="post"> --}}
-                        <form action="{{ route('admin.dashboard') }}" method="get">
+                        <form action="{{ route('authenticate') }}" method="POST">
                             @csrf
                             <div class="mb-3 row">
                                 <div class="col-md-12">
-                                    <input type="email" class="form-control @error('email') is-invalid @enderror" id="email" name="email" value="{{old('email')}}" placeholder="Username">
-                                    @if ($errors->has('email'))
-                                    <span class="text-danger">{{ $errors->first('email') }}</span>
+                                    <input type="text" class="form-control @error('username') is-invalid @enderror" id="username" name="username" value="{{ old('username') }}" placeholder="Username">
+                                    @if ($errors->has('username'))
+                                        <span class="text-danger">{{ $errors->first('username') }}</span>
                                     @endif
                                 </div>
                             </div>
                             <div class="mb-3 row">
                                 <div class="col-md-12">
-                                    <input type="password" class="form-control @error('password') is-invalid @enderror" id="password" name="password" placeholder="Password"> 
-                                    @if ($errors->has("password"))
-                                    <span class="text-danger">{{$errors->first('password')}}</span>
+                                    <input type="password" class="form-control @error('password') is-invalid @enderror" id="password" name="password" placeholder="Password">
+                                    @if ($errors->has('password'))
+                                        <span class="text-danger">{{ $errors->first('password') }}</span>
                                     @endif
                                 </div>
                             </div>
@@ -61,9 +60,8 @@
                                 <div class="col-md-12">
                                     <input type="submit" class="form-control btn rounded-10" value="Masuk" style="border-radius: 20px; background-color:#4D6A58; color: white;">
                                 </div>
-                                
                             </div>
-                        </form>
+                        </form>                        
                     </div>
                 </div>
             </div>

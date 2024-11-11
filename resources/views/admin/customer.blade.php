@@ -112,7 +112,7 @@
                         </tbody>
                     </table>
                     <div style="text-align: right; margin-top: 20px;">
-                        <a href="#" id="copyEmailsButton" class="btn" style="background-color: #0088FF; color: white;" data-toggle="modal" data-target="#addProductModal">Salin Email Customer</a>
+                        <a href="#" id="copyEmailsButton" class="btn" style="background-color: #0088FF; color: white;" data-toggle="modal" data-target="#addProductModal">Salin Email Kustomer</a>
                     </div>
                 </div>
             </div>
