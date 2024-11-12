@@ -17,7 +17,7 @@
     </div>
     
     <!-- Line Below -->
-    <div class="line-horizontal mb-4"></div>
+    <div class="line-horizontal mb-5"></div>
     
     <!-- Card Section -->
     <div class="row mt-4">
@@ -25,9 +25,9 @@
         <div class="col-md-6">
             <div class="card mb-4">
                 <img src="{{ $portfolio['image'] }}" class="card-img-top" alt="{{ $portfolio['title'] }}">
-                <div class="card-body p-2">
+                <div class="card-body p-3">
                     <h5 class="card-text text-start mb-4">{{ $portfolio['title'] }}</h5>
-                    <a href="#" class="btn btn-outline-success">
+                    <a href="{{ route('portofolio.detail', 1) }}" class="btn btn-outline-success">
                         Detail Portofolio<i class="fas fa-arrow-right" style="margin-left: 5px;"></i>
                     </a>
                 </div>

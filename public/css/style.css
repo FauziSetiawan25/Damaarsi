@@ -5,7 +5,7 @@ body {
     background-color: #ffffff;
     height: 100vh;
     overflow-x: hidden;
-    padding-top: 90px;
+    padding-top: 80px;
 }
 
 hr {
@@ -299,6 +299,35 @@ footer {
     font-size: 14px;
     color: #666666; /* Text color */
   }
+
+  .btn-whatsapp {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: #275241;
+    color: white;
+    padding: 15px; /* Adjust padding to give it a rectangular shape */
+    border-radius: 12px; /* Rounded corners */
+    border:2px solid #4D6957;
+    font-size: 18px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+  }
+
+  .btn-whatsapp i {
+    align-items: center;
+    font-size: 26px; /* Adjust icon size */
+  }
+
+  .btn-whatsapp:hover {
+    background-color: #128c7e;
+    color: white;
+    text-decoration: none;
+  }
   
 
 /* ---------------CATALOG BLADE-------------- */
@@ -322,6 +351,10 @@ footer {
     margin-top: 10px;
 }
 
+.input-group .form-control {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
 .search-bar {
     position: relative;
     width: 450px; /* Adjust width as needed */
@@ -344,21 +377,44 @@ footer {
     color: #000; /* Adjust icon color */
     border-radius: 0 10px 10px 0; /* Match input's border radius */
     cursor: pointer;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    border-left: none;
+    padding-left: 10px;
+    padding-right: 10px;
 }
 
 .search-bar i {
     position: absolute;
     top: 50%;
-    left: 15px;
+    left: 10px;
     transform: translateY(-50%);
     font-size: 18px;
-    color: #C1C1C1; /* Adjust icon color */
+    color: white; /* Adjust icon color */
 }
 
 .search-bar input::placeholder {
     color: #C1C1C1; /* Placeholder color */
 }
 
+/* ------------PORTOFOLIO BLADE----------- */
+.line-horizontal {
+    width: 40%;
+    height: 2px;
+    background-color: #000;
+    margin: 10px 0;
+}
+
+.logo {
+    max-width: 100px;
+    height: auto;
+    margin-right: 10px;
+}
+
+.text-left p {
+    margin: 0;
+    font-size: 1.2em;
+}
 
 /* ------------CONTACT BLADE-------------- */
 /* Gaya untuk Header Contact */
@@ -403,21 +459,18 @@ iframe {
     width: 100% !important;
 }
 
-/* ------------PORTOFOLIO BLADE----------- */
-.line-horizontal {
-    width: 40%;
-    height: 2px;
-    background-color: #000;
-    margin: 10px 0;
+/* ------------------DETAIL KATALOG----------------- */
+/* Custom style for carousel indicators as dots */
+.carousel-indicators [data-bs-target] {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: #888;
+}
+.carousel-indicators .active {
+    background-color: white;
 }
 
-.logo {
-    max-width: 100px;
-    height: auto;
-    margin-right: 10px;
-}
-
-.text-left p {
-    margin: 0;
-    font-size: 1.2em;
+.custom-border {
+    border: 1px solid black; /* Ubah warna border sesuai keinginan */
 }

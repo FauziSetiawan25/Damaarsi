@@ -13,7 +13,7 @@
           <div class="col-md-6">
             <h1 class="custom-text">{{ $item['title'] }}</h1>
             <p class="custom-text">{{ $item['description'] }}</p>
-            <a href="#" class="btn btn-light">Selengkapnya</a>
+            <a href="{{ route('design.detail', 1)}}" class="btn btn-light">Selengkapnya</a>
           </div>
           <div class="col-md-6">
             <img src="{{ $item['image'] }}" alt="{{ $item['title'] }}" class="img-fluid">
@@ -45,7 +45,7 @@
   <section class="recommendations my-4">
     <div class="d-flex justify-content-between align-items-center">
       <h3 class="underline-heading">Rekomendasi Desain</h3>
-      <a href="#" class="btn btn-outline-success">Lihat Semua<i class="fas fa-arrow-right" style="margin-left: 5px;"></i></a>
+      <a href="/catalog" class="btn btn-outline-success">Lihat Semua<i class="fas fa-arrow-right" style="margin-left: 5px;"></i></a>
     </div>
     <div id="recommendationCarousel" class="carousel slide mt-4" data-bs-ride="carousel">
       <div class="carousel-inner">
@@ -60,7 +60,7 @@
                   <div class="card-body text-left">
                     <h5>{{ $recommendations[$index + $i]['title'] }}</h5>
                     <hr>
-                    <a href="#" class="btn btn-outline-success">Detail Desain<i class="fas fa-arrow-right" style="margin-left: 5px;"></i></a> <!-- Ganti warna tombol -->
+                    <a href="{{ route('design.detail', 1)}}" class="btn btn-outline-success">Detail Desain<i class="fas fa-arrow-right" style="margin-left: 5px;"></i></a> <!-- Ganti warna tombol -->
                   </div>
                 </div>
               </div>
@@ -104,7 +104,7 @@
   <section class="design-packages my-4">
     <div class="d-flex justify-content-between align-items-center">
         <h3 class="underline-heading">Paket Desain yang Kami Tawarkan</h3>
-        <a href="#" class="btn btn-outline-success">
+        <a href="/catalog" class="btn btn-outline-success">
             Lihat Semua<i class="fas fa-arrow-right" style="margin-left: 5px;"></i>
         </a>
     </div>
@@ -122,7 +122,7 @@
                         <div class="card-body text-left">
                             <h5>{{ $designPackage['title'] }}</h5>
                             <hr>
-                            <a href="#" class="btn btn-outline-success">
+                            <a href="{{ route('package.detail', 1)}}" class="btn btn-outline-success">
                                 Detail Paket<i class="fas fa-arrow-right" style="margin-left: 5px;"></i>
                             </a>
                         </div>
@@ -152,7 +152,7 @@
   <section class="latest-projects my-4">
     <div class="d-flex justify-content-between align-items-center">
         <h3 class="underline-heading">Projek Terbaru Kami</h3>
-        <a href="#" class="btn btn-outline-success">
+        <a href="/portofolio" class="btn btn-outline-success">
             Lihat Semua<i class="fas fa-arrow-right" style="margin-left: 5px;"></i>
         </a>
     </div>
@@ -170,7 +170,7 @@
                         <div class="card-body text-left">
                             <h5>{{ $latestProject['title'] }}</h5>
                             <hr>
-                            <a href="#" class="btn btn-outline-success">
+                            <a href="{{ route('portofolio.detail', 1)}}" class="btn btn-outline-success">
                                 Detail Portofolio<i class="fas fa-arrow-right" style="margin-left: 5px;"></i>
                             </a>
                         </div>
@@ -252,6 +252,12 @@
     @endforeach
   </div>
 </section>
+
+<!-- Floating WhatsApp Button -->
+<a href="https://wa.me/yourwhatsappphonenumber" target="_blank" class="btn-whatsapp">
+  <i class="fab fa-whatsapp"></i>
+</a>
+
   
 
 </div>

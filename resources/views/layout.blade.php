@@ -25,21 +25,24 @@
         <nav class="navbar navbar-expand-lg bg-body-tertiary shadow fixed-top">
             <div class="container">
                 <a class="navbar-brand" href="#">
-                  <img src="/images/logo1.png" alt="Damaarsi brand" width="270" height="70">
+                  <img src="/images/logo1.png" alt="Damaarsi brand" class="img-fluid" width="200">
                 </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon"></span>
+                </button>
               <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                   <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="/">Home</a>
+                    <a class="nav-link {{ request()->is('/') ? 'active' : '' }}" href="/">Home</a>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link" href="/catalog">Catalog</a>
+                    <a class="nav-link {{ request()->is('catalog') ? 'active' : '' }}" href="/catalog">Catalog</a>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link" href="/portofolio">Portofolio</a>
+                    <a class="nav-link {{ request()->is('portofolio') ? 'active' : '' }}" href="/portofolio">Portofolio</a>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link" href="/contact">Contact</a>
+                    <a class="nav-link {{ request()->is('contact') ? 'active' : '' }}" href="/contact">Contact</a>
                   </li>
                 </ul>
               </div>
