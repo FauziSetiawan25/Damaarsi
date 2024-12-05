@@ -7,6 +7,9 @@ use App\Http\Controllers\PortofolioController;
 use App\Http\Controllers\ProdukController;
 use App\Http\Controllers\TestimoniController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\CatalogController;
+use App\Http\Controllers\PortfolioController;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,6 +25,16 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('/', [HomeController::class, 'index']);
+Route::get('/catalog', [HomeController::class, 'catalog']);
+Route::get('/portofolio', [HomeController::class, 'portofolio']);
+Route::get('/contact', [HomeController::class, 'contact']);
+
+Route::get('/catalog/package/{id}', [CatalogController::class, 'showPackage'])->name('package.detail');
+Route::get('/catalog/design/{id}', [CatalogController::class, 'showDesign'])->name('design.detail');
+
+Route::get('/portofolio/detail/{id}', [PortfolioController::class, 'show'])->name('portofolio.detail');
 
 Route::get('/addtesti', [TestimoniController::class, 'create'])-> name('testimoni.add');
 Route::post('/addtesti', [TestimoniController::class, 'store'])-> name('testimoni.store');

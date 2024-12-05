@@ -1,0 +1,476 @@
+body {
+    font-family: Fredoka;
+    margin: 0;
+    padding: 0;
+    background-color: #ffffff;
+    height: 100vh;
+    overflow-x: hidden;
+    padding-top: 80px;
+}
+
+hr {
+    opacity: 1;
+    border: none; /* Menghilangkan border default */
+    height: 2px; /* Tinggi garis */
+    background-color: black; /* Warna garis */
+    margin: 15px 0; /* Jarak atas dan bawah */
+}
+
+.underline-heading {
+    text-decoration: underline; /* Apply underline to the text */
+    text-decoration-color: #000; /* Optional: specify the color of the underline */
+}
+
+
+
+/* ----------LAYOUT BLADE---------- */
+/* Menu navigasi di tengah */
+.navbar-collapse {
+    justify-content: center;
+}
+
+/* Style untuk item menu */
+.nav-link {
+    color: #555; /* Warna default */
+    padding: 10px 20px;
+    font-size: 16px; 
+    font-weight: 500;
+}
+
+.nav-link.active {
+    color: #0A4833 !important; 
+}
+
+/* Hover effect untuk navigasi */
+.nav-link:hover {
+    color: #0A4833;
+}
+
+footer {
+    background-color: #275241;
+    color: white;
+    padding: 20px;
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    
+}
+
+.footer-logo img {
+    max-width: 100px; /* Restrict logo size */
+    height: auto;
+}
+
+.footer p {
+    font-size: 14px; /* Font size for text */
+    margin: 0;
+}
+
+.footer .mb-1 {
+    font-size: 1.2rem; /* Ukuran lebih besar */
+}
+
+/* Ikon media sosial */
+.social-icons a {
+    font-size: 1.5rem; /* Ukuran ikon lebih besar */
+    color: #ffffff;
+    transition: color 0.3s ease;
+}
+
+/* Hover untuk ikon media sosial */
+.social-icons a:hover {
+    color: #A4C3B2; /* Warna saat hover */
+}
+
+
+/* ---------------INDEX BLADE--------------- */
+/* --- Tombol Carousel di Banner --- */
+.banner-control-prev, .banner-control-next {
+    width: 60px;
+    height: 60px;
+    background-color: rgba(217, 217, 217, 0.5) !important; /* Warna latar semi-transparan */
+    border-radius: 50%; /* Bentuk lingkaran */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    top: 50%;
+    transform: translateY(-50%); /* Posisikan di tengah vertikal */
+  }
+  
+  .banner-control-prev:hover, .banner-control-next:hover {
+    background-color: rgba(217, 217, 217, 0.8) !important; /* Latar lebih terang saat di-hover */
+  }
+  
+  .banner-control-prev .carousel-control-prev-icon,
+  .banner-control-next .carousel-control-next-icon {
+    background-image: none; /* Hapus ikon bawaan */
+    width: 0;
+    height: 0;
+    border-style: solid;
+  }
+  
+  /* Segitiga kiri untuk tombol banner */
+  .banner-control-prev .carousel-control-prev-icon {
+    border-width: 12px 18px 12px 0;
+    border-color: transparent #676767 transparent transparent;
+  }
+  
+  /* Segitiga kanan untuk tombol banner */
+  .banner-control-next .carousel-control-next-icon {
+    border-width: 12px 0 12px 18px;
+    border-color: transparent transparent transparent #676767;
+  }
+  
+  /* --- Tombol Carousel untuk Bagian Lain --- */
+  .carousel-control-prev, .carousel-control-next {
+    width: 50px;
+    height: 50px;
+    background-color: rgba(33, 68, 58, 0.8); /* Warna latar */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+  
+  .carousel-control-prev:hover, .carousel-control-next:hover {
+    background-color: rgba(33, 68, 58, 1); /* Latar lebih gelap saat di-hover */
+  }
+  
+  .carousel-control-prev-icon, .carousel-control-next-icon {
+    background-image: none;
+    width: 0;
+    height: 0;
+    border-style: solid;
+  }
+  
+  /* Segitiga kiri untuk carousel lainnya */
+  .carousel-control-prev .carousel-control-prev-icon {
+    border-width: 10px 15px 10px 0;
+    border-color: transparent white transparent transparent;
+  }
+  
+  /* Segitiga kanan untuk carousel lainnya */
+  .carousel-control-next .carousel-control-next-icon {
+    border-width: 10px 0 10px 15px;
+    border-color: transparent transparent transparent white;
+  }
+  
+
+
+.btn-outline-success {
+    background-color: #275241; /* Warna border tombol */
+    color: white; /* Warna teks tombol */
+}
+
+.btn-outline-success:hover {
+    background-color: #517F6D; /* Warna latar belakang saat hover */
+    color: white; /* Warna teks saat hover */
+}
+
+.custom-text {
+    color:#F4D2A3; /* Ganti dengan warna yang diinginkan */
+}
+
+.container .info h2{
+    color: #0A4833;
+    font-size: 40px;
+}
+
+.container .info p{
+    font-size: 20px;
+}
+
+.recommendations {
+    margin-top: 150px !important; 
+}
+
+.recommendations .card {
+    box-shadow: 0 8px 8px rgba(0, 0, 0, 0.1);
+}
+
+.why-choose-us {
+    margin-top: 100px !important;
+}
+.why-choose-us .card {
+    min-height: 350px; /* Adjust this value as needed */
+}
+
+.design-packages {
+    margin-top: 100px !important;
+}
+
+.latest-projects {
+    margin-top: 100px !important;
+}
+
+.image-container {
+    position: relative;
+    display: flex;
+    justify-content: flex-end;
+    align-items: stretch;
+    height: 100%;
+}
+
+
+
+.testimonial-img {
+    object-fit: cover;       /* Ensures the image covers the entire height */
+    height: 100%;            /* Makes the image take the full height of the container */
+    width: auto;             /* Keeps the image's aspect ratio */
+    max-width: 100%;         /* Ensures the image doesn't exceed container's width */
+    border-radius: 0;        /* Removes any rounded corners if applied */
+}
+.testimonial-controls {
+    display: flex;
+    gap: 10px;
+}
+
+.testimonial-controls .btn {
+    background-color: #275241; /* Customize button color */
+    color: #ffffff;
+    border: none;
+    border-radius: 0%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    transition: background-color 0.3s ease;
+}
+
+.testimonial-controls .btn:hover {
+    background-color: #333333; /* Darken on hover */
+}
+
+.testimonial-controls .btn-prev i,
+.testimonial-controls .btn-next i {
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+}
+
+
+  /* Accordion Item Styles */
+  .accordion-item {
+    border: 2px solid #CCC0C0;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    overflow: hidden;
+  }
+  
+  /* Accordion Button Styles */
+  .accordion-button {
+    background-color: #F5F3F3; 
+    color: #000000; /* Dark text color */
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border: none; /* Remove default border */
+    box-shadow: none; /* Remove shadow */
+    padding: 10px 15px; /* Custom padding */
+    border-radius: 8px;
+    transition: background-color 0.3s ease;
+  }
+  
+  .accordion-button::after {
+    display: none; /* Hide default caret */
+  }
+  
+  /* Custom Arrow Icon */
+  .accordion-button::before {
+    content: "▼"; /* Triangle pointing down */
+    font-size: 18px;
+    color: #275241; /* Dark green color */
+    transition: transform 0.3s ease;
+  }
+  
+  /* Rotate arrow on expand */
+  .accordion-button[aria-expanded="true"]::before {
+    content: "▲"; /* Triangle pointing up */
+  }
+  
+  /* Accordion Body */
+  .accordion-body {
+    background-color: #FFFFFF; /* Light gray background */
+    padding: 15px; /* Spacing inside */
+    border-top: 1px solid #ddd;
+    font-size: 14px;
+    color: #666666; /* Text color */
+  }
+
+  .btn-whatsapp {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: #275241;
+    color: white;
+    padding: 15px; /* Adjust padding to give it a rectangular shape */
+    border-radius: 12px; /* Rounded corners */
+    border:2px solid #4D6957;
+    font-size: 18px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+  }
+
+  .btn-whatsapp i {
+    align-items: center;
+    font-size: 26px; /* Adjust icon size */
+  }
+
+  .btn-whatsapp:hover {
+    background-color: #128c7e;
+    color: white;
+    text-decoration: none;
+  }
+  
+
+/* ---------------CATALOG BLADE-------------- */
+.card {
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.card img {
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    height: 200px;
+    object-fit: cover;
+}
+
+.card-body {
+    text-align: left;
+}
+
+.card-title {
+    margin-top: 10px;
+}
+
+.input-group .form-control {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
+.search-bar {
+    position: relative;
+    width: 450px; /* Adjust width as needed */
+}
+
+.search-bar input {
+    border-radius: 10px; /* Rounded corners */
+    padding-left: 45px; /* Space for search icon */
+    height: 40px;
+}
+
+.search-btn {
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 100%;
+    width: 40px;
+    background-color: #0A4833;
+    border: none;
+    color: #000; /* Adjust icon color */
+    border-radius: 0 10px 10px 0; /* Match input's border radius */
+    cursor: pointer;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    border-left: none;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.search-bar i {
+    position: absolute;
+    top: 50%;
+    left: 10px;
+    transform: translateY(-50%);
+    font-size: 18px;
+    color: white; /* Adjust icon color */
+}
+
+.search-bar input::placeholder {
+    color: #C1C1C1; /* Placeholder color */
+}
+
+/* ------------PORTOFOLIO BLADE----------- */
+.line-horizontal {
+    width: 40%;
+    height: 2px;
+    background-color: #000;
+    margin: 10px 0;
+}
+
+.logo {
+    max-width: 100px;
+    height: auto;
+    margin-right: 10px;
+}
+
+.text-left p {
+    margin: 0;
+    font-size: 1.2em;
+}
+
+/* ------------CONTACT BLADE-------------- */
+/* Gaya untuk Header Contact */
+.contact-header {
+    position: relative;
+    background-image: url('/images/bgcontact.png'); /* Ganti dengan path gambar yang benar */
+    background-size: cover;
+    background-position: center;
+    height: 100px;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.contact-header::before {
+    content: ''; /* Menghasilkan elemen kosong */
+    position: absolute; /* Menempatkan overlay di atas gambar */
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5); /* Warna hitam dengan transparansi 50% */
+    z-index: 1; /* Menempatkan overlay di atas gambar */
+}
+
+/* Gaya untuk teks di dalam header agar selalu di tengah */
+.contact-header h1 {
+    line-height: 160px; /* Tinggi sama dengan container */
+    color: white; /* Warna teks */
+    position: relative;
+    z-index: 2;
+}
+
+.custom-card {
+    width: 1000px; 
+    height: auto; 
+    margin: 0 auto;
+}
+
+iframe {
+    width: 100% !important;
+}
+
+/* ------------------DETAIL KATALOG----------------- */
+/* Custom style for carousel indicators as dots */
+.carousel-indicators [data-bs-target] {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: #888;
+}
+.carousel-indicators .active {
+    background-color: white;
+}
+
+.custom-border {
+    border: 1px solid black; /* Ubah warna border sesuai keinginan */
+}
