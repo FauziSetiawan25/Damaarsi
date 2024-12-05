@@ -10,6 +10,7 @@
     <meta name="author" content="">
 
     <title>Damaarsi</title>
+    <link rel="shortcut icon" href="{{ asset('asset/img/icon.png') }}" >
 
     <!-- Custom fonts for this template-->
     <link href="{{ asset('asset/vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet" type="text/css">
@@ -152,7 +153,7 @@ aria-hidden="true">
     <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
         <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">×</span>
+            <span aria-hidden="true">&times;</span>
         </button>
     </div>
     <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
@@ -188,6 +189,5 @@ aria-hidden="true">
 <script src="{{ asset('asset/js/demo/chart-pie-demo.js') }}"></script>
 <script src="{{ asset('asset/js/demo/datatables-demo.js') }}"></script>
 
-    </div>
 </body>
 </html>

@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Auth;
 class LoginController extends Controller
 {
     /**
-     * Instantiate a new LoginController instance.
+     * Konstruktor untuk middleware guest.
      */
     public function __construct()
     {
@@ -17,43 +17,43 @@ class LoginController extends Controller
     }
 
     /**
-     * Display the login form.
+     * Menampilkan form login.
      * 
      * @return \Illuminate\Http\Response
      */
     public function login()
     {
-        return view('admin.index');  // Pastikan ini adalah halaman login Anda
+        return view('admin.index');
     }
 
     /**
-     * Authenticate the admin.
+     * Memproses autentikasi admin.
      * 
      * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function authenticate(Request $request)
     {
-        // Validasi input
+        // Validasi kredensial
         $credentials = $request->validate([
             'username' => 'required|string',
             'password' => 'required|string',
         ]);
 
-        // Coba autentikasi menggunakan guard 'admin'
+        // Coba autentikasi
         if (Auth::guard('admin')->attempt($credentials, $request->has('ingatkan'))) {
             $request->session()->regenerate();
             return redirect()->route('admin.dashboard')->with('success', 'You have successfully logged in!');
         }
 
-        // Jika gagal login
+        // Gagal login
         return back()->withErrors([
             'username' => 'Your provided credentials do not match our records.',
         ])->onlyInput('username');
     }
 
     /**
-     * Log out the admin from application.
+     * Logout admin dari aplikasi.
      * 
      * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response

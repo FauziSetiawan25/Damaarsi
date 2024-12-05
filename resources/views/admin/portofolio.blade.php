@@ -1,6 +1,12 @@
 @extends('admin.layout.navbar')
 @section('content')
 
+@if(session('success'))
+    <div class="alert alert-success mx-3">
+        {{ session('success') }}
+    </div>
+@endif
+
 <!-- Begin Page Content -->
 <div class="container-fluid">
 
@@ -18,167 +24,219 @@
                     <table class="table table-bordered text-dark" id="dataTable" width="100%" cellspacing="0">
                         <thead>
                             <tr>
-                            <th>ID</th>
-                            <th>Terakhir Diubah</th>
-                            <th>Diubah Oleh</th>
-                            <th>Nama Pemesan</th>
-                            <th>Nama Produk</th>
-                            <th>Tanggal selesai</th>
-                            <th>Luas Bangunan</th>
-                            <th>Gambar</th>
-                            <th>Aksi</th>
+                                <th>No</th>
+                                <th>Terakhir Diubah</th>
+                                <th>Diubah Oleh</th>
+                                <th>Nama Pemesan</th>
+                                <th>Nama Produk</th>
+                                <th>Tanggal Selesai</th>
+                                <th>Luas Bangunan</th>
+                                <th>Gambar</th>
+                                <th>Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td>10 Oktober 2024</td>
-                                <td>Admin1</td>
-                                <td>Ujang</td>
-                                <td>Classic</td>
-                                <td>11 Oktober 2024</b></td>
-                                <td>200</td>
-                                <td><a href="#" class="view-images" data-images='["{{ asset('asset/img/logo.png') }}", "{{ asset('asset/img/logo.png') }}", "{{ asset('asset/img/logo.png') }}", "{{ asset('asset/img/logo.png') }}"]'>Lihat Gambar</a></td>
-                                <td>
-                                    <div class="d-flex flex-column align-items-start">
-                                        <div>
-                                            <button type="button" class="btn btn-warning btn-sm" style="width: 70px;" data-toggle="modal" data-target="#editPortoModal">Edit</button>
+                            @foreach($portofolio as $item)
+                                <tr>
+                                    <td>{{ $loop->iteration }}</td>
+                                    <td>{{ $item->updated_at->format('d M Y') }}</td>
+                                    <td>{{ $item->admin->nama_admin ?? 'Tidak Diketahui' }}</td>
+                                    <td>{{ $item->nama }}{{ $item->lokasi ? ', ' . $item->lokasi : '' }}</td>
+                                    <td>{{ $item->produk->nama_produk ?? 'Tidak Diketahui' }}</td>
+                                    <td>{{ \Carbon\Carbon::parse($item->tgl_selesai)->format('d M Y') }}</td>
+                                    <td>{{ $item->luas }}</td>
+                                    <td>
+                                        <a href="#" class="view-images" data-images='[
+                                        @foreach($item->gambarPortofolio as $gambar)
+                                            "{{ asset('storage/portofolio/' . $gambar->gambar) }}"@if(!$loop->last),@endif
+                                        @endforeach
+                                    ]'>Lihat Gambar</a>
+                                    </td>
+                                    <td>
+                                        <div class="d-flex flex-column align-items-start">
+                                            <div>
+                                                <button class="btn btn-warning btn-sm" data-toggle="modal" data-target="#editPortoModal{{ $item->id }}" style="width: 70px">
+                                                Edit
+                                                </button>
+                                            </div>
+                                            <div class="mt-2">
+                                                <form action="{{ route('admin.portofolio.destroy', $item->id) }}" method="POST" onsubmit="return confirm('Anda yakin ingin menghapus?');">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit" class="btn btn-danger btn-sm" style="width: 70px;">Hapus</button>
+                                                </form>
+                                            </div>
                                         </div>
-                                        <div class="mt-2">
-                                            <form action="#" method="POST" onsubmit="return confirm('Anda yakin ingin menghapus?');">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit" class="btn btn-danger btn-sm" style="width: 70px;">Hapus</button>
-                                            </form>
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
+                                    </td>
+                                </tr>
+                            @endforeach
                         </tbody>
-                    </table>
+                    </table>                    
                 </div>
             </div>
         </div>
     </div>
 </div>
-<div class="modal fade" id="addPortoModal" tabindex="-1" role="dialog" aria-labelledby="addProductLabel" aria-hidden="true">
+<!-- Modal Tambah Portofolio -->
+<div class="modal fade" id="addPortoModal" tabindex="-1" role="dialog" aria-labelledby="addPortoModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="addProductLabel">Tambah Portofolio</h5>
-                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">×</span>
+                <h5 class="modal-title" id="addPortoModalLabel">Tambah Portofolio</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
-                <form id="editProductForm" action="#" method="POST">
+                <form action="{{ route('admin.portofolio.store') }}" method="POST" enctype="multipart/form-data">
+                    @csrf
                     <div class="form-group d-flex align-items-start">
                         <div class="flex-fill mr-3" style="max-width: 50%;">
-                            <label for="portoName">Nama Pemesan</label>
-                            <input type="text" class="form-control" id="productName" required>
+                            <label for="nama_pemesan">Nama Pemesan</label>
+                            <input type="text" class="form-control" name="nama_pemesan" id="nama_pemesan" required>
                         </div>
                         <div class="flex-fill mr-3" style="max-width: 50%;">
                             <label for="gambar">Unggah Gambar 1 (Wajib)</label>
-                            <input required="required" type="file" name="gambar1" class="form-control-file" accept=".jpg, .jpeg, .png, .gif" style="border: 1px solid #ced4da; border-radius: 0.25rem; padding: 5px; width: 100%; box-sizing: border-box;">
+                            <input type="file" name="gambar1" class="form-control-file" accept=".jpg, .jpeg, .png, .gif" style="border: 1px solid #ced4da; border-radius: 0.25rem; padding: 5px; width: 100%; box-sizing: border-box;" required>
                         </div>
                     </div>
+
                     <div class="form-group d-flex align-items-start">
                         <div class="flex-fill mr-3" style="max-width: 50%;">
-                            <label for="productName">Nama Produk</label>
-                            <input type="text" class="form-control" id="productName" required>
+                            <div class="form-group">
+                                <label for="nama_produk">Nama Produk</label>
+                                <select class="form-control" name="nama_produk" id="nama_produk" required>
+                                    <option value="" disabled selected>Pilih Nama Produk</option>
+                                    @foreach($produk as $produkItem)
+                                        <option value="{{ $produkItem->id }}">{{ $produkItem->nama_produk }}</option>
+                                    @endforeach
+                                </select>                             
+                            </div>                                                              
                         </div>
                         <div class="flex-fill mr-3" style="max-width: 50%;">
                             <label for="gambar">Unggah Gambar 2</label>
                             <input type="file" name="gambar2" class="form-control-file" accept=".jpg, .jpeg, .png, .gif">
                         </div>
                     </div>
+
                     <div class="form-group d-flex align-items-start">
                         <div class="flex-fill mr-3" style="max-width: 50%;">
-                            <label for="dateDone">Tanggal Selesai</label>
-                            <input type="date" class="form-control" id="dateDone" required>
+                            <label for="tanggal_selesai">Tanggal Selesai</label>
+                            <input type="date" class="form-control" name="tanggal_selesai" id="tanggal_selesai" required>
                         </div>
                         <div class="flex-fill mr-3" style="max-width: 50%;">
                             <label for="gambar">Unggah Gambar 3</label>
                             <input type="file" name="gambar3" class="form-control-file" accept=".jpg, .jpeg, .png, .gif">
                         </div>
                     </div>
+
                     <div class="form-group d-flex align-items-start">
                         <div class="flex-fill mr-3" style="max-width: 50%;">
-                            <label for="area">Luas Bangunan</label>
-                            <input type="number" class="form-control" id="area" required>
+                            <label for="luas_bangunan">Luas Bangunan</label>
+                            <input type="number" class="form-control" name="luas_bangunan" id="luas_bangunan" required>
                         </div>
                         <div class="flex-fill mr-3" style="max-width: 50%;">
                             <label for="gambar">Unggah Gambar 4</label>
                             <input type="file" name="gambar4" class="form-control-file" accept=".jpg, .jpeg, .png, .gif">
                         </div>
                     </div>
+                    <div class="text-right">
+                        <button type="submit" class="btn btn-primary" style="background-color: #0088FF; color: white">Tambah</button>
+                    </div>
                 </form>
-            </div>            
-            <div class="modal-footer">
-                <button class="btn" type="button" id="saveProductBtn" style="background-color: #0088FF; color: white">Tambah</button>
             </div>
         </div>
     </div>
 </div>
-<div class="modal fade" id="editPortoModal" tabindex="-1" role="dialog" aria-labelledby="addProductLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="addProductLabel">Edit Produk</h5>
-                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">×</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <form id="editProductForm" action="#" method="POST">
-                    <div class="form-group d-flex align-items-start">
-                        <div class="flex-fill mr-3" style="max-width: 50%;">
-                            <label for="portoName">Nama Pemesan</label>
-                            <input type="text" class="form-control" id="productName" required>
+<!-- Modal Edit -->
+@foreach($portofolio as $item)
+    <div class="modal fade" id="editPortoModal{{ $item->id }}" tabindex="-1" role="dialog" aria-labelledby="editPortoModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editPortoModalLabel">Edit Portofolio</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form action="{{ route('admin.portofolio.update', $item->id) }}" method="POST" enctype="multipart/form-data">
+                        @csrf
+                        @method('PUT')
+
+                        <div class="form-group d-flex align-items-start">
+                            <div class="flex-fill mr-3" style="max-width: 50%;">
+                                <label for="nama_pemesan">Nama Pemesan</label>
+                                <input type="text" class="form-control" name="nama_pemesan" id="nama_pemesan" value="{{ old('nama_pemesan', $item->nama) }}" required>
+                            </div>
+                            <div class="flex-fill mr-3" style="max-width: 50%;">
+                                <label for="gambar">Unggah Gambar 1 (Wajib)</label>
+                                <input type="file" name="gambar1" class="form-control-file" accept=".jpg, .jpeg, .png, .gif" style="border: 1px solid #ced4da; border-radius: 0.25rem; padding: 5px; width: 100%; box-sizing: border-box;">
+                            </div>
                         </div>
-                        <div class="flex-fill mr-3" style="max-width: 50%;">
-                            <label for="gambar">Unggah Gambar 1 (Wajib)</label>
-                            <input required="required" type="file" name="gambar1" class="form-control-file" accept=".jpg, .jpeg, .png, .gif" style="border: 1px solid #ced4da; border-radius: 0.25rem; padding: 5px; width: 100%; box-sizing: border-box;">
+
+                        <div class="form-group d-flex align-items-start">
+                            <div class="flex-fill mr-3" style="max-width: 50%;">
+                                <div class="form-group">
+                                    <label for="nama_produk">Nama Produk</label>
+                                    <select class="form-control" name="nama_produk" id="nama_produk" required>
+                                        @foreach($produk as $produkItem)
+                                            <option value="{{ $produkItem->id }}" 
+                                                {{ (old('nama_produk', $item->id_produk) == $produkItem->id) ? 'selected' : '' }}>
+                                                {{ $produkItem->nama_produk }}
+                                            </option>
+                                        @endforeach
+                                    </select>                                                                                                            
+                                </div>                                                              
+                            </div>
+                            <div class="flex-fill mr-3" style="max-width: 50%;">
+                                <label for="gambar">Unggah Gambar 2</label>
+                                <input type="file" name="gambar2" class="form-control-file" accept=".jpg, .jpeg, .png, .gif">
+                            </div>
                         </div>
-                    </div>
-                    <div class="form-group d-flex align-items-start">
-                        <div class="flex-fill mr-3" style="max-width: 50%;">
-                            <label for="productName">Nama Produk</label>
-                            <input type="text" class="form-control" id="productName" required>
+
+                        <div class="form-group d-flex align-items-start">
+                            <div class="flex-fill mr-3" style="max-width: 50%;">
+                                <label for="tanggal_selesai">Tanggal Selesai</label>
+                                <input type="date" class="form-control" name="tanggal_selesai" id="tanggal_selesai" value="{{ old('tanggal_selesai', \Carbon\Carbon::parse($item->tgl_selesai)->format('Y-m-d')) }}" required>
+                            </div>
+                            <div class="flex-fill mr-3" style="max-width: 50%;">
+                                <label for="gambar">Unggah Gambar 3</label>
+                                <input type="file" name="gambar3" class="form-control-file" accept=".jpg, .jpeg, .png, .gif">
+                            </div>
                         </div>
-                        <div class="flex-fill mr-3" style="max-width: 50%;">
-                            <label for="gambar">Unggah Gambar 2</label>
-                            <input type="file" name="gambar2" class="form-control-file" accept=".jpg, .jpeg, .png, .gif">
+
+                        <div class="form-group d-flex align-items-start">
+                            <div class="flex-fill mr-3" style="max-width: 50%;">
+                                <label for="luas_bangunan">Luas Bangunan</label>
+                                <input type="number" class="form-control" name="luas_bangunan" id="luas_bangunan" value="{{ old('luas_bangunan', $item->luas) }}" required>
+                            </div>
+                            <div class="flex-fill mr-3" style="max-width: 50%;">
+                                <label for="gambar">Unggah Gambar 4</label>
+                                <input type="file" name="gambar4" class="form-control-file" accept=".jpg, .jpeg, .png, .gif">
+                            </div>
                         </div>
-                    </div>
-                    <div class="form-group d-flex align-items-start">
-                        <div class="flex-fill mr-3" style="max-width: 50%;">
-                            <label for="dateDone">Tanggal Selesai</label>
-                            <input type="date" class="form-control" id="dateDone" required>
+
+                        <!-- Gambar Lama -->
+                        @if($item->gambarPortofolio->count() > 0)
+                            <div class="form-group">
+                                <label for="gambarLama">Gambar Lama</label>
+                                <div class="d-flex">
+                                    @foreach($item->gambarPortofolio as $gambar)
+                                        <img src="{{ asset('storage/portofolio/' . $gambar->gambar) }}" class="img-thumbnail" width="100">
+                                    @endforeach
+                                </div>
+                            </div>
+                        @endif
+                        <div class="text-right">
+                            <button type="submit" class="btn btn-primary" style="background-color: #0088FF; color: white">Edit</button>
                         </div>
-                        <div class="flex-fill mr-3" style="max-width: 50%;">
-                            <label for="gambar">Unggah Gambar 3</label>
-                            <input type="file" name="gambar3" class="form-control-file" accept=".jpg, .jpeg, .png, .gif">
-                        </div>
-                    </div>
-                    <div class="form-group d-flex align-items-start">
-                        <div class="flex-fill mr-3" style="max-width: 50%;">
-                            <label for="area">Luas Bangunan</label>
-                            <input type="number" class="form-control" id="area" required>
-                        </div>
-                        <div class="flex-fill mr-3" style="max-width: 50%;">
-                            <label for="gambar">Unggah Gambar 4</label>
-                            <input type="file" name="gambar4" class="form-control-file" accept=".jpg, .jpeg, .png, .gif">
-                        </div>
-                    </div>
-                </form>
-            </div>            
-            <div class="modal-footer">
-                <button class="btn" type="button" id="saveProductBtn" style="background-color: #0088FF; color: white">Simpan Perubahan</button>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
-</div>
+@endforeach
 <!-- Modal untuk menampilkan gambar sebagai slider -->
 <div class="modal fade" id="imageModal" tabindex="-1" role="dialog" aria-labelledby="imageModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
@@ -212,34 +270,44 @@
 <!-- Script untuk menangani klik tautan dan menampilkan gambar -->
 <script>
     document.querySelectorAll('.view-images').forEach(link => {
-        link.addEventListener('click', function(event) {
-            event.preventDefault();
-            const images = JSON.parse(this.getAttribute('data-images'));
-            const carouselImages = document.getElementById('carouselImages');
-            carouselImages.innerHTML = ''; // Kosongkan isi carousel sebelumnya
-    
-            images.forEach((image, index) => {
-                const activeClass = index === 0 ? 'active' : ''; // Gambar pertama menjadi aktif
-                const carouselItem = document.createElement('div');
-                carouselItem.className = `carousel-item ${activeClass}`;
-    
-                const img = document.createElement('img');
-                img.src = image; // Ubah dengan path gambar yang sesuai
-                img.className = 'd-block w-100'; // Untuk ukuran responsif
-    
-                // Membuat elemen caption di luar img
-                const caption = document.createElement('div');
-                caption.className = 'text-center'; // Tambahkan kelas untuk meratakan teks
-                caption.innerHTML = `<h5>Gambar ${index + 1}</h5>`; // Keterangan gambar ke berapa
-    
-                carouselItem.appendChild(img);
-                carouselItem.appendChild(caption);
-                carouselImages.appendChild(carouselItem);
-            });
-    
-            // Tampilkan modal
-            $('#imageModal').modal('show');
+    link.addEventListener('click', function(event) {
+        event.preventDefault();
+        const images = JSON.parse(this.getAttribute('data-images'));
+        const carouselImages = document.getElementById('carouselImages');
+        const carouselControls = document.querySelector('.carousel-controls');
+
+        carouselImages.innerHTML = ''; 
+
+        if (images.length <= 1) {
+            carouselControls.style.display = 'none';
+        } else {
+            carouselControls.style.display = 'block';
+        }
+
+        images.forEach((image, index) => {
+            const activeClass = index === 0 ? 'active' : ''; 
+            const carouselItem = document.createElement('div');
+            carouselItem.className = `carousel-item ${activeClass}`;
+
+            const img = document.createElement('img');
+            img.src = image;
+            img.className = 'd-block w-100';
+
+            img.style.maxWidth = '100%';
+            img.style.maxHeight = '80vh';
+            img.style.objectFit = 'contain';
+
+            const caption = document.createElement('div');
+            caption.className = 'text-center';
+            caption.innerHTML = `<h5>Gambar ${index + 1}</h5>`;
+
+            carouselItem.appendChild(img);
+            carouselItem.appendChild(caption);
+            carouselImages.appendChild(carouselItem);
         });
+
+        $('#imageModal').modal('show');
     });
+});
 </script>
 @endsection

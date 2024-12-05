@@ -1,6 +1,13 @@
 @extends('admin.layout.navbar')
 @section('content')
 
+
+@if(session('success'))
+    <div class="alert alert-success mx-3">
+        {{ session('success') }}
+    </div>
+@endif
+
 <!-- Begin Page Content -->
 <div class="container-fluid">
 
@@ -18,7 +25,7 @@
                     <table class="table table-bordered text-dark" id="dataTable" width="100%" cellspacing="0">
                         <thead>
                             <tr>
-                            <th>ID</th>
+                            <th>No</th>
                             <th>Terakhir Diubah</th>
                             <th>Diubah Oleh</th>
                             <th>Nama Produk</th>
@@ -29,21 +36,29 @@
                             </tr>
                         </thead>
                         <tbody>
+                            @foreach ($produk as $item)
                             <tr>
-                                <td>1</td>
-                                <td>10 Oktober 2024</td>
-                                <td>Admin1</td>
-                                <td>Classic</td>
-                                <td>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. </b></td>
-                                <td>Rp. 100.000</td>
-                                <td><a href="#" class="view-images" data-images='["{{ asset('asset/img/logo.png') }}", "{{ asset('asset/img/logo.png') }}", "{{ asset('asset/img/logo.png') }}"]'>Lihat Gambar</a></td>
+                                <td>{{ $loop->iteration }}</td>
+                                <td>{{ $item->updated_at->format('d M Y') }}</td> <!-- Format tanggal -->
+                                <td>{{ $item->admin->nama_admin ?? 'Admin Tidak Ditemukan' }}</td>
+                                <td>{{ $item->tipe }} {{ $item->nama_produk }}</td>
+                                <td>{{ $item->deskripsi }}</td>
+                                <td>Rp. {{ number_format($item->harga, 0, ',', '.') }}/ m²</td>
                                 <td>
+                                    <a href="#" class="view-images" data-images='[
+                                        @foreach($item->gambarProduk as $gambar)
+                                            "{{ asset('storage/produk/' . $gambar->gambar) }}"@if(!$loop->last),@endif
+                                        @endforeach
+                                    ]'>Lihat Gambar</a>
+                                </td>
+                                <td>
+                                    <!-- Tombol Edit -->
                                     <div class="d-flex flex-column align-items-start">
                                         <div>
-                                            <button type="button" class="btn btn-warning btn-sm" style="width: 70px;" data-toggle="modal" data-target="#editProductModal">Edit</button>
+                                            <button type="button" class="btn btn-warning btn-sm" style="width: 70px;" data-toggle="modal" data-target="#editProductModal{{ $item->id }}">Edit</button>
                                         </div>
                                         <div class="mt-2">
-                                            <form action="#" method="POST" onsubmit="return confirm('Anda yakin ingin menghapus?');">
+                                            <form action="{{ route('admin.produk.destroy', $item->id) }}" method="POST" onsubmit="return confirm('Anda yakin ingin menghapus?');">
                                                 @csrf
                                                 @method('DELETE')
                                                 <button type="submit" class="btn btn-danger btn-sm" style="width: 70px;">Hapus</button>
@@ -52,6 +67,7 @@
                                     </div>
                                 </td>
                             </tr>
+                            @endforeach
                         </tbody>
                     </table>
                 </div>
@@ -59,76 +75,26 @@
         </div>
     </div>
 </div>
+<!-- Modal Tambah Produk -->
 <div class="modal fade" id="addProductModal" tabindex="-1" role="dialog" aria-labelledby="addProductLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="addProductLabel">Tambah Produk</h5>
                 <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">×</span>
+                    <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
-                <form id="addProductForm" action="#" method="POST">
+                <form id="addProductForm" action="{{ route('admin.produk.store') }}" method="POST" enctype="multipart/form-data">
+                    @csrf
                     <div class="form-group d-flex align-items-start">
                         <div class="flex-fill mr-3" style="max-width: 50%;">
                             <label for="productName">Nama Produk</label>
-                            <input type="text" class="form-control" id="productName" required>
+                            <input type="text" class="form-control" id="productName" name="nama_produk" required>
                         </div>
                         <div class="flex-fill mr-3" style="max-width: 50%;">
-                            <label for="gambar">Unggah Gambar 1 (Wajib)</label>
-                            <input required="required" type="file" name="gambar" class="form-control-file" accept=".jpg, .jpeg, .png, .gif" style="border: 1px solid #ced4da; border-radius: 0.25rem; padding: 5px; width: 100%; box-sizing: border-box;">
-                            <small class="text-danger">*format .jpg, .jpeg, .png, .gif</small>
-                        </div>
-                    </div>
-                    <div class="form-group d-flex align-items-start">
-                        <div class="flex-fill mr-3" style="max-width: 50%;">
-                            <label for="productPrice">Harga Produk</label>
-                            <input type="number" class="form-control" id="productPrice" required>
-                        </div>
-                        <div class="flex-fill mr-3" style="max-width: 50%;">
-                            <label for="gambar">Unggah Gambar 2</label>
-                            <input type="file" name="gambar" class="form-control-file" accept=".jpg, .jpeg, .png, .gif">
-                            <small class="text-danger">*format .jpg, .jpeg, .png, .gif</small>
-                        </div>
-                    </div>
-                    <div class="form-group d-flex align-items-start">
-                        <div class="flex-fill mr-3" style="max-width: 50%;">
-                            <label for="productDescription">Deskripsi Produk</label>
-                            <textarea class="form-control" id="productDescription" rows="3" required></textarea>
-                        </div>
-                        <div class="flex-fill mr-3" style="max-width: 50%;">
-                            <label for="gambar">Unggah Gambar 3</label>
-                            <input type="file" name="gambar" class="form-control-file" accept=".jpg, .jpeg, .png, .gif">
-                            <small class="text-danger">*format .jpg, .jpeg, .png, .gif</small>
-                        </div>
-                    </div>
-                </form>
-            </div>            
-            <div class="modal-footer">
-                <button class="btn" type="button" id="saveProductBtn" style="background-color: #0088FF; color: white">Tambah</button>
-            </div>
-        </div>
-    </div>
-</div>
-<div class="modal fade" id="editProductModal" tabindex="-1" role="dialog" aria-labelledby="addProductLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="addProductLabel">Edit Produk</h5>
-                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">×</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <form id="editProductForm" action="#" method="POST">
-                    <div class="form-group d-flex align-items-start">
-                        <div class="flex-fill mr-3" style="max-width: 50%;">
-                            <label for="productName">Nama Produk</label>
-                            <input type="text" class="form-control" id="productName" required>
-                        </div>
-                        <div class="flex-fill mr-3" style="max-width: 50%;">
-                            <label for="gambar">Unggah Gambar 1 (Wajib)</label>
+                            <label for="gambar1">Unggah Gambar 1 (Wajib)</label>
                             <input required="required" type="file" name="gambar1" class="form-control-file" accept=".jpg, .jpeg, .png, .gif" style="border: 1px solid #ced4da; border-radius: 0.25rem; padding: 5px; width: 100%; box-sizing: border-box;">
                             <small class="text-danger">*format .jpg, .jpeg, .png, .gif</small>
                         </div>
@@ -136,33 +102,124 @@
                     <div class="form-group d-flex align-items-start">
                         <div class="flex-fill mr-3" style="max-width: 50%;">
                             <label for="productPrice">Harga Produk</label>
-                            <input type="number" class="form-control" id="productPrice" required>
+                            <input type="number" class="form-control" id="productPrice" name="harga" required>
                         </div>
                         <div class="flex-fill mr-3" style="max-width: 50%;">
-                            <label for="gambar">Unggah Gambar 2</label>
+                            <label for="gambar2">Unggah Gambar 2</label>
                             <input type="file" name="gambar2" class="form-control-file" accept=".jpg, .jpeg, .png, .gif">
                             <small class="text-danger">*format .jpg, .jpeg, .png, .gif</small>
                         </div>
                     </div>
                     <div class="form-group d-flex align-items-start">
                         <div class="flex-fill mr-3" style="max-width: 50%;">
-                            <label for="productDescription">Deskripsi Produk</label>
-                            <textarea class="form-control" id="productDescription" rows="3" required></textarea>
+                            <label for="productType">Tipe Produk</label>
+                                <select class="form-control" id="productType" name="tipe" required>
+                                    <option value="" disabled selected>Pilih Nama Produk</option>
+                                    <option value="Paket">Paket</option>
+                                    <option value="Desain">Desain</option>
+                                </select>
                         </div>
                         <div class="flex-fill mr-3" style="max-width: 50%;">
-                            <label for="gambar">Unggah Gambar 3</label>
+                            <label for="gambar3">Unggah Gambar 3</label>
                             <input type="file" name="gambar3" class="form-control-file" accept=".jpg, .jpeg, .png, .gif">
                             <small class="text-danger">*format .jpg, .jpeg, .png, .gif</small>
                         </div>
                     </div>
+                    <div class="form-group d-flex align-items-start">
+                        <div class="flex-fill mr-3" style="max-width: 50%;">
+                            <label for="productDescription">Deskripsi Produk</label>
+                            <textarea class="form-control" id="productDescription" name="deskripsi" rows="3" required></textarea>
+                        </div>
+                    </div>
+                    <div class="text-right">
+                        <button type="submit" class="btn btn-primary" style="background-color: #0088FF; color: white">Tambah</button>
+                    </div>
                 </form>
             </div>            
-            <div class="modal-footer">
-                <button class="btn" type="button" id="saveProductBtn" style="background-color: #0088FF; color: white">Simpan Perubahan</button>
-            </div>
         </div>
     </div>
 </div>
+<!-- Modal Edit Produk -->
+@foreach($produk as $item)
+    <div class="modal fade" id="editProductModal{{ $item->id }}" tabindex="-1" role="dialog" aria-labelledby="editProductModalLabel{{ $item->id }}" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editProductModalLabel{{ $item->id }}">Edit Produk</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form action="{{ route('admin.produk.update', $item->id) }}" method="POST" enctype="multipart/form-data">
+                        @csrf
+                        @method('PUT')
+
+                        <div class="form-group d-flex align-items-start">
+                            <div class="flex-fill mr-3" style="max-width: 50%;">
+                                <label for="productName">Nama Produk</label>
+                                <input type="text" class="form-control" name="nama_produk" id="productName" value="{{ old('nama_produk', $item->nama_produk) }}" required>
+                            </div>
+                            <div class="flex-fill mr-3" style="max-width: 50%;">
+                                <label for="gambar1">Unggah Gambar 1 (Wajib)</label>
+                                <input type="file" name="gambar1" class="form-control-file" accept=".jpg, .jpeg, .png, .gif" style="border: 1px solid #ced4da; border-radius: 0.25rem; padding: 5px; width: 100%; box-sizing: border-box;">
+                                <small class="text-danger">*format .jpg, .jpeg, .png, .gif</small>
+                            </div>
+                        </div>
+
+                        <div class="form-group d-flex align-items-start">
+                            <div class="flex-fill mr-3" style="max-width: 50%;">
+                                <label for="productPrice">Harga Produk</label>
+                                <input type="number" class="form-control" name="harga" id="productPrice" value="{{ old('harga', $item->harga) }}" required>
+                            </div>
+                            <div class="flex-fill mr-3" style="max-width: 50%;">
+                                <label for="gambar2">Unggah Gambar 2</label>
+                                <input type="file" name="gambar2" class="form-control-file" accept=".jpg, .jpeg, .png, .gif">
+                            </div>
+                        </div>
+
+                        <div class="form-group d-flex align-items-start">
+                            <div class="flex-fill mr-3" style="max-width: 50%;">
+                                <label for="productType">Tipe Produk</label>
+                                    <select class="form-control" id="productType" name="tipe" required>
+                                        <option value="Paket" {{ $item->tipe == 'Paket' ? 'selected' : '' }}>Paket</option>
+                                        <option value="Desain" {{ $item->tipe == 'Desain' ? 'selected' : '' }}>Desain</option>
+                                    </select>
+                            </div>
+                            <div class="flex-fill mr-3" style="max-width: 50%;">
+                                <label for="gambar3">Unggah Gambar 3</label>
+                                <input type="file" name="gambar3" class="form-control-file" accept=".jpg, .jpeg, .png, .gif">
+                            </div>
+                        </div>
+
+                        <div class="form-group d-flex align-items-start">
+                            <div class="flex-fill mr-3" style="max-width: 50%;">
+                                <label for="productDescription">Deskripsi Produk</label>
+                                <textarea class="form-control" name="deskripsi" id="productDescription" rows="3" required>{{ old('deskripsi', $item->deskripsi) }}</textarea>
+                            </div>
+                        </div>
+
+                        <!-- Gambar Lama -->
+                        @if($item->gambarProduk->count() > 0)
+                            <div class="form-group">
+                                <label for="gambarLama">Gambar Lama</label>
+                                <div class="d-flex">
+                                    @foreach($item->gambarProduk as $gambar)
+                                        <img src="{{ asset('storage/produk/' . $gambar->gambar) }}" class="img-thumbnail" width="100">
+                                    @endforeach
+                                </div>
+                            </div>
+                        @endif
+
+                        <div class="text-right">
+                            <button type="submit" class="btn btn-primary" style="background-color: #0088FF; color: white">Simpan</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+@endforeach
 <!-- Modal untuk menampilkan gambar sebagai slider -->
 <div class="modal fade" id="imageModal" tabindex="-1" role="dialog" aria-labelledby="imageModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
@@ -196,35 +253,45 @@
 <!-- Script untuk menangani klik tautan dan menampilkan gambar -->
 <script>
     document.querySelectorAll('.view-images').forEach(link => {
-        link.addEventListener('click', function(event) {
-            event.preventDefault();
-            const images = JSON.parse(this.getAttribute('data-images'));
-            const carouselImages = document.getElementById('carouselImages');
-            carouselImages.innerHTML = ''; // Kosongkan isi carousel sebelumnya
-    
-            images.forEach((image, index) => {
-                const activeClass = index === 0 ? 'active' : ''; // Gambar pertama menjadi aktif
-                const carouselItem = document.createElement('div');
-                carouselItem.className = `carousel-item ${activeClass}`;
-    
-                const img = document.createElement('img');
-                img.src = image; // Ubah dengan path gambar yang sesuai
-                img.className = 'd-block w-100'; // Untuk ukuran responsif
-    
-                // Membuat elemen caption di luar img
-                const caption = document.createElement('div');
-                caption.className = 'text-center'; // Tambahkan kelas untuk meratakan teks
-                caption.innerHTML = `<h5>Gambar ${index + 1}</h5>`; // Keterangan gambar ke berapa
-    
-                carouselItem.appendChild(img);
-                carouselItem.appendChild(caption);
-                carouselImages.appendChild(carouselItem);
-            });
-    
-            // Tampilkan modal
-            $('#imageModal').modal('show');
+    link.addEventListener('click', function(event) {
+        event.preventDefault();
+        const images = JSON.parse(this.getAttribute('data-images'));
+        const carouselImages = document.getElementById('carouselImages');
+        const carouselControls = document.querySelector('.carousel-controls');
+
+        carouselImages.innerHTML = ''; 
+
+        if (images.length <= 1) {
+            carouselControls.style.display = 'none';
+        } else {
+            carouselControls.style.display = 'block';
+        }
+
+        images.forEach((image, index) => {
+            const activeClass = index === 0 ? 'active' : ''; 
+            const carouselItem = document.createElement('div');
+            carouselItem.className = `carousel-item ${activeClass}`;
+
+            const img = document.createElement('img');
+            img.src = image;
+            img.className = 'd-block w-100';
+
+            img.style.maxWidth = '100%';
+            img.style.maxHeight = '80vh';
+            img.style.objectFit = 'contain';
+
+            const caption = document.createElement('div');
+            caption.className = 'text-center';
+            caption.innerHTML = `<h5>Gambar ${index + 1}</h5>`;
+
+            carouselItem.appendChild(img);
+            carouselItem.appendChild(caption);
+            carouselImages.appendChild(carouselItem);
         });
+
+        $('#imageModal').modal('show');
     });
+});
 </script>
 
 @endsection

@@ -1,6 +1,12 @@
 @extends('admin.layout.navbar')
 @section('content')
 
+@if(session('success'))
+    <div class="alert alert-success mx-3">
+        {{ session('success') }}
+    </div>
+@endif
+
 <!-- Begin Page Content -->
 <div class="container-fluid">
 
@@ -11,13 +17,14 @@
     <div class="card shadow mb-4 animated--grow-in">
         <div class="card-header py-3 d-flex justify-content-between align-items-center">
             <h6 class="m-0 font-weight-bold text-dark">Tabel Admin</h6>
+            <a href="#" class="btn" style="background-color: #0088FF; color: white" data-toggle="modal" data-target="#addAdminModal">Tambah Admin</a>
         </div>
             <div class="card-body">
                 <div class="table-responsive">
                     <table class="table table-bordered text-dark" id="dataTable" width="100%" cellspacing="0">
                         <thead>
                             <tr>
-                            <th>ID</th>
+                            <th>No</th>
                             <th>Nama</th>
                             <th>Username</th>
                             <th>No Telp</th>
@@ -27,95 +34,144 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr id="adminRow1">
-                                <td>1</td>
-                                <td>Ujang</td>
-                                <td>Admin1</td>
-                                <td>088888888888</td>
-                                <td>ujang@gmail.com</td>
-                                <td class="status">Admin</td>
-                                <td>
-                                    <div class="d-flex flex-row align-items-start">
-                                        <div>
-                                            <button type="button" class="btn btn-danger btn-sm" style="width: 100px;" onclick="toggleStatus(this)">Nonaktifkan</button>
+                            @foreach ($admins as $admin)
+                                <tr>
+                                    <td>{{ $loop->iteration }}</td>
+                                    <td>{{ $admin->nama_admin }}</td>
+                                    <td>{{ $admin->username }}</td>
+                                    <td>{{ $admin->no_telp }}</td>
+                                    <td>{{ $admin->email }}</td>
+                                    <td class="status">{{ $admin->role }}</td>
+                                    <td>
+                                        <div class="d-flex flex-row align-items-start">
+                                            <div>
+                                                <form action="{{ route('admin.ubahrole', $admin->id) }}" method="POST">
+                                                    @csrf
+                                                    <button type="submit" class="btn {{ $admin->role === 'admin' ? 'btn-danger' : 'btn-success' }} btn-sm" style="width: 100px; color: white;">
+                                                        {{ $admin->role === 'admin' ? 'Nonaktifkan' : 'Aktifkan' }}
+                                                    </button>
+                                                </form>
+                                            </div>
+                                            <div class="mx-2">
+                                                <button type="button" class="btn btn-warning btn-sm edit-admin" style="width: 70px;" 
+                                                data-toggle="modal" 
+                                                data-target="#editAdminModal{{ $admin->id }}">
+                                                Edit
+                                                </button>
+                                            </div>
+                                            <div>
+                                                <form action="{{ route('admin.destroy', $admin->id) }}" method="POST" onsubmit="return confirm('Anda yakin ingin menghapus?');">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit" class="btn btn-danger btn-sm" style="width: 70px;">Hapus</button>
+                                                </form>
+                                            </div>
                                         </div>
-                                        <div class="mx-2">
-                                            <button type="button" class="btn btn-warning btn-sm" style="width: 70px;" data-toggle="modal" data-target="#editAdminModal">Edit</button>
-                                        </div>
-                                        <div>
-                                            <form action="#" method="POST" onsubmit="return confirm('Anda yakin ingin menghapus?');">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit" class="btn btn-danger btn-sm" style="width: 70px;">Hapus</button>
-                                            </form>
-                                        </div>
-                                    </div>                                    
-                                </td>
-                            </tr>
-                        </tbody>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>                        
                     </table>
                 </div>
             </div>
         </div>
     </div>
 </div>
-<div class="modal fade" id="editAdminModal" tabindex="-1" role="dialog" aria-labelledby="addProductLabel" aria-hidden="true">
+
+{{-- Modal tambah admin --}}
+<div class="modal fade" id="addAdminModal" tabindex="-1" role="dialog" aria-labelledby="addAdminLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="addProductLabel">Edit Admin</h5>
+                <h5 class="modal-title" id="addAdminLabel">Tambah Admin</h5>
                 <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">×</span>
+                    <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
-                <form id="editProductForm" action="#" method="POST">
+                <form action="{{ route('admin.store') }}" method="POST">
+                    @csrf
                     <div class="form-group d-flex align-items-start">
                         <div class="flex-fill mr-3" style="max-width: 50%;">
-                            <label for="productName">Nama</label>
-                            <input type="text" class="form-control" id="productName" required>
+                            <label for="adminName">Nama</label>
+                            <input type="text" class="form-control" id="adminName" name="nama" required>
                         </div>
                         <div class="flex-fill mr-3" style="max-width: 50%;">
-                            <label for="productName">No Telp</label>
-                            <input type="number" class="form-control" id="productName" required>
+                            <label for="adminTelp">No Telp</label>
+                            <input type="number" class="form-control" id="adminTelp" name="telp" required>
                         </div>
                     </div>
                     <div class="form-group d-flex align-items-start">
                         <div class="flex-fill mr-3" style="max-width: 50%;">
-                            <label for="productName">Username</label>
-                            <input type="text" class="form-control" id="productName" required>
+                            <label for="adminUsername">Username</label>
+                            <input type="text" class="form-control" id="adminUsername" name="username" required>
                         </div>
                         <div class="flex-fill mr-3" style="max-width: 50%;">
-                            <label for="productName">Email</label>
-                            <input type="email" class="form-control" id="productName" required>
+                            <label for="adminEmail">Email</label>
+                            <input type="email" class="form-control" id="adminEmail" name="email" required>
                         </div>
                     </div>
-                </form>
+                    <div class="form-group d-flex align-items-start">
+                        <div class="flex-fill mr-3" style="max-width: 50%;">
+                            <label for="adminPassword">Password</label>
+                            <input type="password" class="form-control" id="adminPassword" name="password" required>
+                        </div>
+                        <div class="flex-fill mr-3" style="max-width: 50%;">
+                            <label for="adminPasswordConfirmation">Konfirmasi Password</label>
+                            <input type="password" class="form-control" id="adminPasswordConfirmation" name="password_confirmation" required>
+                        </div>
+                    </div>
+                    <div class="text-right">
+                        <button type="submit" class="btn btn-primary" style="background-color: #0088FF; color: white">Tambah</button>
+                    </div>
+                </form>                
             </div>            
-            <div class="modal-footer">
-                <button class="btn" type="button" id="saveProductBtn" style="background-color: #0088FF; color: white">Simpan Perubahan</button>
-            </div>
         </div>
     </div>
 </div>
-<script>
-    function toggleStatus(button) {
-    const adminStatusCell = button.closest('tr').querySelector('.status');
-    
-    if (adminStatusCell.textContent === 'Admin') {
-        adminStatusCell.textContent = 'Nonaktif';
-        adminStatusCell.style.color = 'red'; // Ubah warna teks menjadi merah
-        button.classList.remove('btn-danger');
-        button.classList.add('btn-success'); // Menjadi hijau
-        button.textContent = "Aktifkan"; // Mengubah teks
-    } else {
-        adminStatusCell.textContent = 'Admin';
-        adminStatusCell.style.color = 'black'; // Kembalikan warna teks ke hitam
-        button.classList.remove('btn-success');
-        button.classList.add('btn-danger'); // Menjadi merah
-        button.textContent = "Nonaktifkan"; // Mengubah kembali teks
-    }
-}
-    
-</script>
+
+{{-- Modal edit admin --}}
+@foreach ($admins as $admin)
+<div class="modal fade" id="editAdminModal{{ $admin->id }}" tabindex="-1" role="dialog" aria-labelledby="editAdminLabel{{ $admin->id }}" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editAdminLabel{{ $admin->id }}">Edit Admin</h5>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form action="{{ route('admin.update', $admin->id) }}" method="POST">
+                    @csrf
+                    @method('PUT')
+                    <div class="form-group d-flex align-items-start">
+                        <div class="flex-fill mr-3" style="max-width: 50%;">
+                            <label for="adminName{{ $admin->id }}">Nama</label>
+                            <input type="text" class="form-control" id="adminName" name="nama" value="{{ $admin->nama_admin }}" required>
+                        </div>
+                        <div class="flex-fill mr-3" style="max-width: 50%;">
+                            <label for="adminTelp{{ $admin->id }}">No Telp</label>
+                            <input type="number" class="form-control" id="adminTelp" name="telp" value="{{ $admin->no_telp }}" required>
+                        </div>
+                    </div>
+                    <div class="form-group d-flex align-items-start">
+                        <div class="flex-fill mr-3" style="max-width: 50%;">
+                            <label for="adminUsername{{ $admin->id }}">Username</label>
+                            <input type="text" class="form-control" id="adminUsername{{ $admin->id }}" name="username" value="{{ $admin->username }}" required>
+                        </div>
+                        <div class="flex-fill mr-3" style="max-width: 50%;">
+                            <label for="adminEmail{{ $admin->id }}">Email</label>
+                            <input type="email" class="form-control" id="adminEmail{{ $admin->id }}" name="email" value="{{ $admin->email }}" required>
+                        </div>
+                    </div>
+                    <div class="text-right">
+                        <button type="submit" class="btn btn-primary" style="background-color: #0088FF; color: white">Simpan</button>
+                    </div>
+                </form>
+            </div>  
+        </div>
+    </div>
+</div>
+@endforeach
 @endsection

@@ -10,6 +10,7 @@
     <meta name="author" content="">
 
     <title>Damaarsi</title>
+    <link rel="shortcut icon" href="{{ asset('asset/img/icon.png') }}" >
 
     <!-- Custom fonts for this template-->
     <link href="{{ asset('asset/vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet" type="text/css">

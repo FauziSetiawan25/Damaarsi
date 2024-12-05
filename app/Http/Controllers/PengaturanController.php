@@ -2,56 +2,73 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\PengaturanBanner;
+use App\Models\PengaturanWeb;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class PengaturanController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Menampilkan semua pengaturan web dan banner.
      */
     public function index()
     {
-       return view('admin.pengaturan');
-    }
-
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
+        $pengaturan = PengaturanWeb::all();
+        $banners = PengaturanBanner::all();
+        return view('admin.pengaturan', compact('pengaturan', 'banners'));
     }
 
     /**
-     * Display the specified resource.
+     * Mengubah status banner (aktif/nonaktif).
      */
-    public function show(string $id)
+    public function ubahStatus(Request $request, $id)
     {
-        //
+        $testimoni = PengaturanBanner::findOrFail($id);
+        $testimoni->status = $request->status;
+        $testimoni->save();
+
+        return redirect()->back()->with('success', 'Status banner berhasil diperbarui.');
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Memperbarui pengaturan web berdasarkan ID.
      */
-    public function edit(string $id)
+    public function updatePengaturan(Request $request, $id)
     {
-        //
+        $pengaturan = PengaturanWeb::findOrFail($id);
+        $pengaturan->keterangan = $request->input('keterangan');
+        $pengaturan->value = $request->input('value');
+        $pengaturan->save();
+
+        return redirect()->back()->with('success', 'Pengaturan web berhasil diperbarui');
     }
 
     /**
-     * Update the specified resource in storage.
+     * Memperbarui banner, termasuk mengganti gambar jika ada.
      */
-    public function update(Request $request, string $id)
+    public function updateBanner(Request $request, $id)
     {
-        //
-    }
+        // Validasi dan update banner
+        $banner = PengaturanBanner::findOrFail($id);
+        $banner->title = $request->input('title');
+        $banner->deskripsi = $request->input('deskripsi');
+        $banner->link = $request->input('link');
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
+        if ($request->hasFile('gambar')) {
+            // Hapus gambar lama jika ada
+            if ($banner->gambar) {
+                Storage::disk('public')->delete('banner/' . $banner->gambar);
+            }
+    
+            // Simpan gambar baru dalam folder 'banner/ dan database'
+            $imageName = uniqid() . '.' . $request->file('gambar')->getClientOriginalExtension();
+            $imagePath = $request->file('gambar')->storeAs('banner', $imageName, 'public'); // Menyimpan gambar di dalam folder banner/
+            $banner->gambar = $imageName;
+        }
+
+        $banner->save();
+
+        return redirect()->route('admin.pengaturan')->with('success', 'Banner berhasil diperbarui!');
     }
 }
