@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Admin;
 use App\Models\Customer;
 use App\Models\Produk;
+use App\Models\Visitor;
 use Illuminate\Http\Request;
 
 class AdminController extends Controller
@@ -26,7 +27,17 @@ class AdminController extends Controller
     {
         $totalPelanggan = Customer::count();
         $totalProduk = Produk::count();
-        return view('admin.dashboard', compact('totalPelanggan', 'totalProduk'));
+        $totalPengunjung = Visitor::count();
+        $visitorData = Visitor::selectRaw('DATE(visited_at) as date, COUNT(*) as count')
+            ->groupBy('date')
+            ->orderBy('date', 'desc')
+            ->take(30)
+            ->get();
+
+        $dates = $visitorData->pluck('date')->reverse(); 
+        $counts = $visitorData->pluck('count')->reverse();
+
+        return view('admin.dashboard', compact('totalPelanggan', 'totalProduk', 'totalPengunjung', 'dates', 'counts'));
     }
 
     /**

@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\CatalogController;
 use App\Http\Controllers\PortfolioController;
+use App\Http\Middleware\TrackVisitor;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,7 +27,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/', [HomeController::class, 'index']);
+Route::get('/', [HomeController::class, 'index'])->middleware(TrackVisitor::class);
 Route::get('/catalog', [HomeController::class, 'catalog']);
 Route::get('/portofolio', [HomeController::class, 'portofolio']);
 Route::get('/contact', [HomeController::class, 'contact']);

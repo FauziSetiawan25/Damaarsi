@@ -27,7 +27,7 @@ class AdminSeeder extends Seeder
             Admin::create([
                 'nama_admin' => 'Ujang',
                 'username' => 'damaarsi01',
-                'password' => Hash::make('qwerty'),
+                'password' => Hash::make('DamaarsiDIHati'),
                 'no_telp' => '081231298709',
                 'email' => 'damaarsi@gmail.com',
                 'role' => 'superadmin',
@@ -35,7 +35,7 @@ class AdminSeeder extends Seeder
             Admin::create([
                 'nama_admin' => 'Udin',
                 'username' => 'admin01',
-                'password' => Hash::make('qwerty'),
+                'password' => Hash::make('DamaarsiDIHati'),
                 'no_telp' => '081231298719',
                 'email' => 'damaarsi2@gmail.com',
                 'role' => 'admin',
@@ -43,7 +43,7 @@ class AdminSeeder extends Seeder
             Admin::create([
                 'nama_admin' => 'Umar',
                 'username' => 'admin02',
-                'password' => Hash::make('qwerty'),
+                'password' => Hash::make('DamaarsiDIHati'),
                 'no_telp' => '081231298729',
                 'email' => 'damaarsi3@gmail.com',
                 'role' => 'nonaktif',
