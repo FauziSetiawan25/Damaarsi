@@ -9,7 +9,7 @@ use App\Models\GambarPortofolio;
 use App\Models\GambarProduk;
 use App\Models\PengaturanBanner;
 use App\Models\PengaturanWeb;
-use App\Models\portofolio;
+use App\Models\Portofolio;
 use App\Models\Produk;
 use App\Models\Testimoni;
 use Illuminate\Support\Facades\Hash;
