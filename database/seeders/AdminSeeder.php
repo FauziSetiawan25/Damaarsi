@@ -2,19 +2,23 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Seeder;
 use App\Models\Admin;
-use App\Models\Customer;
-use App\Models\GambarPortofolio;
-use App\Models\GambarProduk;
-use App\Models\PengaturanBanner;
-use App\Models\PengaturanWeb;
-use App\Models\Portofolio;
+use App\Models\Alasan;
 use App\Models\Produk;
+use App\Models\Layanan;
+use App\Models\Customer;
 use App\Models\Testimoni;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\DB;
+use App\Models\Portofolio;
 use Faker\Factory as Faker;
+use App\Models\GambarAlasan;
+use App\Models\GambarProduk;
+use App\Models\GambarLayanan;
+use App\Models\PengaturanWeb;
+use Illuminate\Database\Seeder;
+use App\Models\GambarPortofolio;
+use App\Models\PengaturanBanner;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 
 class AdminSeeder extends Seeder
 {
@@ -62,7 +66,7 @@ class AdminSeeder extends Seeder
                 'Produk ini dirancang dengan bahan ramah lingkungan yang mendukung gaya hidup hijau.',
                 'Kombinasi sempurna antara keindahan dan fungsi untuk melengkapi kebutuhan ruang Anda.',
                 'Produk ini hadir dengan desain yang unik dan eksklusif untuk kesan yang lebih berkelas.'
-            ];            
+            ];
 
             // Membuat Produk Paket
             for ($i = 0; $i < 4; $i++) {
@@ -79,9 +83,9 @@ class AdminSeeder extends Seeder
             for ($i = 0; $i < 6; $i++) {
                 Produk::create([
                     'id_admin' => $faker->randomElement($adminId),
-                    'nama_produk' => $produkName[($i+4)],
+                    'nama_produk' => $produkName[($i + 4)],
                     'tipe' => 'Desain',
-                    'deskripsi' => $descProduk[($i+4)],
+                    'deskripsi' => $descProduk[($i + 4)],
                     'harga' => $faker->numberBetween(10, 30) * 10000,
                 ]);
             }
@@ -98,7 +102,7 @@ class AdminSeeder extends Seeder
                 ]);
             }
 
-            $testiImg = ['masjid.jpg','museum.jpg','tropis.jpg'];
+            $testiImg = ['masjid.jpg', 'museum.jpg', 'tropis.jpg'];
             $testimoniTexts = [
                 "Layanan yang sangat memuaskan, saya sangat terbantu dengan produk ini!",
                 "Pengalaman yang luar biasa, kualitas produk benar-benar di luar ekspektasi.",
@@ -114,9 +118,9 @@ class AdminSeeder extends Seeder
                     'gambar' => $testiImg[$i],
                 ]);
             }
-            
-            $ketWeb = ['Whatsapp','Email','Alamat', 'Instagram'];
-            $valWeb = ['08123478990','damaarsi@gmail.com','Jalan Soekarno-Hatta, Borokulon, Banyuurip, Purworejo','@damaarsi'];
+
+            $ketWeb = ['Whatsapp', 'Email', 'Alamat', 'Instagram'];
+            $valWeb = ['08123478990', 'damaarsi@gmail.com', 'Jalan Soekarno-Hatta, Borokulon, Banyuurip, Purworejo', '@damaarsi'];
             // Membuat Pengaturan Web
             for ($i = 0; $i < 4; $i++) {
                 PengaturanWeb::create([
@@ -125,7 +129,7 @@ class AdminSeeder extends Seeder
                 ]);
             }
 
-            $bannerImg = ['banner1.jpg','des.jpg','banner3.jpg', 'nvdia.jpg', 'sketsa.png'];
+            $bannerImg = ['banner1.jpg', 'des.jpg', 'banner3.jpg', 'nvdia.jpg', 'sketsa.png'];
             // Membuat Pengaturan Banner
             for ($i = 0; $i < 5; $i++) {
                 PengaturanBanner::create([
@@ -138,7 +142,7 @@ class AdminSeeder extends Seeder
             }
 
 
-            $namaPesanan = ['The Lowanu Residence', 'Havana Residence', 'Bale Kahyangan', 'Jaten Residence', 'Graha Kenara', 'Arana Residence', 'Bale Yasa Antapura','Bestariland', 'Grand Boto', 'Grand Jeruk Sari'];
+            $namaPesanan = ['The Lowanu Residence', 'Havana Residence', 'Bale Kahyangan', 'Jaten Residence', 'Graha Kenara', 'Arana Residence', 'Bale Yasa Antapura', 'Bestariland', 'Grand Boto', 'Grand Jeruk Sari'];
             $lokasi = ['Puworejo', 'Purworejo', 'Prambanan', 'Solo', 'Purworejo', 'Purworejo', 'Wonosari', 'Purworejo', 'Purworejo', 'Yogyakarta'];
             // Membuat Portofolio
             for ($i = 0; $i < 10; $i++) {
@@ -179,7 +183,7 @@ class AdminSeeder extends Seeder
                 'Cafe2.jpg',
                 'Cafe3.jpg'
             ];
-            
+
             // Membuat Gambar Produk
             foreach ($gambarProduk as $fileName) {
                 // Mendapatkan kategori produk dari nama file (sebelum angka dan ekstensi)
@@ -194,7 +198,7 @@ class AdminSeeder extends Seeder
                         'id_produk' => $id_produk,
                         'gambar' => $fileName
                     ]);
-                }   
+                }
             }
 
             $portofolioData = DB::table('portofolio')->pluck('id', 'nama')->toArray();
@@ -222,7 +226,7 @@ class AdminSeeder extends Seeder
                 "The Lowanu Residence3.jpg",
                 "The Lowanu Residence4.jpg",
                 "TheThe Lowanu Residence1.jpg"
-            ];            
+            ];
             // Membuat Gambar Portofolio
             foreach ($gambarPortofolio as $fileName) {
                 // Mendapatkan kategori produk dari nama file (sebelum angka dan ekstensi)
@@ -237,7 +241,63 @@ class AdminSeeder extends Seeder
                         'id_portofolio' => $id_portofolio,
                         'gambar' => $fileName
                     ]);
-                }   
+                }
+            }
+
+            $namaLayanan = ['Desain 3D', 'Desain 2D', 'Desain Arsitektur', 'Desain Interior', 'Desain Eksterior', 'Desain Lanskap'];
+            $gambarLayanan = [
+                "Arana Residence1.jpg",
+                "Bale Kahyangan1.jpg",
+                "Bale Kahyangan2.jpg",
+                "Bale Kahyangan3.jpg",
+                "Bale Yasa Antapura1.jpg",
+                "Bale Yasa Antapura2.jpg",
+            ];
+
+            // Membuat Kelola Layanan
+            foreach ($namaLayanan as $index => $nama) {
+                $layanan = Layanan::create(['nama_layanan' => $nama]);
+
+                // Menetapkan satu gambar untuk setiap layanan berdasarkan indeks
+                if (isset($gambarLayanan[$index])) {
+                    GambarLayanan::create([
+                        'id_layanan' => $layanan->id,
+                        'gambar' => $gambarLayanan[$index]
+                    ]);
+                }
+            }
+
+
+            $namaAlasan = ['Pelayanan Cepat', 'Kualitas Terjamin', 'Harga Terjangkau', 'Desain Menarik'];
+            $gambarAlasan = [
+                "Arana Residence1.jpg",
+                "Bale Kahyangan1.jpg",
+                "Bale Kahyangan2.jpg",
+                "Bale Kahyangan3.jpg",
+            ];
+
+            // Membuat Kelola Alasan
+            foreach ($namaAlasan as $index => $nama) {
+                $alasan = Alasan::create(['nama_alasan' => $nama]);
+
+                // Menetapkan satu gambar untuk setiap alasan berdasarkan indeks
+                if (isset($gambarAlasan[$index])) {
+                    GambarAlasan::create([
+                        'id_alasan' => $alasan->id,
+                        'gambar' => $gambarAlasan[$index]
+                    ]);
+                }
+            }
+
+
+            $namaAlasan = ['Pelayanan Cepat', 'Kualitas Terjamin', 'Harga Terjangkau', 'Desain Menarik'];
+            $gambarAlasan = ['08123478990', 'damaarsi@gmail.com', 'Jalan Soekarno-Hatta, Borokulon, Banyuurip, Purworejo', '@damaarsi'];
+            // Membuat Kelola Alasan
+            for ($i = 0; $i < 4; $i++) {
+                Alasan::create([
+                    'nama_alasan' => $namaAlasan[$i],
+                    'gambar' => $gambarAlasan[$i],
+                ]);
             }
         });
     }
