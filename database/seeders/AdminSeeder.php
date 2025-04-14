@@ -12,6 +12,9 @@ use App\Models\Portofolio;
 use Faker\Factory as Faker;
 use App\Models\GambarAlasan;
 use App\Models\GambarProduk;
+use App\Models\Layanan;
+use App\Models\Memilih;
+use App\Models\PengaturanBanner;
 use App\Models\GambarLayanan;
 use App\Models\PengaturanWeb;
 use Illuminate\Database\Seeder;
@@ -297,6 +300,38 @@ class AdminSeeder extends Seeder
                 Alasan::create([
                     'nama_alasan' => $namaAlasan[$i],
                     'gambar' => $gambarAlasan[$i],
+                ]);
+            }
+
+            $titleLayanan = [
+                'Layanan Konsultasi',
+                'Layanan Pengaduan',
+                'Layanan Bantuan',
+                'Layanan Informasi',
+                'Layanan Customer Service',
+                'Layanan Estimasi Biaya'
+            ];
+    
+            for ($i = 0; $i < count($titleLayanan); $i++) {
+                Layanan::create([
+                    'id_admin' => $faker->randomElement($adminId),
+                    'gambar' => 'smile.png',
+                    'title' => $titleLayanan[$i]
+                ]);
+            }
+
+            $titleMemilih = [
+                'Pelayanan cepat',
+                'Harga Terjangkau',
+                'Kualitas Terjamin',
+                'Tim Profesional'
+            ];
+    
+            for ($i = 0; $i < count($titleMemilih); $i++) {
+                Memilih::create([
+                    'id_admin' => $faker->randomElement($adminId),
+                    'gambar' => 'smile.png',
+                    'title' => $titleMemilih[$i]
                 ]);
             }
         });
