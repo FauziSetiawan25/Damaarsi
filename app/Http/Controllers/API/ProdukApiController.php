@@ -1,24 +1,36 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\API;
 
 use App\Models\GambarProduk;
 use App\Models\Produk;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
+use App\Http\Controllers\Controller;
 
-class ProdukController extends Controller
+
+class ProdukApiController extends Controller
 {
     /**
      * Menampilkan daftar produk yang ada.
      */
-    public function index()
+    public function getAllProducts()
     {
-        // Mengambil produk beserta gambar dan admin yang terkait
+        // Ambil semua produk beserta relasi
         $produk = Produk::with('gambarProduk', 'admin')->get();
-        // Mengembalikan view dengan data produk
-        return view('admin.produk', compact('produk'));
+
+        return response()->json(['data' => $produk], 200);
+    }
+
+    // Fungsi untuk mendapatkan jumlah produk
+    public function getProductCount()
+    {
+        // Menghitung jumlah produk di database
+        $count = Produk::count();
+        return response()->json([
+            'total_produk' => $count
+        ]);
     }
 
     /**
@@ -26,35 +38,37 @@ class ProdukController extends Controller
      */
     public function store(Request $request)
     {
-        // Validasi input dari pengguna
-        $request->validate([
+        $validator = Validator::make($request->all(), [
             'nama_produk' => 'required|string|max:255',
             'harga' => 'required|numeric',
             'deskripsi' => 'nullable|string',
             'tipe' => 'required|string|in:Paket,Desain',
-            'gambar1' => 'required|image|mimes:jpg,jpeg,png,gif',
+            // 'gambar1' => 'required|image|mimes:jpg,jpeg,png,gif',
+            'gambar1' => 'required|string',
             'gambar2' => 'nullable|image|mimes:jpg,jpeg,png,gif',
             'gambar3' => 'nullable|image|mimes:jpg,jpeg,png,gif'
         ]);
 
-        // Membuat produk baru dan menyimpannya ke database
+        if ($validator->fails()) {
+            return response()->json(['error' => $validator->errors()], 400);
+        }
+
+        // Menyimpan produk baru
         $produk = Produk::create([
-            'id_admin' => Auth::guard('admin')->user()->id,
+            // 'id_admin' => Auth::guard('admin')->user()->id,
+            'id_admin' => 1,
             'nama_produk' => $request->nama_produk,
             'tipe' => $request->tipe,
             'harga' => $request->harga,
             'deskripsi' => $request->deskripsi,
         ]);
 
-        // Menyimpan gambar produk yang diupload
+        // Menyimpan gambar produk
         $gambarFiles = ['gambar1', 'gambar2', 'gambar3'];
         foreach ($gambarFiles as $gambar) {
-            if ($request->hasFile($gambar) && $request->file($gambar)->isValid()) {
-                // Membuat nama unik untuk gambar
+            if ($request->hasFile($gambar)) {
                 $gambarName = uniqid() . '.' . $request->file($gambar)->getClientOriginalExtension();
-                // Menyimpan gambar ke direktori publik 'produk'
-                $gambarPath = $request->file($gambar)->storeAs('produk', $gambarName, 'public');
-                // Menyimpan informasi gambar ke tabel GambarProduk
+                $request->file($gambar)->storeAs('produk', $gambarName, 'public');
                 GambarProduk::create([
                     'id_produk' => $produk->id,
                     'gambar' => $gambarName,
@@ -62,24 +76,21 @@ class ProdukController extends Controller
             }
         }
 
-        // Mengarahkan kembali ke halaman produk dengan pesan sukses
-        return redirect()->route('admin.produk')->with('success', 'Produk berhasil ditambahkan');
+        return response()->json(['message' => 'Produk berhasil ditambahkan', 'data' => $produk], 201);
     }
 
     /**
      * Menampilkan informasi detail produk tertentu (tidak digunakan dalam controller ini).
      */
-    public function show(string $id)
+    public function show($id)
     {
-        // Tidak ada implementasi di sini
-    }
-
-    /**
-     * Menampilkan form untuk mengedit produk tertentu (tidak digunakan dalam controller ini).
-     */
-    public function edit(string $id)
-    {
-        // Tidak ada implementasi di sini
+        // Menampilkan produk berdasarkan ID
+        $produk = Produk::with('gambarProduk', 'admin')->find($id);
+        if ($produk) {
+            return response()->json(['data' => $produk], 200);
+        } else {
+            return response()->json(['error' => 'Produk tidak ditemukan'], 404);
+        }
     }
 
     /**
@@ -87,8 +98,7 @@ class ProdukController extends Controller
      */
     public function update(Request $request, $id)
     {
-        // Validasi input
-        $request->validate([
+        $validator = Validator::make($request->all(), [
             'nama_produk' => 'required|string|max:255',
             'harga' => 'required|numeric',
             'deskripsi' => 'nullable|string',
@@ -98,35 +108,34 @@ class ProdukController extends Controller
             'gambar3' => 'nullable|image|mimes:jpg,jpeg,png,gif',
         ]);
 
-        // Mencari produk yang akan diperbarui
-        $produk = Produk::findOrFail($id);
+        if ($validator->fails()) {
+            return response()->json(['error' => $validator->errors()], 400);
+        }
 
-        // Memperbarui data produk
+        $produk = Produk::findOrFail($id);
+        // $produk->update($request->only(['nama_produk', 'tipe', 'harga', 'deskripsi']));
         $produk->update([
-            'id_admin' => Auth::guard('admin')->user()->id,
+            // 'id_admin' => Auth::guard('admin')->user()->id,
+            'id_admin' => 1,
             'nama_produk' => $request->nama_produk,
             'tipe' => $request->tipe,
             'harga' => $request->harga,
             'deskripsi' => $request->deskripsi,
         ]);
 
-        // Proses upload gambar jika ada perubahan
+        // Update gambar jika ada perubahan
         $gambarFiles = ['gambar1', 'gambar2', 'gambar3'];
         foreach ($gambarFiles as $key => $gambar) {
             if ($request->hasFile($gambar)) {
-                // Proses upload gambar
                 $gambarName = uniqid() . '.' . $request->file($gambar)->getClientOriginalExtension();
-                $gambarPath = $request->file($gambar)->storeAs('produk', $gambarName, 'public');
+                $request->file($gambar)->storeAs('produk', $gambarName, 'public');
 
-                // Menghapus gambar lama jika ada
                 $existingGambar = $produk->gambarProduk()->skip($key)->first();
                 if ($existingGambar) {
-                    // Hapus gambar lama dari storage dan database
                     Storage::disk('public')->delete('produk/' . $existingGambar->gambar);
                     $existingGambar->delete();
                 }
 
-                // Menyimpan gambar baru ke tabel GambarProduk
                 GambarProduk::updateOrCreate(
                     ['id_produk' => $produk->id, 'gambar' => $gambarName],
                     ['id_produk' => $produk->id, 'gambar' => $gambarName]
@@ -134,8 +143,7 @@ class ProdukController extends Controller
             }
         }
 
-        // Mengarahkan kembali ke halaman produk dengan pesan sukses
-        return redirect()->route('admin.produk')->with('success', 'Produk berhasil diperbarui');
+        return response()->json(['message' => 'Produk berhasil diperbarui', 'data' => $produk], 200);
     }
 
     /**
@@ -143,26 +151,21 @@ class ProdukController extends Controller
      */
     public function destroy($id)
     {
-        // Mencari produk berdasarkan ID
         $produk = Produk::find($id);
 
-        if ($produk) {
-            // Menghapus gambar terkait dengan produk dari storage
-            foreach ($produk->gambarProduk as $gambar) {
-                // Menghapus file gambar dari storage
-                Storage::disk('public')->delete('produk/' . $gambar->gambar);
-                // Menghapus record gambar dari tabel GambarProduk
-                $gambar->delete();
-            }
-
-            // Menghapus produk dari database
-            $produk->delete();
-
-            // Mengarahkan kembali dengan pesan sukses
-            return redirect()->route('admin.produk')->with('success', 'Produk dan gambar berhasil dihapus.');
+        if (!$produk) {
+            return response()->json(['error' => 'Produk tidak ditemukan'], 404);
         }
 
-        // Jika produk tidak ditemukan, mengarahkan kembali dengan pesan error
-        return redirect()->route('admin.produk')->with('error', 'Produk tidak ditemukan.');
+        // Menghapus gambar terkait produk
+        foreach ($produk->gambarProduk as $gambar) {
+            Storage::disk('public')->delete('produk/' . $gambar->gambar);
+            $gambar->delete();
+        }
+
+        // Menghapus produk dari database
+        $produk->delete();
+
+        return response()->json(['message' => 'Produk berhasil dihapus'], 200);
     }
 }

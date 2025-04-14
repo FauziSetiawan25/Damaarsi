@@ -25,19 +25,7 @@ class AdminController extends Controller
      */
     public function dashboard()
     {
-        $totalPelanggan = Customer::count();
-        $totalProduk = Produk::count();
-        $totalPengunjung = Visitor::count();
-        $visitorData = Visitor::selectRaw('DATE(visited_at) as date, COUNT(*) as count')
-            ->groupBy('date')
-            ->orderBy('date', 'desc')
-            ->take(30)
-            ->get();
-
-        $dates = $visitorData->pluck('date')->reverse(); 
-        $counts = $visitorData->pluck('count')->reverse();
-
-        return view('admin.dashboard', compact('totalPelanggan', 'totalProduk', 'totalPengunjung', 'dates', 'counts'));
+        return view('admin.dashboard');
     }
 
     /**
@@ -84,14 +72,6 @@ class AdminController extends Controller
         $admin->save();
 
         return redirect()->route('admin.dataadmin')->with('success', 'Status berhasil diubah.');
-    }
-
-    /**
-     * Menampilkan form untuk mengedit admin (belum diimplementasikan).
-     */
-    public function edit(string $id)
-    {
-        //
     }
 
     /**

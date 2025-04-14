@@ -25,6 +25,7 @@
                             <th>Jenis Produk</th>
                         </tr>
                     </thead>
+                    {{-- <tbody id="customerTableBody"> --}}
                     <tbody>
                         @foreach(App\Models\Customer::all() as $customer) <!-- Mengambil semua data customer -->
                         <tr>
@@ -68,5 +69,52 @@
         });
     });
 </script>
+
+{{-- <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        axios.get('/api/customers') // Mengambil data dari API
+            .then(function (response) {
+                const customers = response.data;
+                const customerTableBody = document.getElementById('customerTableBody');
+
+                customers.forEach((customer, index) => {
+                    const tr = document.createElement('tr');
+                    
+                    tr.innerHTML = `
+                        <td>${index + 1}</td>
+                        <td>${new Date(customer.created_at).toLocaleDateString('id-ID', { day: '2-digit', month: 'long', year: 'numeric' })}</td>
+                        <td>${customer.nama}</td>
+                        <td>${customer.email}</td>
+                        <td>${customer.no_telp}</td>
+                        <td>${customer.produk?.nama_produk ?? 'Produk Tidak Ditemukan'}</td>
+                    `;
+                    
+                    customerTableBody.appendChild(tr);
+                });
+            })
+            .catch(function (error) {
+                console.log('Error fetching customer data:', error);
+            });
+
+        document.getElementById('copyEmailsButton').addEventListener('click', function() {
+            const emails = [];
+            const emailCells = document.querySelectorAll('#customerTableBody tr td:nth-child(4)');
+
+            emailCells.forEach(cell => {
+                emails.push(cell.innerText); 
+            });
+
+            const uniqueEmails = [...new Set(emails)];
+            const emailString = uniqueEmails.join(', ');
+
+            navigator.clipboard.writeText(emailString).then(() => {
+                alert('Email customer telah disalin');
+            }).catch(err => {
+                console.error('Error copying text: ', err);
+            });
+        });
+    });
+</script> --}}
 
 @endsection

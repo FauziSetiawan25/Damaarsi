@@ -74,19 +74,19 @@
                 <div class="mb-3">
                     <label for="name" class="form-label">Nama</label>
                     <div class="col-md-6">
-                        <input type="text" class="form-control custom-border" id="name" placeholder="Nama">
+                        <input type="text" class="form-control custom-border" name="name" id="name" placeholder="Nama">
                     </div>
                 </div>
                 <div class="mb-3">
                     <label for="phone" class="form-label">Nomor Telepon</label>
                     <div class="col-md-6">
-                        <input type="text" class="form-control custom-border" id="phone" placeholder="Nomor Telepon">
+                        <input type="number" class="form-control custom-border" name="phone" id="phone" placeholder="Nomor Telepon">
                     </div>
                 </div>
                 <div class="mb-3">
                     <label for="email" class="form-label">Email</label>
                     <div class="col-md-6">
-                        <input type="email" class="form-control custom-border" id="email" placeholder="Email">
+                        <input type="email" class="form-control custom-border" name="email" id="email" placeholder="Email">
                     </div>
                 </div>
                 <div class="d-flex justify-content-end p-3">

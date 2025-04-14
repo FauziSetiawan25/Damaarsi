@@ -37,8 +37,8 @@ Route::get('/catalog/design/{id}', [CatalogController::class, 'showDesign'])->na
 
 Route::get('/portofolio/detail/{id}', [PortfolioController::class, 'show'])->name('portofolio.detail');
 
-Route::get('/addtesti', [TestimoniController::class, 'create'])-> name('testimoni.add');
-Route::post('/addtesti', [TestimoniController::class, 'store'])-> name('testimoni.store');
+// Route::get('/addtesti', [TestimoniController::class, 'create'])-> name('testimoni.add')s;
+// Route::post('/addtesti', [TestimoniController::class, 'store'])-> name('testimoni.store');
 
 Route::controller(LoginController::class)->group(function() {
     Route::get('/admin', 'login')->name('login');
@@ -51,7 +51,7 @@ Route::controller(LoginController::class)->group(function() {
     Route::get('/admin/dashboard', [AdminController::class, 'dashboard'])-> name('admin.dashboard');
 
     Route::controller(ProdukController::class)->group(function(){
-        Route::get('/admin/produk', 'index')-> name('admin.produk');
+        Route::get('/admin/produk', 'index')->name('admin.produk');
         Route::post('/admin/produk', 'store')-> name('admin.produk.store');
         Route::delete('/admin/produk/{id}', 'destroy')-> name('admin.produk.destroy');
         Route::put('/admin/produk/{id}', 'update')-> name('admin.produk.update');
