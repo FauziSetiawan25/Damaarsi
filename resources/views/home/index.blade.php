@@ -5,7 +5,7 @@
 @section('content')
 <div class="container-fluid p-0">
   <!-- Carousel Banner Section -->
-  <div id="bannerCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="5000">
+  <div id="bannerCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="1500">
     <div class="carousel-inner">
       @foreach ($carouselItems as $index => $item)
       <div class="carousel-item {{ $index === 0 ? 'active' : '' }}">
@@ -15,7 +15,7 @@
             <p class="custom-text">{{ $item['description'] }}</p>
             <a href="{{ route('design.detail', 1)}}" class="btn btn-light">Selengkapnya</a>
           </div>
-          <div class="col-md-6">
+          <div class="col-md-6 mt-4">
             <img src="{{ $item['image'] }}" alt="{{ $item['title'] }}" class="img-fluid">
           </div>
         </div>
@@ -50,22 +50,45 @@
     <div id="recommendationCarousel" class="carousel slide mt-4" data-bs-ride="carousel">
       <div class="carousel-inner">
         @foreach ($recommendations as $index => $recommendation)
-        <div class="carousel-item {{ $index % 3 === 0 ? 'active' : '' }}">
-          <div class="row">
-            @for ($i = 0; $i < 3; $i++)
-              @if (isset($recommendations[$index + $i]))
-              <div class="col-md-4">
-                <div class="card">
-                  <img src="{{ $recommendations[$index + $i]['image'] }}" class="card-img-top" alt="{{ $recommendations[$index + $i]['title'] }}">
-                  <div class="card-body text-left">
-                    <h5>{{ $recommendations[$index + $i]['title'] }}</h5>
-                    <hr>
-                    <a href="{{ route('design.detail', 1)}}" class="btn btn-outline-success">Detail Desain<i class="fas fa-arrow-right" style="margin-left: 5px;"></i></a> <!-- Ganti warna tombol -->
-                  </div>
+        <div class="carousel-item {{ $index === 0 ? 'active' : '' }}">
+          <div class="row justify-content-center">
+            <div class="col-12 col-md-4">
+              <div class="card mt-4">
+                <img src="{{ $recommendation['image'] }}" class="card-img-top" alt="{{ $recommendation['title'] }}">
+                <div class="card-body text-left">
+                  <h5>{{ $recommendation['title'] }}</h5>
+                  <hr>
+                  <a href="{{ route('design.detail', 1)}}" class="btn btn-outline-success">Detail Desain<i class="fas fa-arrow-right" style="margin-left: 5px;"></i></a>
                 </div>
               </div>
-              @endif
-            @endfor
+            </div>
+  
+            <!-- Show additional cards in the same slide only on medium and larger screens -->
+            @if (isset($recommendations[$index + 1]) && $index % 3 === 0)
+            <div class="col-md-4 d-none d-md-block">
+              <div class="card mt-4">
+                <img src="{{ $recommendations[$index + 1]['image'] }}" class="card-img-top" alt="{{ $recommendations[$index + 1]['title'] }}">
+                <div class="card-body text-left">
+                  <h5>{{ $recommendations[$index + 1]['title'] }}</h5>
+                  <hr>
+                  <a href="{{ route('design.detail', 1)}}" class="btn btn-outline-success">Detail Desain<i class="fas fa-arrow-right" style="margin-left: 5px;"></i></a>
+                </div>
+              </div>
+            </div>
+            @endif
+  
+            @if (isset($recommendations[$index + 2]) && $index % 3 === 0)
+            <div class="col-md-4 d-none d-md-block">
+              <div class="card mt-4">
+                <img src="{{ $recommendations[$index + 2]['image'] }}" class="card-img-top" alt="{{ $recommendation['title'] }}">
+                <div class="card-body text-left">
+                  <h5>{{ $recommendation['title'] }}</h5>
+                  <hr>
+                  <a href="{{ route('design.detail', 1)}}" class="btn btn-outline-success">Detail Desain<i class="fas fa-arrow-right" style="margin-left: 5px;"></i></a>
+                </div>
+              </div>
+            </div>
+            @endif
           </div>
         </div>
         @endforeach
@@ -87,7 +110,7 @@
     <h3 class="underline-heading">Mengapa Harus Memilih Kami?</h3>
     <div class="row mt-4">
       @foreach ($whyChooseUs as $reason)
-      <div class="col-md-3 d-flex">
+      <div class="col-md-3 d-flex mt-4">
         <div class="card flex-fill">
           <div class="card-body text-center">
             <img src="{{ $reason['icon'] }}" alt="Icon" class="rounded-circle mb-3" style="width: 50px; height: 50px;">
@@ -117,7 +140,7 @@
                 @endif
 
                 <div class="col-md-3">
-                    <div class="card">
+                    <div class="card mb-4">
                         <img src="{{ $designPackage['image'] }}" class="card-img-top" alt="{{ $designPackage['title'] }}">
                         <div class="card-body text-left">
                             <h5>{{ $designPackage['title'] }}</h5>
@@ -165,7 +188,7 @@
                 @endif
 
                 <div class="col-md-6">
-                    <div class="card">
+                    <div class="card mb-4">
                         <img src="{{ $latestProject['image'] }}" class="card-img-top" alt="{{ $latestProject['title'] }}">
                         <div class="card-body text-left">
                             <h5>{{ $latestProject['title'] }}</h5>

@@ -10976,6 +10976,16 @@ form.user .btn-user {
   width: 12.5rem;
 }
 
+.menu-icon {
+  width: 16px;
+  height: auto;
+  margin-right: 8px;
+}
+
+.d-none {
+  display: none;
+}
+
 @-webkit-keyframes noise-anim {
   0% {
     clip: rect(49px, 9999px, 40px, 0);

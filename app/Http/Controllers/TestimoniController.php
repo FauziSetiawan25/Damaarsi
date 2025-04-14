@@ -43,11 +43,11 @@ class TestimoniController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'id_produk' => 'required|exists:produk,id',
+            // 'id_produk' => 'required|exists:produk,id',
             'nama' => 'required|string|max:255',
             'testimoni' => 'required|string',
             'gambar' => 'required|image|mimes:jpg,jpeg,png|max:2048',
-            'g-recaptcha-response' => 'required',
+            // 'g-recaptcha-response' => 'required',
         ]);
 
         if ($request->hasFile('gambar')) {
