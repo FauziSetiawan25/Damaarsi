@@ -7,6 +7,8 @@ use App\Models\Admin;
 use App\Models\Customer;
 use App\Models\GambarPortofolio;
 use App\Models\GambarProduk;
+use App\Models\Layanan;
+use App\Models\Memilih;
 use App\Models\PengaturanBanner;
 use App\Models\PengaturanWeb;
 use App\Models\Portofolio;
@@ -238,6 +240,38 @@ class AdminSeeder extends Seeder
                         'gambar' => $fileName
                     ]);
                 }   
+            }
+
+            $titleLayanan = [
+                'Layanan Konsultasi',
+                'Layanan Pengaduan',
+                'Layanan Bantuan',
+                'Layanan Informasi',
+                'Layanan Customer Service',
+                'Layanan Estimasi Biaya'
+            ];
+    
+            for ($i = 0; $i < count($titleLayanan); $i++) {
+                Layanan::create([
+                    'id_admin' => $faker->randomElement($adminId),
+                    'gambar' => 'smile.png',
+                    'title' => $titleLayanan[$i]
+                ]);
+            }
+
+            $titleMemilih = [
+                'Pelayanan cepat',
+                'Harga Terjangkau',
+                'Kualitas Terjamin',
+                'Tim Profesional'
+            ];
+    
+            for ($i = 0; $i < count($titleMemilih); $i++) {
+                Memilih::create([
+                    'id_admin' => $faker->randomElement($adminId),
+                    'gambar' => 'smile.png',
+                    'title' => $titleMemilih[$i]
+                ]);
             }
         });
     }
