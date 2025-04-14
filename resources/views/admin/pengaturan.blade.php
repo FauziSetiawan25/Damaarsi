@@ -120,9 +120,9 @@
     <div class="modal fade" id="editPengaturanModal{{ $item->id }}" tabindex="-1" role="dialog" aria-labelledby="editPengaturanLabel{{ $item->id }}" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
-                <div class="modal-header">
+                <div class="modal-header" style="background-color: #4D6957; color: white;">
                     <h5 class="modal-title" id="editPengaturanLabel{{ $item->id }}">Edit Pengaturan</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="color: white; opacity: 1;">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
@@ -153,9 +153,9 @@
 <div class="modal fade" id="editBannerModal{{ $banner->id }}" tabindex="-1" role="dialog" aria-labelledby="editBannerLabel{{ $banner->id }}" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document"> <!-- Tambahkan kelas modal-lg untuk ukuran besar -->
         <div class="modal-content">
-            <div class="modal-header">
+            <div class="modal-header" style="background-color: #4D6957; color: white;">
                 <h5 class="modal-title" id="editBannerLabel{{ $banner->id }}">Edit Banner</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="color: white; opacity: 1;">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>

@@ -36,16 +36,10 @@
                                     @foreach ($layanan as $item)
                                         <tr>
                                             <td>{{ $loop->iteration }}</td>
-                                            <td>{{ $item->nama_layanan }}</td>
-                                            <td>
-                                                @if (!empty($item->gambarLayanan) && $item->gambarLayanan->isNotEmpty())
-                                                    <a href="#" class="view-images"
-                                                        data-images='["{{ asset('storage/layanan/' . $item->gambarLayanan->first()->gambar) }}"]'>
-                                                        Lihat Gambar
-                                                    </a>
-                                                @else
-                                                    <span class="text-muted">Tidak ada gambar</span>
-                                                @endif
+                                            <td>{{ $item->title }}</td>
+                                            <td align="center">
+                                                <img src="{{ asset('storage/layanan/' . $item->gambar) }}"
+                                                    style="width: 100px; height: auto;">
                                             </td>
                                             <td>
                                                 <div class="mx-2">
@@ -78,31 +72,25 @@
                                 <thead>
                                     <tr>
                                         <th>No</th>
-                                        <th>Nama Alasan</th>
+                                        <th>Nama Memilih</th>
                                         <th>Gambar</th>
                                         <th>Aksi</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($alasan as $item)
+                                    @foreach ($memilih as $item)
                                         <tr>
                                             <td>{{ $loop->iteration }}</td>
-                                            <td>{{ $item->nama_alasan }}</td>
-                                            <td>
-                                                @if (!empty($item->gambarAlasan) && $item->gambarAlasan->isNotEmpty())
-                                                    <a href="#" class="view-images"
-                                                        data-images='["{{ asset('storage/alasan/' . $item->gambarAlasan->first()->gambar) }}"]'>
-                                                        Lihat Gambar
-                                                    </a>
-                                                @else
-                                                    <span class="text-muted">Tidak ada gambar</span>
-                                                @endif
+                                            <td>{{ $item->title }}</td>
+                                            <td align="center">
+                                                <img src="{{ asset('storage/memilih/' . $item->gambar) }}"
+                                                    style="width: 100px; height: auto;">
                                             </td>
                                             <td>
                                                 <div class="mx-2">
-                                                    <button type="button" class="btn btn-warning btn-sm edit-alasan"
+                                                    <button type="button" class="btn btn-warning btn-sm edit-memilih"
                                                         style="width: 100%;" data-toggle="modal"
-                                                        data-target="#editAlasanModal{{ $item->id }}">
+                                                        data-target="#editMemilihModal{{ $item->id }}">
                                                         Edit
                                                     </button>
                                                 </div>
@@ -139,9 +127,9 @@
                             @csrf
                             @method('PUT')
                             <div class="form-group">
-                                <label for="nama_layanan{{ $item->id }}">Nama Layanan</label>
-                                <input type="text" class="form-control" id="nama_layanan{{ $item->id }}"
-                                    name="nama_layanan" value="{{ $item->nama_layanan }}" required>
+                                <label for="title{{ $item->id }}">Nama Layanan</label>
+                                <input type="text" class="form-control" id="title{{ $item->id }}" name="title"
+                                    value="{{ $item->title }}" required>
                             </div>
                             <div class="form-group">
                                 <label for="gambar{{ $item->id }}">Gambar</label>
@@ -160,13 +148,13 @@
     @endforeach
 
     {{--  Modal Edit Why Choose Us --}}
-    @foreach ($alasan as $item)
-        <div class="modal fade" id="editAlasanModal{{ $item->id }}" tabindex="-1" role="dialog"
-            aria-labelledby="editAlasanLabel{{ $item->id }}" aria-hidden="true">
+    @foreach ($memilih as $item)
+        <div class="modal fade" id="editMemilihModal{{ $item->id }}" tabindex="-1" role="dialog"
+            aria-labelledby="editMemilihLabel{{ $item->id }}" aria-hidden="true">
             <div class="modal-dialog modal-lg" role="document">
                 <div class="modal-content">
                     <div class="modal-header" style="background-color: #4D6957; color: white;">
-                        <h5 class="modal-title" id="editAlasanLabel{{ $item->id }}">Edit Mengapa Harus Memilih Kami
+                        <h5 class="modal-title" id="editMemilihLabel{{ $item->id }}">Edit Mengapa Harus Memilih Kami
                         </h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"
                             style="color: white; opacity: 1;">
@@ -174,13 +162,13 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        <form action="{{ route('admin.alasan.update', $item->id) }}" method="POST">
+                        <form action="{{ route('admin.memilih.update', $item->id) }}" method="POST">
                             @csrf
                             @method('PUT')
                             <div class="form-group">
-                                <label for="nama_alasan{{ $item->id }}">Nama Alasan</label>
-                                <input type="text" class="form-control" id="nama_alasan{{ $item->id }}"
-                                    name="nama_alasan" value="{{ $item->nama_alasan }}" required>
+                                <label for="title{{ $item->id }}">Nama Memilih</label>
+                                <input type="text" class="form-control" id="title{{ $item->id }}" name="title"
+                                    value="{{ $item->title }}" required>
                             </div>
                             <div class="form-group">
                                 <label for="gambar{{ $item->id }}">Gambar</label>

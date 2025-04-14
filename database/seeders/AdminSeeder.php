@@ -12,14 +12,12 @@ use App\Models\Portofolio;
 use Faker\Factory as Faker;
 use App\Models\GambarAlasan;
 use App\Models\GambarProduk;
-use App\Models\Layanan;
 use App\Models\Memilih;
 use App\Models\PengaturanBanner;
 use App\Models\GambarLayanan;
 use App\Models\PengaturanWeb;
 use Illuminate\Database\Seeder;
 use App\Models\GambarPortofolio;
-use App\Models\PengaturanBanner;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
@@ -245,62 +243,6 @@ class AdminSeeder extends Seeder
                         'gambar' => $fileName
                     ]);
                 }
-            }
-
-            $namaLayanan = ['Desain 3D', 'Desain 2D', 'Desain Arsitektur', 'Desain Interior', 'Desain Eksterior', 'Desain Lanskap'];
-            $gambarLayanan = [
-                "Arana Residence1.jpg",
-                "Bale Kahyangan1.jpg",
-                "Bale Kahyangan2.jpg",
-                "Bale Kahyangan3.jpg",
-                "Bale Yasa Antapura1.jpg",
-                "Bale Yasa Antapura2.jpg",
-            ];
-
-            // Membuat Kelola Layanan
-            foreach ($namaLayanan as $index => $nama) {
-                $layanan = Layanan::create(['nama_layanan' => $nama]);
-
-                // Menetapkan satu gambar untuk setiap layanan berdasarkan indeks
-                if (isset($gambarLayanan[$index])) {
-                    GambarLayanan::create([
-                        'id_layanan' => $layanan->id,
-                        'gambar' => $gambarLayanan[$index]
-                    ]);
-                }
-            }
-
-
-            $namaAlasan = ['Pelayanan Cepat', 'Kualitas Terjamin', 'Harga Terjangkau', 'Desain Menarik'];
-            $gambarAlasan = [
-                "Arana Residence1.jpg",
-                "Bale Kahyangan1.jpg",
-                "Bale Kahyangan2.jpg",
-                "Bale Kahyangan3.jpg",
-            ];
-
-            // Membuat Kelola Alasan
-            foreach ($namaAlasan as $index => $nama) {
-                $alasan = Alasan::create(['nama_alasan' => $nama]);
-
-                // Menetapkan satu gambar untuk setiap alasan berdasarkan indeks
-                if (isset($gambarAlasan[$index])) {
-                    GambarAlasan::create([
-                        'id_alasan' => $alasan->id,
-                        'gambar' => $gambarAlasan[$index]
-                    ]);
-                }
-            }
-
-
-            $namaAlasan = ['Pelayanan Cepat', 'Kualitas Terjamin', 'Harga Terjangkau', 'Desain Menarik'];
-            $gambarAlasan = ['08123478990', 'damaarsi@gmail.com', 'Jalan Soekarno-Hatta, Borokulon, Banyuurip, Purworejo', '@damaarsi'];
-            // Membuat Kelola Alasan
-            for ($i = 0; $i < 4; $i++) {
-                Alasan::create([
-                    'nama_alasan' => $namaAlasan[$i],
-                    'gambar' => $gambarAlasan[$i],
-                ]);
             }
 
             $titleLayanan = [

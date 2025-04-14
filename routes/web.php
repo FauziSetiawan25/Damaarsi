@@ -76,7 +76,7 @@ Route::middleware('admin')->group(function () {
     Route::controller(BerandaController::class)->group(function () {
         Route::get('/admin/beranda', 'index')->name('admin.beranda');
         Route::put('/admin/beranda/{id}', 'updateLayanan')->name('admin.layanan.update');
-        Route::put('/admin/beranda/alasan/{id}', 'updateAlasan')->name('admin.alasan.update');
+        Route::put('/admin/beranda/alasan/{id}', 'updateAlasan')->name('admin.memilih.update');
     });
 
     Route::get('/admin/customer', function () {
