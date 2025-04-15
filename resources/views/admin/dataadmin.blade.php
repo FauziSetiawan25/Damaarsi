@@ -55,13 +55,10 @@
                                                 </form>
                                             </div>
                                             <div class="mx-2">
-                                                <form action="{{ route('admin.destroy', $admin->id) }}" method="POST"
-                                                    onsubmit="return confirm('Anda yakin ingin menghapus?');">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <button type="submit" class="btn btn-danger btn-sm"
-                                                        style="width: 70px;">Hapus</button>
-                                                </form>
+                                                <button type="button" class="btn btn-danger btn-sm" style="width: 70px;"
+                                                    onclick="showDeleteAdminModal('{{ route('admin.destroy', $admin->id) }}', '{{ $admin->id }}')">
+                                                    Hapus
+                                                </button>
                                             </div>
                                             <div>
                                                 <button type="button" class="btn btn-warning btn-sm edit-admin"
@@ -130,9 +127,31 @@
                         </div>
                         <div class="text-right">
                             <button type="submit" class="btn btn-primary"
-                                style="background-color: #0088FF; color: white">Tambah</button>
+                                style="background-color: #0088FF; color: white" data-toggle="modal"
+                                data-target="#successAddAdmin">Tambah</button>
                         </div>
                     </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notifikasi Success Add Admin -->
+    <div class="modal fade" id="successAddAdmin" tabindex="-1" role="dialog" aria-labelledby="successModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content" style="border-radius: 10px;">
+                <div class="modal-header"
+                    style="background-color: #4D6957; color: white; border-top-left-radius: 10px; border-top-right-radius: 10px;">
+                    <h5 class="modal-title" id="successModalLabel">Notifikasi</h5>
+                    <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close"
+                        style="color: white; opacity: 1;">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body text-center">
+                    <img src="https://cdn-icons-png.flaticon.com/128/845/845646.png" width="50" alt="Success">
+                    <p class="mt-3">Data Berhasil Tersimpan</p>
                 </div>
             </div>
         </div>
@@ -144,9 +163,10 @@
             aria-labelledby="editAdminLabel{{ $admin->id }}" aria-hidden="true">
             <div class="modal-dialog modal-lg" role="document">
                 <div class="modal-content">
-                    <div class="modal-header">
+                    <div class="modal-header" style="background-color: #4D6957; color: white;">
                         <h5 class="modal-title" id="editAdminLabel{{ $admin->id }}">Edit Admin</h5>
-                        <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <button class="close" type="button" data-dismiss="modal" aria-label="Close"
+                            style="color: white; opacity: 1;">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
@@ -180,7 +200,8 @@
                             </div>
                             <div class="text-right">
                                 <button type="submit" class="btn btn-primary"
-                                    style="background-color: #0088FF; color: white">Simpan</button>
+                                    style="background-color: #0088FF; color: white" data-toggle="modal"
+                                    data-target="#successUpdateAdmin">Simpan</button>
                             </div>
                         </form>
                     </div>
@@ -188,4 +209,90 @@
             </div>
         </div>
     @endforeach
+
+    <!-- Notifikasi Success Update Admin -->
+    <div class="modal fade" id="successUpdateAdmin" tabindex="-1" role="dialog" aria-labelledby="successModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content" style="border-radius: 10px;">
+                <div class="modal-header"
+                    style="background-color: #4D6957; color: white; border-top-left-radius: 10px; border-top-right-radius: 10px;">
+                    <h5 class="modal-title" id="successModalLabel">Notifikasi</h5>
+                    <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close"
+                        style="color: white; opacity: 1;">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body text-center">
+                    <img src="https://cdn-icons-png.flaticon.com/128/845/845646.png" width="50" alt="Success">
+                    <p class="mt-3">Data Berhasil Diperbarui</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Konfirmasi Hapus -->
+    <div class="modal fade" id="deleteConfirmPorto" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header" style="background-color: #4D6957; color: white;">
+                    <h5 class="modal-title">Notifikasi</h5>
+                    <button type="button" class="close text-white" data-dismiss="modal">
+                        <span>&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body text-center">
+                    <p>Apakah yakin ingin menghapus data?</p>
+                    <p id="deleteDataInfo"></p>
+                </div>
+                <div class="modal-footer justify-content-center">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                    <form id="deleteForm" method="POST">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="btn btn-danger">Hapus</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal Notifikasi Sukses hapus-->
+    <div class="modal fade" id="successDeletePorto" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header" style="background-color: #4D6957; color: white;">
+                    <h5 class="modal-title">Notifikasi</h5>
+                    <button type="button" class="close text-white" data-dismiss="modal">
+                        <span>&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body text-center">
+                    <img src="{{ asset('images/trash-icon.png') }}" alt="Deleted" width="125">
+                    <p class="mt-3">Data Berhasil Dihapus</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Menampilkan modal konfirmasi hapus
+        function showDeleteAdminModal(actionUrl, id) {
+            document.getElementById('deleteForm').action = actionUrl;
+            document.getElementById('deleteDataInfo').innerHTML = "ID = " + id;
+            $('#deleteConfirmPorto').modal('show');
+        }
+        document.getElementById('deleteForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // Hentikan penghapusan langsung
+
+            $('#deleteConfirmModal').modal('hide'); // Tutup modal konfirmasi
+
+            setTimeout(() => {
+                $('#successDeletePorto').modal('show'); // Tampilkan notifikasi sukses
+            }, 500);
+
+            setTimeout(() => {
+                this.submit(); // Lanjutkan penghapusan setelah notifikasi
+            }, 2000);
+        });
+    </script>
 @endsection

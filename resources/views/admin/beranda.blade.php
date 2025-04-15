@@ -138,7 +138,8 @@
                             </div>
                             <div class="text-right">
                                 <button type="submit" class="btn btn-primary"
-                                    style="background-color: #0088FF; color: white">Simpan</button>
+                                    style="background-color: #0088FF; color: white" data-toggle="modal"
+                                    data-target="#successUpdateLayanan">Simpan</button>
                             </div>
                         </form>
                     </div>
@@ -146,6 +147,27 @@
             </div>
         </div>
     @endforeach
+
+    <!-- Notifikasi Success Update Layanan -->
+    <div class="modal fade" id="successUpdateLayanan" tabindex="-1" role="dialog" aria-labelledby="successModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content" style="border-radius: 10px;">
+                <div class="modal-header"
+                    style="background-color: #4D6957; color: white; border-top-left-radius: 10px; border-top-right-radius: 10px;">
+                    <h5 class="modal-title" id="successModalLabel">Notifikasi</h5>
+                    <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close"
+                        style="color: white; opacity: 1;">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body text-center">
+                    <img src="https://cdn-icons-png.flaticon.com/128/845/845646.png" width="50" alt="Success">
+                    <p class="mt-3">Data Berhasil Diperbarui</p>
+                </div>
+            </div>
+        </div>
+    </div>
 
     {{--  Modal Edit Why Choose Us --}}
     @foreach ($memilih as $item)
@@ -178,7 +200,8 @@
                             </div>
                             <div class="text-right">
                                 <button type="submit" class="btn btn-primary"
-                                    style="background-color: #0088FF; color: white">Simpan</button>
+                                    style="background-color: #0088FF; color: white" data-toggle="modal"
+                                    data-target="#successUpdateLayanan">Simpan</button>
                             </div>
                         </form>
                     </div>
@@ -186,4 +209,24 @@
             </div>
         </div>
     @endforeach
+    <!-- Notifikasi Success Update Memilih -->
+    <div class="modal fade" id="successUpdateMemilih" tabindex="-1" role="dialog" aria-labelledby="successModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content" style="border-radius: 10px;">
+                <div class="modal-header"
+                    style="background-color: #4D6957; color: white; border-top-left-radius: 10px; border-top-right-radius: 10px;">
+                    <h5 class="modal-title" id="successModalLabel">Notifikasi</h5>
+                    <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close"
+                        style="color: white; opacity: 1;">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body text-center">
+                    <img src="https://cdn-icons-png.flaticon.com/128/845/845646.png" width="50" alt="Success">
+                    <p class="mt-3">Data Berhasil Diperbarui</p>
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection
