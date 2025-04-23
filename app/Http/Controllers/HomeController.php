@@ -25,9 +25,9 @@ class HomeController extends Controller
                 'image' => 'https://picsum.photos/600/400?random=3',
             ]
         ];
-    
+
         // Dummy data for recommendations (replace with DB query)
-        $recommendations = [
+        $recommendations = collect([
             [
                 'title' => 'Desain 1',
                 'image' => 'https://picsum.photos/300/200?random=4',
@@ -40,7 +40,7 @@ class HomeController extends Controller
                 'title' => 'Desain 3',
                 'image' => 'https://picsum.photos/300/200?random=6',
             ]
-        ];
+        ]);
 
         // Dummy data for Why Choose Us section
         $whyChooseUs = [
@@ -91,6 +91,34 @@ class HomeController extends Controller
             [
                 'title' => 'Design Package 6',
                 'image' => 'https://picsum.photos/300/200?random=6'
+            ]
+        ];
+
+        // Dummy data for Layanan Kamisection
+        $layananKami = [
+            [
+                'icon' => 'https://picsum.photos/50/50?random=1',
+                'title' => 'Desain 3D Siap Pakai'
+            ],
+            [
+                'icon' => 'https://picsum.photos/50/50?random=2',
+                'title' => 'Rancangan Biaya Terbaru'
+            ],
+            [
+                'icon' => 'https://picsum.photos/50/50?random=3',
+                'title' => 'Desain 3D Siap Pakai'
+            ],
+            [
+                'icon' => 'https://picsum.photos/50/50?random=4',
+                'title' => 'Rancangan Biaya Terbaru'
+            ],
+            [
+                'icon' => 'https://picsum.photos/50/50?random=5',
+                'title' => 'Desain 3D Siap Pakai'
+            ],
+            [
+                'icon' => 'https://picsum.photos/50/50?random=6',
+                'title' => 'Rancangan Biaya Terbaru'
             ]
         ];
 
@@ -151,8 +179,8 @@ class HomeController extends Controller
             ['question' => 'Lorem ipsum dolor sit amet?', 'answer' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.'],
             // Add more FAQ items as needed
         ];
-    
-        return view('home.index', compact('carouselItems', 'recommendations', 'whyChooseUs', 'designPackages', 'latestProjects', 'testimonials', 'faqs'));
+
+        return view('home.index', compact('carouselItems', 'recommendations', 'whyChooseUs', 'designPackages', 'layananKami', 'latestProjects', 'testimonials', 'faqs'));
     }
 
     public function catalog()
@@ -191,7 +219,7 @@ class HomeController extends Controller
                 'title' => 'Paket D',
             ],
         ];
-    
+
         $designs = [
             [
                 'image' => 'images/sample.png',
@@ -252,10 +280,10 @@ class HomeController extends Controller
                 'description' => 'Description for Taman Hijau.'
             ],
         ];
-    
+
         return view('home.portofolio', compact('portfolios'));
     }
-    
+
     public function contact()
     {
         $contactInfo = [
@@ -263,7 +291,7 @@ class HomeController extends Controller
             'phone' => '(+62)123456789',
             'email' => 'abcdefg@mail.com',
         ];
-    
+
         return view('home.contact', compact('contactInfo'));
     }
 }
