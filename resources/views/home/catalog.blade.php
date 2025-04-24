@@ -4,7 +4,7 @@
 
 @section('content')
     <div class="catalog-background">
-        <main class="container my-5">
+        <main class="container py-5">
             <form class="d-flex search-bar ms-auto">
                 <div class="input-group">
                     <input class="form-control custom-border" type="search" placeholder="Search...">

@@ -11,22 +11,22 @@
             </div>
 
             <!-- Bagian Contact Info (Dua Kolom) -->
-            <div class="card shadow-sm mb-5 custom-card">
+            <div class="card shadow-sm mb-5 custom-card w-100">
                 <div class="row g-0">
-                    <div class="col-md-6 d-flex align-items-center justify-content-center border-end"> <!-- Kolom Kiri -->
+                    <div class="col-12 col-md-6 d-flex align-items-center justify-content-center border-end"> <!-- Kolom Kiri -->
                         <div class="p-4 text-center">
                             <h2 class="fw">Contact</h2>
                         </div>
                     </div>
-                    <div class="col-md-6"> <!-- Kolom Kanan -->
+                    <div class="col-12 col-md-6"> <!-- Kolom Kanan -->
                         <div class="p-4">
-                            <h3>Address</h3>
+                            <h4>Address</h4>
                             <p>{{ $contactInfo['address'] }}</p>
 
-                            <h3>Let's Talk</h3>
+                            <h4>Let's Talk</h4>
                             <p>{{ $contactInfo['phone'] }}</p>
 
-                            <h3>Support</h3>
+                            <h4>Support</h4>
                             <p>{{ $contactInfo['email'] }}</p>
                         </div>
                     </div>
