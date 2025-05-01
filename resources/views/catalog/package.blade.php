@@ -43,18 +43,13 @@
                     <div class="row mt-4">
                         @foreach ($packages as $package)
                             <div class="col-md-4 mb-4">
-                                <div class="card custom-card-catalog">
-                                    <a href="{{ route('design.detail', 1) }}">
-                                        <img src="{{ $package->image }}" class="card-img-top" alt="{{ $package->title }}">
-                                    </a>
+                                <div class="card custom-card-package">
+                                    <img src="{{ $package->image }}" class="card-img-top" alt="{{ $package->title }}">
                                     <div class="card-body">
-                                        <h5 class="card-title">{{ $package->title  }}</h5>
-
-                                        <div class="d-flex align-items-center gap-2">
-                                            <div style="line-height: 1;">
-                                                <span class="text-muted d-block" style="font-size: 16px">Apa yang terdapat di dalam paket?</span>
-                                            </div>
-                                        </div>
+                                        <h5 class="card-title">{{ $package->title }}</h5>
+                                        <span class="text-muted d-block mb-2" style="font-size: 16px">Apa yang terdapat
+                                            di dalam paket? </span>
+                                        <span class="text-muted d-block" style="font-size: 16px">{{ $package->description }} </span>
                                     </div>
 
                                 </div>
