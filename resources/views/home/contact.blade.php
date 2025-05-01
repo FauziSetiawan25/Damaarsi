@@ -4,34 +4,38 @@
 
 @section('content')
     <div class="contact-background">
-        <div class="container-fluid">
+        <div class="container-fluid p-0">
             <!-- Bagian Header Contact -->
             <div class="contact-header text-center mb-5">
                 <h1 class="fw-bold">Contact</h1>
             </div>
 
             <!-- Bagian Contact Info (Dua Kolom) -->
-            <div class="card shadow-sm mb-5 custom-card w-100">
-                <div class="row g-0">
-                    <div class="col-12 col-md-6 d-flex align-items-center justify-content-center border-end"> <!-- Kolom Kiri -->
-                        <div class="p-4 text-center">
-                            <h2 class="fw">Contact</h2>
+            <div class="container">
+                <div class="card shadow-sm mb-5 custom-card w-100">
+                    <div class="row g-0">
+                        <div class="col-12 col-md-6 d-flex align-items-center justify-content-center border-end">
+                            <!-- Kolom Kiri -->
+                            <div class="p-4 text-center">
+                                <h2 class="fw">Contact</h2>
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-12 col-md-6"> <!-- Kolom Kanan -->
-                        <div class="p-4">
-                            <h4>Address</h4>
-                            <p>{{ $contactInfo['address'] }}</p>
+                        <div class="col-12 col-md-6"> <!-- Kolom Kanan -->
+                            <div class="p-4">
+                                <h4>Address</h4>
+                                <p>{{ $contactInfo['address'] }}</p>
 
-                            <h4>Let's Talk</h4>
-                            <p>{{ $contactInfo['phone'] }}</p>
+                                <h4>Let's Talk</h4>
+                                <p>{{ $contactInfo['phone'] }}</p>
 
-                            <h4>Support</h4>
-                            <p>{{ $contactInfo['email'] }}</p>
+                                <h4>Support</h4>
+                                <p>{{ $contactInfo['email'] }}</p>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
+
 
             <!-- Bagian Map -->
             <div class="row gx-0 justify-content-center">

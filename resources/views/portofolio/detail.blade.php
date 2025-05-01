@@ -7,7 +7,7 @@
         <div class="container py-5">
             <!-- Tombol Kembali dan Label Kategori -->
             <div class="d-flex align-items-center mb-3">
-                <a href="/portofolio" class="btn d-inline-flex align-items-center justify-content-center me-3"
+                <a href="{{ url()->previous() }}" class="btn d-inline-flex align-items-center justify-content-center me-3"
                     style="background-color: #616161; color: white"><span class="material-symbols-outlined me-2">
                         undo
                     </span>Kembali</a>

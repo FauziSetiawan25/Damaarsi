@@ -26,7 +26,7 @@
                     <div class="col-md-6">
                         <div class="card mt-4 custom-card-portofoliopage">
                             <a href="{{ route('portofolio.detail', 1) }}">
-                                <img src="{{ $portfolio['image'] }}" class="card-img-top" alt="{{ $portfolio['title'] }}">
+                                <img src="{{ $portfolio['image'] }}" class="card-img-top img-cover" alt="{{ $portfolio['title'] }}">
                             </a>
                             <div class="hover-title text-left"><h5>{{ $portfolio['title'] }}</h5></div>
                         </div>

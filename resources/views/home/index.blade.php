@@ -59,8 +59,10 @@
                                 <div class="row justify-content-center">
                                     <div class="col-12 col-md-4">
                                         <div class="card mt-4 custom-card-recommendations">
-                                            <img src="{{ $recommendation['image'] }}" class="card-img-top"
-                                                alt="{{ $recommendation['title'] }}">
+                                            <a href="{{ route('design.detail', $recommendation['id']) }}"><img
+                                                    src="{{ $recommendation['image'] }}" class="card-img-top"
+                                                    alt="{{ $recommendation['title'] }}"></a>
+
                                             <div class="hover-title text-left">
                                                 <h5>{{ $recommendation['title'] }}</h5>
                                                 {{-- <hr>
@@ -75,8 +77,9 @@
                                     @if (isset($recommendations[$index + 1]) && $index % 3 === 0)
                                         <div class="col-md-4 d-none d-md-block">
                                             <div class="card mt-4 custom-card-recommendations">
-                                                <img src="{{ $recommendations[$index + 1]['image'] }}" class="card-img-top"
-                                                    alt="{{ $recommendations[$index + 1]['title'] }}">
+                                                <a href="{{ route('design.detail', $recommendation['id']) }}"><img
+                                                        src="{{ $recommendation['image'] }}" class="card-img-top"
+                                                        alt="{{ $recommendation['title'] }}"></a>
                                                 <div class="hover-title text-left">
                                                     <h5>{{ $recommendations[$index + 1]['title'] }}</h5>
                                                     {{-- <hr>
@@ -91,8 +94,9 @@
                                     @if (isset($recommendations[$index + 2]) && $index % 3 === 0)
                                         <div class="col-md-4 d-none d-md-block">
                                             <div class="card mt-4 custom-card-recommendations">
-                                                <img src="{{ $recommendations[$index + 2]['image'] }}" class="card-img-top"
-                                                    alt="{{ $recommendation['title'] }}">
+                                                <a href="{{ route('design.detail', $recommendation['id']) }}"><img
+                                                        src="{{ $recommendation['image'] }}" class="card-img-top"
+                                                        alt="{{ $recommendation['title'] }}"></a>
                                                 <div class="hover-title text-left">
                                                     <h5>{{ $recommendation['title'] }}</h5>
                                                     {{-- <hr>
@@ -156,8 +160,11 @@
                                 <div class="row justify-content-center">
                                     <div class="col-12 col-md-4">
                                         <div class="card mt-4 custom-card-packages">
-                                            <img src="{{ $designPackage['image'] }}" class="card-img-top"
-                                                alt="{{ $designPackage['title'] }}">
+                                            <a href="{{ route('design.detail', $designPackage['id']) }}">
+                                                <img src="{{ $designPackage['image'] }}" class="card-img-top"
+                                                    alt="{{ $designPackage['title'] }}">
+                                            </a>
+
                                             <div class="hover-title text-left">
                                                 <h5>{{ $designPackage['title'] }}</h5>
                                                 {{-- <hr>
@@ -172,9 +179,10 @@
                                     @if (isset($designPackages[$index + 1]) && $index % 3 === 0)
                                         <div class="col-md-4 d-none d-md-block">
                                             <div class="card mt-4 custom-card-packages">
-                                                <img src="{{ $designPackages[$index + 1]['image'] }}"
-                                                    class="card-img-top"
-                                                    alt="{{ $designPackages[$index + 1]['title'] }}">
+                                                <a href="{{ route('design.detail', $designPackage['id']) }}">
+                                                    <img src="{{ $designPackage['image'] }}" class="card-img-top"
+                                                        alt="{{ $designPackage['title'] }}">
+                                                </a>
                                                 <div class="hover-title text-left">
                                                     <h5>{{ $designPackages[$index + 1]['title'] }}</h5>
                                                     {{-- <hr>
@@ -189,8 +197,10 @@
                                     @if (isset($designPackages[$index + 2]) && $index % 3 === 0)
                                         <div class="col-md-4 d-none d-md-block">
                                             <div class="card mt-4 custom-card-packages">
-                                                <img src="{{ $designPackages[$index + 2]['image'] }}"
-                                                    class="card-img-top" alt="{{ $designPackage['title'] }}">
+                                                <a href="{{ route('design.detail', $designPackage['id']) }}">
+                                                    <img src="{{ $designPackage['image'] }}" class="card-img-top"
+                                                        alt="{{ $designPackage['title'] }}">
+                                                </a>
                                                 <div class="hover-title text-left">
                                                     <h5>{{ $designPackage['title'] }}</h5>
                                                     {{-- <hr>
@@ -255,8 +265,11 @@
                                 <div class="row justify-content-center">
                                     <div class="col-12 col-md-6">
                                         <div class="card mt-4 custom-card-portofolio">
-                                            <img src="{{ $latestProject['image'] }}" class="card-img-top"
-                                                alt="{{ $latestProject['title'] }}">
+                                            <a href="{{ route('portofolio.detail', $latestProject['id']) }}">
+                                                <img src="{{ $latestProject['image'] }}" class="card-img-top"
+                                                    alt="{{ $latestProject['title'] }}">
+                                            </a>
+
                                             <div class="hover-title text-left">
                                                 <h5>{{ $latestProject['title'] }}</h5>
                                                 {{-- <hr>
@@ -271,9 +284,10 @@
                                     @if (isset($latestProjects[$index + 1]) && $index % 3 === 0)
                                         <div class="col-md-6 d-none d-md-block">
                                             <div class="card mt-4 custom-card-portofolio">
-                                                <img src="{{ $latestProjects[$index + 1]['image'] }}"
-                                                    class="card-img-top"
-                                                    alt="{{ $latestProjects[$index + 1]['title'] }}">
+                                                <a href="{{ route('portofolio.detail', $latestProject['id']) }}">
+                                                    <img src="{{ $latestProject['image'] }}" class="card-img-top"
+                                                        alt="{{ $latestProject['title'] }}">
+                                                </a>
                                                 <div class="hover-title text-left">
                                                     <h5>{{ $latestProjects[$index + 1]['title'] }}</h5>
                                                     {{-- <hr>
@@ -301,26 +315,37 @@
                     </button>
                 </div>
             </section>
+        </div>
 
+        <div class="container-fluid p-0">
             <!-- Testimonial Section -->
             <section class="testimonial my-5">
-                <h3>Testimonial</h3>
+                <div class="container">
+                    <h3>Testimonial</h3>
+                </div>
+
                 <div id="testimonialCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="5000">
                     <div class="carousel-inner">
                         @foreach ($testimonials as $index => $testimonial)
                             <div class="carousel-item {{ $index === 0 ? 'active' : '' }}">
-                                <div class="row align-items-center p-4" style="background-color: #2C2C2C;">
-                                    <div class="col-md-8">
-                                        <h4><strong>{{ $testimonial['name'] }}</strong></h4>
-                                        <p>{{ $testimonial['text'] }}</p>
+                                <div class="d-flex flex-column flex-md-row justify-content-between align-items-stretch px-0"
+                                    style="background-color: #2C2C2C;">
+                                    <div class="container">
+                                        <div class="col-12 col-md-8 p-5 p-md-5">
+                                            <h4><strong>{{ $testimonial['name'] }}</strong></h4>
+                                            <p style="max-width: 600px">{{ $testimonial['text'] }}</p>
+                                        </div>
                                     </div>
-                                    <div class="col-md-4 image-container">
+                                    <div class="col-12 col-md-4 image-container p-0 m-0 align-self-end">
                                         <img src="{{ $testimonial['image'] }}" alt="Testimonial Image"
-                                            class="card-img-bottom">
+                                            class="img-fluid w-100 h-100"
+                                            style="object-fit: cover; border-top-left-radius: 0; border-bottom-left-radius: 0;">
                                     </div>
                                 </div>
                                 <!-- Custom Previous and Next Buttons -->
-                                <div class="testimonial-controls position-absolute" style="bottom: 10px; left: 10px;">
+                                <div class="container">
+                                    <div class="testimonial-controls position-absolute w-100 d-flex justify-content-center justify-content-md-start mt-2"
+                                    style="bottom: 20px;">
                                     <button class="btn btn-prev" type="button" data-bs-target="#testimonialCarousel"
                                         data-bs-slide="prev">
                                         <i class="bi bi-caret-left-fill"></i>
@@ -330,12 +355,16 @@
                                         <i class="bi bi-caret-right-fill"></i>
                                     </button>
                                 </div>
+                                </div>
+                                
                             </div>
                         @endforeach
                     </div>
                 </div>
             </section>
+        </div>
 
+        <div class="container">
             <!-- Call to Action Section -->
             <section class="call-to-action my-5 text-start">
                 <h2 class="text-uppercase font-weight-bold custom-text">Tunggu Apa Lagi Segera Wujudkan Desain Hunian
@@ -368,15 +397,17 @@
                     @endforeach
                 </div>
             </section>
-
-            <!-- Floating WhatsApp Button -->
-            <a href="https://wa.me/yourwhatsappphonenumber" target="_blank" class="btn-whatsapp">
-                <i class="fab fa-whatsapp"></i>
-            </a>
-
-
-
         </div>
+
+
+        <!-- Floating WhatsApp Button -->
+        <a href="https://wa.me/yourwhatsappphonenumber" target="_blank" class="btn-whatsapp">
+            <i class="fab fa-whatsapp"></i>
+        </a>
+
+
+
+    </div>
     </div>
 
 @endsection

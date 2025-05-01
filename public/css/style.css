@@ -178,6 +178,9 @@ footer {
 .container h3 {
     color: #F4D2A3;
 }
+.container-fluid h3 {
+    color: #F4D2A3;
+}
 
 .container .info h2{
     color: #F4D2A3;
@@ -204,8 +207,9 @@ footer {
 
 .card.custom-card-recommendations img {
     object-fit: cover;
-    height: 100%;
+    height: 300px;
     width: 100%;
+    display: block;
 }
 
 .card.custom-card-recommendations .hover-title {
@@ -255,7 +259,7 @@ footer {
 
 .card.custom-card-packages img {
     object-fit: cover;
-    height: 100%;
+    height: 350px;
     width: 100%;
 }
 
@@ -287,7 +291,7 @@ footer {
 
 .card.custom-card-portofolio img {
     object-fit: cover;
-    height: 100%;
+    height: 350px;
     width: 100%;
 }
 
@@ -443,20 +447,20 @@ footer {
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
-
-.card img {
+.card.custom-card-catalog {
+    height: 400px;
+    overflow: hidden;
+    position: relative;
+}
+.card.custom-card-catalog img {
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
-    height: 200px;
+    height: 300px;
     object-fit: cover;
 }
 
 .card-body {
     text-align: left;
-}
-
-.card-title {
-    margin-top: 10px;
 }
 
 .input-group .form-control {
@@ -505,6 +509,13 @@ footer {
     color: #C1C1C1; /* Placeholder color */
 }
 
+.price-icon {
+    width: 16px;
+    height: 16px;
+    margin-right: 4px;
+    /* opsional jika ingin beri jarak dari teks */
+}
+
 /* ------------PORTOFOLIO BLADE----------- */
 .portofolio-background {
     background-image: url(/images/motif.png);
@@ -537,11 +548,18 @@ footer {
     position: relative;
 }
 
+.card.custom-card-portofoliopage a {
+    display: block;
+    height: 100%;
+    width: 100%;
+}
+
 .card.custom-card-portofoliopage img {
     object-fit: cover;
     height: 100%;
     width: 100%;
     display: block;
+    border-radius: 0 !important; 
 }
 .card.custom-card-portofoliopage .hover-title {
     position: absolute;

@@ -33,6 +33,7 @@ Route::get('/catalog', [HomeController::class, 'catalog']);
 Route::get('/portofolio', [HomeController::class, 'portofolio']);
 Route::get('/contact', [HomeController::class, 'contact']);
 
+Route::get('/package', [CatalogController::class, 'package']);
 Route::get('/catalog/package/{id}', [CatalogController::class, 'showPackage'])->name('package.detail');
 Route::get('/catalog/design/{id}', [CatalogController::class, 'showDesign'])->name('design.detail');
 

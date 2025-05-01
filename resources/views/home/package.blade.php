@@ -1,9 +1,9 @@
 @extends('layout')
 
-@section('title', 'Catalog')
+@section('title', 'Package')
 
 @section('content')
-    <div class="catalog-background">
+    <div class="package-background">
         <div class="container py-5">
             <!-- Line Above -->
             <div class="line-horizontal"></div>
@@ -12,8 +12,7 @@
                 <div class="d-flex align-items-center my-2">
                     <img src="/images/logo3.png" alt="logo damaarsi" class="logo">
                     <div class="ml-2 text-left">
-                        <h6 class="mb-0 font-weight-bold">Katalog</h6>
-                        <h6 class="mb-0">Desain</h6>
+                        <h6 class="mb-0 font-weight-bold">Paket</h6>
                     </div>
                 </div>
                 <form class="d-flex search-bar ms-auto">
@@ -34,7 +33,7 @@
                     <h5 class="fw-semibold">Berbagai Pilihan Paket Desain Sesuai Kebutuhan Anda!</h5>
                     <div class="d-flex align-items-center gap-2 mt-2">
                         <p class="mb-0" style="font-size: 16px">Selengkapnya</p>
-                        <a href="/package" class="btn btn-primary btn-sm">Lihat Opsi Paket</a>
+                        <a href="#" class="btn btn-primary btn-sm">Lihat Opsi Paket</a>
                     </div>
                 </div>
             </div>
@@ -42,7 +41,7 @@
                 <section class="px-5 py-3">
                     <h2>Katalog Desain</h2>
                     <div class="row mt-4">
-                        @foreach ($designs as $design)
+                        @foreach ($designs as $package)
                             <div class="col-md-4 mb-4">
                                 <div class="card custom-card-catalog">
                                     <a href="{{ route('design.detail', 1) }}">
