@@ -3,7 +3,7 @@
 @section('title', 'Catalog')
 
 @section('content')
-    <div class="catalog-background">
+    <div class="catalog-background mb-5">
         <div class="container py-5">
             <!-- Line Above -->
             <div class="line-horizontal"></div>
@@ -34,7 +34,7 @@
                     <h5 class="fw-semibold">Berbagai Pilihan Paket Desain Sesuai Kebutuhan Anda!</h5>
                     <div class="d-flex align-items-center gap-2 mt-2">
                         <p class="mb-0" style="font-size: 16px">Selengkapnya</p>
-                        <a href="/package" class="btn btn-primary btn-sm">Lihat Opsi Paket</a>
+                        <a href="{{ route('package') }}" class="btn btn-primary btn-sm">Lihat Opsi Paket</a>
                     </div>
                 </div>
             </div>

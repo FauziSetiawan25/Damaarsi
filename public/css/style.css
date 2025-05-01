@@ -443,6 +443,12 @@ footer {
     background-size: cover;
     background-attachment: fixed;
 }
+.package-background {
+    background-image: url(/images/motif.png);
+    background-repeat: repeat;
+    background-size: cover;
+    background-attachment: fixed;
+}
 .card {
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);

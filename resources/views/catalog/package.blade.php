@@ -3,7 +3,7 @@
 @section('title', 'Package')
 
 @section('content')
-    <div class="package-background">
+    <div class="package-background mb-5">
         <div class="container py-5">
             <!-- Line Above -->
             <div class="line-horizontal"></div>
@@ -33,30 +33,26 @@
                     <h5 class="fw-semibold">Berbagai Pilihan Paket Desain Sesuai Kebutuhan Anda!</h5>
                     <div class="d-flex align-items-center gap-2 mt-2">
                         <p class="mb-0" style="font-size: 16px">Selengkapnya</p>
-                        <a href="#" class="btn btn-primary btn-sm">Lihat Opsi Paket</a>
+                        <a href="/catalog" class="btn btn-primary btn-sm">Lihat Katalog Desain</a>
                     </div>
                 </div>
             </div>
             <div class="card mt-3" style="border-radius: 20px">
                 <section class="px-5 py-3">
-                    <h2>Katalog Desain</h2>
+                    <h2>Katalog Paket</h2>
                     <div class="row mt-4">
-                        @foreach ($designs as $package)
+                        @foreach ($packages as $package)
                             <div class="col-md-4 mb-4">
                                 <div class="card custom-card-catalog">
                                     <a href="{{ route('design.detail', 1) }}">
-                                        <img src="{{ asset($design['image']) }}" class="card-img-top"
-                                            alt="{{ $design['title'] }}">
+                                        <img src="{{ $package->image }}" class="card-img-top" alt="{{ $package->title }}">
                                     </a>
                                     <div class="card-body">
-                                        <h5 class="card-title">{{ $design['title'] }}</h5>
+                                        <h5 class="card-title">{{ $package->title  }}</h5>
 
                                         <div class="d-flex align-items-center gap-2">
-                                            <img src="/images/money.png" alt="price" style="width: 24px; height: 24px;">
                                             <div style="line-height: 1;">
-                                                <span class="text-muted d-block" style="font-size: 12px">mulai dari</span>
-                                                <span>Rp {{ number_format($design['price'], 0, ',', '.') }} <span
-                                                        class="text-muted">/m2</span></span>
+                                                <span class="text-muted d-block" style="font-size: 16px">Apa yang terdapat di dalam paket?</span>
                                             </div>
                                         </div>
                                     </div>
