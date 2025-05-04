@@ -19,7 +19,7 @@
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
                                                 Total Pengunjung</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $totalPengunjung }}</div>
+                                                <div class="h5 mb-0 font-weight-bold text-gray-800" id="totalPengunjung">Loading...</div>
                                         </div>
                                         <div class="col-auto">
                                             <i class="fas fa-user fa-2x text-gray-300"></i>
@@ -36,7 +36,7 @@
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
                                             Total Pelanggan</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $totalPelanggan }}</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800" id="totalCustomer">Loading...</div>
                                         </div>
                                         <div class="col-auto">
                                             <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
@@ -51,7 +51,7 @@
                                     <div class="row no-gutters align-items-center">
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Total Produk</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $totalProduk }}</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800" id="totalProduk">Loading...</div>
                                         </div>
                                         <div class="col-auto">
                                             <i class="fas fa-box fa-2x text-gray-300"></i>
@@ -89,35 +89,91 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        var ctx = document.getElementById('visitorChart').getContext('2d');
+        fetch('/api/visitor/stats') // Panggil API untuk mengambil data pengunjung
+            .then(response => response.json())
+            .then(data => {
+                var ctx = document.getElementById('visitorChart').getContext('2d');
 
-        var visitorChart = new Chart(ctx, {
-            type: 'line',
-            data: {
-                labels: {!! json_encode($dates) !!},
-                datasets: [{
-                    label: 'Jumlah Pengunjung',
-                    data: {!! json_encode($counts) !!}, 
-                    borderColor: 'rgba(75, 192, 192, 1)',
-                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                    borderWidth: 1
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false, 
-                scales: {
-                    x: {
-                        beginAtZero: true
+                var visitorChart = new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: data.dates, // Data tanggal dari API
+                        datasets: [{
+                            label: 'Jumlah Pengunjung',
+                            data: data.counts, // Data jumlah pengunjung dari API
+                            borderColor: 'rgba(75, 192, 192, 1)',
+                            backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                            borderWidth: 1
+                        }]
                     },
-                    y: {
-                        beginAtZero: true
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false, 
+                        scales: {
+                            x: {
+                                beginAtZero: true
+                            },
+                            y: {
+                                beginAtZero: true
+                            }
+                        }
                     }
-                }
-            }
-        });
+                });
+            })
+            .catch(error => console.error('Error fetching visitor stats:', error));
     });
 </script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        fetch('/api/visitor/count') // Pastikan ini adalah endpoint yang benar
+            .then(response => response.json())
+            .then(data => {
+                if (data.total_pengunjung !== undefined) {
+                    document.getElementById('totalPengunjung').innerText = data.total_pengunjung;
+                } else {
+                    document.getElementById('totalPengunjung').innerText = "0"; // Jika tidak ada produk
+                }
+            })
+            .catch(error => {
+                console.error('Error fetching total pengunjung:', error);
+                document.getElementById('totalPengunjung').innerText = "Error";
+            });
+    });
+
+    document.addEventListener("DOMContentLoaded", function () {
+        fetch('/api/customer/count') // Pastikan ini adalah endpoint yang benar
+            .then(response => response.json())
+            .then(data => {
+                if (data.total_customer !== undefined) {
+                    document.getElementById('totalCustomer').innerText = data.total_customer;
+                } else {
+                    document.getElementById('totalCustomer').innerText = "0"; // Jika tidak ada produk
+                }
+            })
+            .catch(error => {
+                console.error('Error fetching total pengunjung:', error);
+                document.getElementById('totalCustomer').innerText = "Error";
+            });
+    });
+
+    document.addEventListener("DOMContentLoaded", function () {
+        fetch('/api/produk/count') // Pastikan ini adalah endpoint yang benar
+            .then(response => response.json())
+            .then(data => {
+                if (data.total_produk !== undefined) {
+                    document.getElementById('totalProduk').innerText = data.total_produk;
+                } else {
+                    document.getElementById('totalProduk').innerText = "0"; // Jika tidak ada produk
+                }
+            })
+            .catch(error => {
+                console.error('Error fetching total produk:', error);
+                document.getElementById('totalProduk').innerText = "Error";
+            });
+    });
+</script>
+
 </body>
 </html>
 @endsection

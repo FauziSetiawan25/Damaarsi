@@ -34,7 +34,7 @@ class ProdukController extends Controller
             // 'tipe' => 'required|string|in:Paket,Desain',
             'gambar1' => 'required|image|mimes:jpg,jpeg,png,gif',
             'gambar2' => 'nullable|image|mimes:jpg,jpeg,png,gif',
-            'gambar3' => 'nullable|image|mimes:jpg,jpeg,png,gif',
+            'gambar3' => 'nullable|image|mimes:jpg,jpeg,png,gif'
         ]);
 
         // Membuat produk baru dan menyimpannya ke database

@@ -11,6 +11,13 @@ class Customer extends Model
 
     protected $table = 'customer';
 
+    protected $fillable = [        
+        'id_produk',
+        'nama',      
+        'email',      
+        'no_telp'          
+    ];
+
     public function produk()
     {
         return $this->belongsTo(Produk::class, 'id_produk');

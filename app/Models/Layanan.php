@@ -10,8 +10,8 @@ class Layanan extends Model
     use HasFactory;
     protected $table = 'layanan';
 
-    // public function gambarLayanan()
-    // {
-    //     return $this->hasMany(GambarLayanan::class, 'id_layanan');
-    // }
+    protected $fillable = [        
+        'title',
+        'gambar'       
+    ];
 }
