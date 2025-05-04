@@ -19,10 +19,18 @@ class LoginApiController extends Controller
             'password' => 'required|string',
         ]);
 
-        // autentikasi menggunakan guard 'admin'
+        // Autentikasi menggunakan guard 'admin'
         if (Auth::guard('admin')->attempt($credentials)) {
-            $admin = Auth::guard('admin')->user();  // user yang terautentikasi
-            
+            $admin = Auth::guard('admin')->user();  // User yang terautentikasi
+
+            // Cek apakah role-nya 'nonaktif'
+            if ($admin->role === 'nonaktif') {
+                Auth::guard('admin')->logout(); // Logout kalau login session-based
+                return response()->json([
+                    'message' => 'Akun Anda nonaktif. Silakan hubungi administrator.'
+                ], 403);
+            }
+
             // Buat token untuk admin
             $token = $admin->createToken('Laravel')->plainTextToken;
 
@@ -36,12 +44,23 @@ class LoginApiController extends Controller
     }
 
     /**
-     * Logout admin dan hapus token.
+     * (LIMIT) Logout admin dan hapus token.
      */
     public function logout(Request $request)
     {
-        // Hapus token yang digunakan untuk autentikasi saat ini
-        $request->user()->currentAccessToken()->delete();
+        // Hapus token pengguna yang aktif
+        if ($request->user()) {
+            $request->user()->tokens->each(function ($token) {
+                $token->delete();
+            });
+        }
+
+        // Hapus session untuk guard admin jika ada
+        if ($request->hasSession()) {
+            auth('admin')->logout();
+            $request->session()->invalidate();
+            $request->session()->regenerateToken();
+        }
 
         return response()->json([
             'message' => 'Logout successful',

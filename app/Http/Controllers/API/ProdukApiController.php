@@ -13,20 +13,21 @@ use App\Http\Controllers\Controller;
 class ProdukApiController extends Controller
 {
     /**
-     * Menampilkan daftar produk yang ada.
+     * Menampilkan daftar produk.
      */
     public function getAllProducts()
     {
         // Ambil semua produk beserta relasi
-        $produk = Produk::with('gambarProduk', 'admin')->get();
+        $produk = Produk::with('gambarProduk')->get();
 
         return response()->json(['data' => $produk], 200);
     }
 
-    // Fungsi untuk mendapatkan jumlah produk
+    /**
+     * Menampilkan jumlah produk.
+     */
     public function getProductCount()
     {
-        // Menghitung jumlah produk di database
         $count = Produk::count();
         return response()->json([
             'total_produk' => $count
@@ -34,7 +35,7 @@ class ProdukApiController extends Controller
     }
 
     /**
-     * Menyimpan produk baru ke dalam penyimpanan.
+     * (LIMIT) Menyimpan produk baru.
      */
     public function store(Request $request)
     {
@@ -80,12 +81,12 @@ class ProdukApiController extends Controller
     }
 
     /**
-     * Menampilkan informasi detail produk tertentu (tidak digunakan dalam controller ini).
+     * Menampilkan produk berdasarkan ID.
      */
     public function show($id)
     {
         // Menampilkan produk berdasarkan ID
-        $produk = Produk::with('gambarProduk', 'admin')->find($id);
+        $produk = Produk::with('gambarProduk')->find($id);
         if ($produk) {
             return response()->json(['data' => $produk], 200);
         } else {
@@ -94,7 +95,7 @@ class ProdukApiController extends Controller
     }
 
     /**
-     * Memperbarui produk yang ada di penyimpanan.
+     * (LIMIT) Memperbarui produk.
      */
     public function update(Request $request, $id)
     {
@@ -147,7 +148,7 @@ class ProdukApiController extends Controller
     }
 
     /**
-     * Menghapus produk dari penyimpanan.
+     * (LIMIT) Menghapus produk.
      */
     public function destroy($id)
     {

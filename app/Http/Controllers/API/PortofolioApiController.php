@@ -15,16 +15,16 @@ use App\Models\Portofolio;
 class PortofolioApiController extends Controller
 {
     /**
-     * Menampilkan daftar portofolio yang ada.
+     * Menampilkan daftar portofolio.
      */
     public function getAllPortofolio()
     {
-        $portofolio = Portofolio::with('gambarPortofolio', 'produk', 'admin')->get();
+        $portofolio = Portofolio::with('gambarPortofolio', 'produk')->get();
         return response()->json(['data' => $portofolio], 200);
     }
 
     /**
-     * Menyimpan portofolio baru ke dalam penyimpanan.
+     * (LIMIT) Menyimpan portofolio baru.
      */
     public function store(Request $request)
     {
@@ -71,12 +71,12 @@ class PortofolioApiController extends Controller
     }
 
     /**
-     * Menampilkan informasi detail portofolio tertentu (tidak digunakan dalam controller ini).
+     * Menampilkan portofolio berdasarkan ID.
      */
     public function show($id)
     {
         // Menampilkan portofolio berdasarkan ID
-        $portofolio = Portofolio::with('gambarPortofolio', 'produk', 'admin')->find($id);
+        $portofolio = Portofolio::with('gambarPortofolio', 'produk')->find($id);
         if ($portofolio) {
             return response()->json(['data' => $portofolio], 200);
         } else {
@@ -85,7 +85,7 @@ class PortofolioApiController extends Controller
     }
 
     /**
-     * Memperbarui portofolio yang ada di penyimpanan.
+     * (LIMIT) Memperbarui portofolio.
      */
     public function update(Request $request, $id)
     {
@@ -146,7 +146,7 @@ class PortofolioApiController extends Controller
     }
 
     /**
-     * Menghapus portofolio dari penyimpanan.
+     * (LIMIT) Menghapus portofolio.
      */
     public function destroy($id)
     {
@@ -165,6 +165,6 @@ class PortofolioApiController extends Controller
         // Menghapus portofolio dari database
         $portofolio->delete();
 
-        return response()->json(['message' => 'Produk berhasil dihapus'], 200);
+        return response()->json(['message' => 'Portofolio berhasil dihapus'], 200);
     }
 }

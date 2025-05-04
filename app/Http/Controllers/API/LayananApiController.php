@@ -10,7 +10,7 @@ use App\Models\Layanan;
 class LayananApiController extends Controller
 {
     /**
-     * Menampilkan semua layanan dalam bentuk JSON.
+     * Menampilkan semua layanan.
      */
     public function getAllLayanan()
     {
@@ -22,7 +22,7 @@ class LayananApiController extends Controller
     }
 
     /**
-     * Memperbarui layanan berdasarkan ID dan mengembalikan respons JSON.
+     * (LIMIT) Memperbarui layanan.
      */
     public function updateLayanan(Request $request, $id)
     {
@@ -35,7 +35,7 @@ class LayananApiController extends Controller
         
         $layanan->update([
             // 'id_admin' => Auth::guard('admin')->user()->id,
-            'id_admin' => 1,
+            // 'id_admin' => 1,
             'title' => $request->title,
             'gambar' => $request->gambar,
         ]);

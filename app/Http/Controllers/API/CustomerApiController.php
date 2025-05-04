@@ -9,7 +9,9 @@ use Illuminate\Support\Facades\Validator;
 
 class CustomerApiController extends Controller
 {
-    // Fungsi untuk mendapatkan jumlah pengunjung
+    /**
+     *  Menampilkan jumlah pelanggan.
+     */
     public function getCustomerCount()
     {
         $count = Customer::count();
@@ -18,12 +20,18 @@ class CustomerApiController extends Controller
         ]);
     }
 
+    /**
+     * (LIMIT) Menampilkan daftar customer.
+     */
     public function getAllCustomer()
     {
         $customers = Customer::with('produk')->get();
         return response()->json($customers);
     }
 
+    /**
+     * Menyimpan form customer.
+     */
     public function form(Request $request)
     {
         $validator = Validator::make($request->all(), [

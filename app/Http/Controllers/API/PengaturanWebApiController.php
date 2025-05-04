@@ -9,7 +9,7 @@ use App\Models\PengaturanWeb;
 class PengaturanWebApiController extends Controller
 {
     /**
-     * Menampilkan semua pengaturan web dalam bentuk JSON.
+     * Menampilkan semua pengaturan web.
      */
     public function getAllPWeb()
     {
@@ -20,6 +20,9 @@ class PengaturanWebApiController extends Controller
         ]);
     }
 
+    /**
+     *  Menampilkan pengaturan web berdasarkan keterangan.
+     */
     public function showByKeterangan($keterangan)
     {
         $pengaturan = PengaturanWeb::where('keterangan', $keterangan)->first();
@@ -36,7 +39,7 @@ class PengaturanWebApiController extends Controller
     }
 
     /**
-     * Memperbarui pengaturan web berdasarkan ID dan mengembalikan respons JSON.
+     * (LIMIT) Memperbarui pengaturan web.
      */
     public function updatePengaturan(Request $request, $id)
     {

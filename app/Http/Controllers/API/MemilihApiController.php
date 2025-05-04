@@ -4,18 +4,13 @@ namespace App\Http\Controllers\API;
 
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 use App\Http\Controllers\Controller;
-use App\Models\Admin;
-use App\Models\Layanan;
 use App\Models\Memilih;
-use App\Models\PengaturanBanner;
-use App\Models\PengaturanWeb;
 
 class MemilihApiController extends Controller
 {
     /**
-     * Menampilkan semua alasan dalam bentuk JSON.
+     * Menampilkan semua alasan memilih.
      */
     public function getAllMemilih()
     {
@@ -27,7 +22,7 @@ class MemilihApiController extends Controller
     }
 
     /**
-     * Memperbarui alasan berdasarkan ID dan mengembalikan respons JSON.
+     * (LIMIT) Memperbarui alasan memilih.
      */
     public function updateMemilih(Request $request, $id)
     {

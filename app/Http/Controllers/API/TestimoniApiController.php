@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Validator;
 class TestimoniApiController extends Controller
 {
     /**
-     * Menampilkan daftar portofolio yang ada.
+     * Menampilkan daftar testimoni.
      */
     public function getAllTestimoni()
     {
@@ -20,24 +20,8 @@ class TestimoniApiController extends Controller
         return response()->json(['data' => $testimonis], 200);
     }
 
-    public function ubahStatus(Request $request, $id)
-    {
-        $request->validate([
-            'status' => 'required|boolean'
-        ]);
-
-        $testimoni = Testimoni::findOrFail($id);
-        $testimoni->status = $request->status;
-        $testimoni->save();
-
-        return response()->json([
-            'message' => 'Status testimoni berhasil diperbarui',
-            'testimoni' => $testimoni
-        ], 200);
-    }
-
     /**
-     * Menyimpan portofolio baru ke dalam penyimpanan.
+     * (LIMIT) Menyimpan testimoni baru.
      */
     public function store(Request $request)
     {
@@ -85,7 +69,7 @@ class TestimoniApiController extends Controller
     }
 
     /**
-     * Menampilkan informasi detail portofolio tertentu (tidak digunakan dalam controller ini).
+     * Menampilkan testimoni berdasarkan ID.
      */
     public function show($id)
     {
@@ -99,7 +83,7 @@ class TestimoniApiController extends Controller
     }
 
     /**
-     * Menghapus portofolio dari penyimpanan.
+     * (LIMIT) Menghapus testimoni.
      */
     public function destroy($id)
     {

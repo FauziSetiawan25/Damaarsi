@@ -11,7 +11,7 @@ use App\Models\PengaturanWeb;
 class PengaturanBannerApiController extends Controller
 {
     /**
-     * Menampilkan semua pengaturan banner dalam bentuk JSON.
+     * Menampilkan semua pengaturan banner.
      */
     public function getAllPBanner()
     {
@@ -23,12 +23,12 @@ class PengaturanBannerApiController extends Controller
     }
 
     /**
-     * Mengubah status banner (aktif/nonaktif) dan mengembalikan respons JSON.
+     * (LIMIT) Mengubah status banner (aktif/nonaktif).
      */
-    public function ubahStatus(Request $request, $id)
+    public function ubahStatus($id)
     {
         $banner = PengaturanBanner::findOrFail($id);
-        $banner->status = $request->status;
+        $banner->status = $banner-> status === 'aktif' ? 'nonaktif' : 'aktif';;
         $banner->save();
 
         return response()->json([
@@ -38,6 +38,9 @@ class PengaturanBannerApiController extends Controller
         ]);
     }
 
+    /**
+     * Menampilkan banner berdasarkan ID.
+     */
     public function show($id)
     {
         $banner = PengaturanBanner::find($id);
@@ -54,7 +57,7 @@ class PengaturanBannerApiController extends Controller
     }
 
      /**
-     * Memperbarui banner, termasuk mengganti gambar jika ada, dan mengembalikan respons JSON.
+     * (LIMIT) Memperbarui banner.
      */
     public function updateBanner(Request $request, $id)
     {

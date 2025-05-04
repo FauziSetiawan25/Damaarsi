@@ -10,4 +10,9 @@ class Layanan extends Model
     use HasFactory;
 
     protected $table = 'layanan';
+
+    protected $fillable = [        
+        'title',
+        'gambar'       
+    ];
 }

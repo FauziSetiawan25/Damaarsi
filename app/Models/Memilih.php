@@ -10,4 +10,9 @@ class Memilih extends Model
     use HasFactory;
 
     protected $table = 'memilih';
+
+    protected $fillable = [        
+        'title',
+        'gambar'       
+    ];
 }

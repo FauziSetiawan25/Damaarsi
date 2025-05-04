@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Validator;
 class AdminApiController extends Controller
 {
     /**
-     * Menampilkan daftar portofolio yang ada.
+     * (LIMIT) Menampilkan daftar admin.
      */
     public function getAllAdmin()
     {
@@ -20,7 +20,7 @@ class AdminApiController extends Controller
     }
 
     /**
-     * Mengubah peran (role) admin.
+     * (LIMIT) Mengubah role admin aktif atau nonaktif.
      */
     public function ubahRole($id)
     {
@@ -35,7 +35,7 @@ class AdminApiController extends Controller
     }
 
      /**
-     * Menyimpan portofolio baru ke dalam penyimpanan.
+     * (LIMIT) Menyimpan admin baru ke dalam penyimpanan.
      */
     public function store(Request $request)
     {
@@ -60,11 +60,11 @@ class AdminApiController extends Controller
             'role' => 'admin',
         ]);
     
-        return response()->json(['message' => 'Testimoni berhasil ditambahkan', 'data' => $admin], 200);
+        return response()->json(['message' => 'Admin berhasil ditambahkan', 'data' => $admin], 200);
     }
 
     /**
-     * Memperbarui data admin.
+     * (LIMIT) Memperbarui data admin.
      */
     public function update(Request $request, string $id)
     {
@@ -86,6 +86,9 @@ class AdminApiController extends Controller
         return response()->json(['message' => 'Admin berhasil diperbarui', 'data' => $admin], 200);
     }
 
+    /**
+     * (LIMIT) Menampilkan detail admin berdasarkan id
+     */
     public function show($id)
     {
         // Menampilkan admin berdasarkan ID
@@ -98,7 +101,7 @@ class AdminApiController extends Controller
     }
 
     /**
-     * Menghapus admin dari database.
+     * (LIMIT) Menghapus admin dari database.
      */
     public function destroy($id)
     {

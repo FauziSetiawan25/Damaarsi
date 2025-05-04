@@ -38,8 +38,9 @@ class PengunjungApiController extends Controller
         ]);
     }
 
-
-    // Fungsi untuk mendapatkan jumlah pengunjung
+    /**
+     * Menampilkan jumlah pengunjung.
+     */
     public function getVisitorCount()
     {
         // Menghitung jumlah pengunjung di database

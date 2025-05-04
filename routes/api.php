@@ -29,7 +29,16 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::middleware(['auth:sanctum'])->group(function () {
+Route::middleware(['auth:sanctum', 'role:superadmin'])->group(function () {
+    Route::get('/admin', [AdminApiController::class, 'getAllAdmin']);
+    Route::get('/admin/{id}', [AdminApiController::class, 'show']);
+    Route::post('/admin', [AdminApiController::class, 'store']);
+    Route::put('/admin/role/{id}', [AdminApiController::class, 'ubahRole']);
+    Route::put('/admin/{id}', [AdminApiController::class, 'update']);
+    Route::delete('/admin/{id}', [AdminApiController::class, 'destroy']);
+});
+
+Route::middleware(['auth:sanctum', 'role:admin,superadmin'])->group(function () {
     Route::post('/logout', [LoginApiController::class, 'logout']);
 
     Route::post('/produk', [ProdukApiController::class, 'store']);
@@ -44,13 +53,6 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::put('/testimoni/{id}', [TestimoniApiController::class, 'ubahStatus']);
     Route::delete('/testimoni/{id}', [TestimoniApiController::class, 'destroy']);
 
-    Route::get('/admin', [AdminApiController::class, 'getAllAdmin']);
-    Route::get('/admin/{id}', [AdminApiController::class, 'show']);
-    Route::post('/admin', [AdminApiController::class, 'store']);
-    Route::put('/admin/role/{id}', [AdminApiController::class, 'ubahrole']);
-    Route::put('/admin/{id}', [AdminApiController::class, 'update']);
-    Route::delete('/admin/{id}', [AdminApiController::class, 'destroy']);
-
     Route::put('/pengaturan/{id}', [PengaturanWebApiController::class, 'updatePengaturan']);
 
     Route::put('/banner/status/{id}', [PengaturanBannerApiController::class, 'ubahStatus']);
@@ -61,16 +63,21 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::put('/layanan/{id}', [LayananApiController::class, 'updateLayanan']);
 
     Route::put('/memilih/{id}', [MemilihApiController::class, 'updateMemilih']);
-
-    Route::post('/customer/add', [CustomerApiController::class, 'form']);
 });
+
+
+
+// Route::middleware(['auth:sanctum'])->group(function () {
+    
+// });
 
 
 Route::post('/login', [LoginApiController::class, 'authenticate']);
 
 Route::get('/produk', [ProdukApiController::class, 'getAllProducts']);
-Route::get('/produk/{id}', [ProdukApiController::class, 'show']);
 Route::get('/produk/count', [ProdukApiController::class, 'getProductCount']);
+Route::get('/produk/{id}', [ProdukApiController::class, 'show']);
+
 
 Route::get('/portofolio', [PortofolioApiController::class, 'getAllPortofolio']);
 Route::get('/portofolio/{id}', [PortofolioApiController::class, 'show']);
@@ -88,6 +95,7 @@ Route::get('/layanan', [LayananApiController::class, 'getAllLayanan']);
 
 Route::get('/memilih', [MemilihApiController::class, 'getAllMemilih']);
 
+Route::post('/customer/add', [CustomerApiController::class, 'form']);
 Route::get('/customer/count', [CustomerApiController::class, 'getCustomerCount']);
 
 Route::get('/visitor/count', [PengunjungApiController::class, 'getVisitorCount']);
