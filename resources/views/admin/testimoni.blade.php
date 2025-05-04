@@ -10,10 +10,6 @@
             <div class="card-header py-3 d-flex justify-content-between align-items-center">
                 <h6 class="m-0 font-weight-bold text-dark">Tabel Testimoni</h6>
                 <div class="d-flex">
-                    <!-- Tombol Copy Link -->
-                    <button class="btn btn-secondary" id="copyLinkBtn">
-                        <i class="fas fa-copy"></i>
-                    </button>
                     <!-- Tombol Tambah Testimoni -->
                     <a href="#" class="btn ml-2" style="background-color: #0088FF; color: white" data-toggle="modal"
                         data-target="#addTestimoniModal">Tambah Testimoni</a>
@@ -45,16 +41,9 @@
                                     </td>
                                     <td>
                                         <div class="d-flex flex-column align-items-start">
-                                            <form action="{{ route('admin.testimoni.ubahStatus', $testimoni->id) }}"
-                                                method="POST">
-                                                @csrf
-                                                @method('POST')
-                                                <input type="hidden" name="status"
-                                                    value="{{ $testimoni->status == 'aktif' ? 'nonaktif' : 'aktif' }}">
-                                                <button type="submit"
-                                                    class="btn btn-sm {{ $testimoni->status == 'aktif' ? 'btn-danger' : 'btn-success' }}"
-                                                    style="width: 100px;">
-                                                    {{ $testimoni->status == 'aktif' ? 'Nonaktifkan' : 'Aktifkan' }}
+                                            <button type="button" class="btn btn-danger btn-sm" style="width: 70px;"
+                                                    onclick="showDeleteModal('{{ route('admin.testimoni.destroy', $testimoni->id) }}', '{{ $testimoni->id }}')">
+                                                    Hapus
                                                 </button>
                                             </form>
                                         </div>

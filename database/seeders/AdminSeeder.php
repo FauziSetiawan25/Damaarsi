@@ -113,7 +113,6 @@ class AdminSeeder extends Seeder
             // Membuat Testimoni
             for ($i = 0; $i < 3; $i++) {
                 Testimoni::create([
-                    'id_produk' => $faker->randomElement($produkId),
                     'nama' => $faker->name(),
                     'testimoni' => $testimoniTexts[$i],
                     'gambar' => $testiImg[$i],
@@ -256,7 +255,6 @@ class AdminSeeder extends Seeder
     
             for ($i = 0; $i < count($titleLayanan); $i++) {
                 Layanan::create([
-                    'id_admin' => $faker->randomElement($adminId),
                     'gambar' => 'smile.png',
                     'title' => $titleLayanan[$i]
                 ]);
@@ -271,7 +269,6 @@ class AdminSeeder extends Seeder
     
             for ($i = 0; $i < count($titleMemilih); $i++) {
                 Memilih::create([
-                    'id_admin' => $faker->randomElement($adminId),
                     'gambar' => 'smile.png',
                     'title' => $titleMemilih[$i]
                 ]);

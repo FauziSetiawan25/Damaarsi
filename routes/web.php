@@ -65,6 +65,8 @@ Route::middleware('admin')->group(function () {
         Route::post('/admin/testimoni/{id}', 'ubahStatus')->name('admin.testimoni.ubahStatus');
         Route::get('/addtesti', 'create')->name('testimoni.add');
         Route::post('/addtesti', 'store')->name('testimoni.store');
+        Route::delete('/testimoni/{id}', 'destroy')->name('admin.testimoni.destroy');
+
     });
 
 

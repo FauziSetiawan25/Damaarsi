@@ -13,12 +13,9 @@ return new class extends Migration
     {
         Schema::create('layanan', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('id_admin');
             $table->string('gambar');
             $table->string('title');  
             $table->timestamps();
-
-            $table->foreign('id_admin')->references('id')->on('admin')->onUpdate('cascade')->onDelete('cascade');
         });
     }
 
