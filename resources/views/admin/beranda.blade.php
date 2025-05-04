@@ -11,15 +11,15 @@
 
         <!-- Page Heading -->
         <div class="d-sm-flex align-items-center justify-content-between mb-4">
-            <h1 class="h3 mb-0 text-white">Pengaturan Web</h1>
+            <h1 class="h3 mb-0 text-white">Kelola Beranda</h1>
         </div>
 
         <div class="row">
-            {{-- Tabel pengaturan web --}}
+            {{-- Tabel Layanan Kami --}}
             <div class="col-lg-12">
                 <div class="card shadow mb-4 animated--grow-in">
                     <div class="card-header py-3 d-flex justify-content-between align-items-center">
-                        <h6 class="m-0 font-weight-bold text-dark">Tabel Pengaturan</h6>
+                        <h6 class="m-0 font-weight-bold text-dark">Tabel Layanan Kami</h6>
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
@@ -27,22 +27,25 @@
                                 <thead>
                                     <tr>
                                         <th>No</th>
-                                        <th>Keterangan</th>
-                                        <th>Value</th>
+                                        <th>Nama Layanan</th>
+                                        <th>Gambar</th>
                                         <th>Aksi</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($pengaturan as $item)
+                                    @foreach ($layanan as $item)
                                         <tr>
                                             <td>{{ $loop->iteration }}</td>
-                                            <td>{{ $item->keterangan }}</td>
-                                            <td>{{ $item->value }}</td>
+                                            <td>{{ $item->title }}</td>
+                                            <td align="center">
+                                                <img src="{{ asset('storage/layanan/' . $item->gambar) }}"
+                                                    style="width: 100px; height: auto;">
+                                            </td>
                                             <td>
                                                 <div class="mx-2">
-                                                    <button type="button" class="btn btn-warning btn-sm edit-pengaturan"
+                                                    <button type="button" class="btn btn-warning btn-sm edit-layanan"
                                                         style="width: 100%;" data-toggle="modal"
-                                                        data-target="#editPengaturanModal{{ $item->id }}">
+                                                        data-target="#editLayananModal{{ $item->id }}">
                                                         Edit
                                                     </button>
                                                 </div>
@@ -57,57 +60,41 @@
                 </div>
             </div>
 
-            {{-- Tabel pengaturan banner --}}
+            {{-- Tabel Why Choose Us --}}
             <div class="col-lg-12">
                 <div class="card shadow mb-4 animated--grow-in">
                     <div class="card-header py-3 d-flex justify-content-between align-items-center">
-                        <h6 class="m-0 font-weight-bold text-dark">Tabel Banner</h6>
+                        <h6 class="m-0 font-weight-bold text-dark">Tabel Mengapa Harus Memilih Kami</h6>
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
-                            <table class="table table-bordered text-dark" width="100%" cellspacing="0">
+                            <table class="table table-bordered text-dark" id="dataTable" width="100%" cellspacing="0">
                                 <thead>
                                     <tr>
                                         <th>No</th>
+                                        <th>Nama Memilih</th>
                                         <th>Gambar</th>
-                                        <th>Title</th>
-                                        <th>Deskripsi</th>
-                                        <th>Link</th>
                                         <th>Aksi</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($banners as $banner)
+                                    @foreach ($memilih as $item)
                                         <tr>
                                             <td>{{ $loop->iteration }}</td>
-                                            <td><img src="{{ asset('storage/banner/' . $banner->gambar) }}" alt=""
-                                                    style="width: 100px; height: auto;"></td>
-                                            <td>{{ $banner->title }}</td>
-                                            <td>{{ $banner->deskripsi }}</td>
-                                            <td>{{ $banner->link }}</td>
+                                            <td>{{ $item->title }}</td>
+                                            <td align="center">
+                                                <img src="{{ asset('storage/memilih/' . $item->gambar) }}"
+                                                    style="width: 100px; height: auto;">
+                                            </td>
                                             <td>
-                                                <div>
-                                                    <button type="button"
-                                                        class="btn btn-warning btn-sm edit-banner"style="width: 100%;"
-                                                        data-toggle="modal"
-                                                        data-target="#editBannerModal{{ $banner->id }}">
+                                                <div class="mx-2">
+                                                    <button type="button" class="btn btn-warning btn-sm edit-memilih"
+                                                        style="width: 100%;" data-toggle="modal"
+                                                        data-target="#editMemilihModal{{ $item->id }}">
                                                         Edit
                                                     </button>
                                                 </div>
-                                                <div class="mt-2">
-                                                    <form action="{{ route('admin.banner.ubahStatus', $banner->id) }}"
-                                                        method="POST">
-                                                        @csrf
-                                                        @method('POST')
-                                                        <input type="hidden" name="status"
-                                                            value="{{ $banner->status == 'aktif' ? 'nonaktif' : 'aktif' }}">
-                                                        <button type="submit"
-                                                            class="btn btn-sm {{ $banner->status == 'aktif' ? 'btn-danger' : 'btn-success' }}"
-                                                            style="width: 100%;">
-                                                            {{ $banner->status == 'aktif' ? 'Nonaktifkan' : 'Aktifkan' }}
-                                                        </button>
-                                                    </form>
-                                                </div>
+
                                             </td>
                                         </tr>
                                     @endforeach
@@ -117,40 +104,42 @@
                     </div>
                 </div>
             </div>
+
+
         </div>
     </div>
 
-    {{-- Modal edit pengaturan web --}}
-    @foreach ($pengaturan as $item)
-        <div class="modal fade" id="editPengaturanModal{{ $item->id }}" tabindex="-1" role="dialog"
-            aria-labelledby="editPengaturanLabel{{ $item->id }}" aria-hidden="true">
+    {{-- Modal edit layanan --}}
+    @foreach ($layanan as $item)
+        <div class="modal fade" id="editLayananModal{{ $item->id }}" tabindex="-1" role="dialog"
+            aria-labelledby="editLayananLabel{{ $item->id }}" aria-hidden="true">
             <div class="modal-dialog modal-lg" role="document">
                 <div class="modal-content">
                     <div class="modal-header" style="background-color: #4D6957; color: white;">
-                        <h5 class="modal-title" id="editPengaturanLabel{{ $item->id }}">Edit Pengaturan</h5>
+                        <h5 class="modal-title" id="editlayananLabel{{ $item->id }}">Edit Layanan</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"
                             style="color: white; opacity: 1;">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
                     <div class="modal-body">
-                        <form action="{{ route('admin.pengaturan.update', $item->id) }}" method="POST">
+                        <form action="{{ route('admin.layanan.update', $item->id) }}" method="POST">
                             @csrf
                             @method('PUT')
                             <div class="form-group">
-                                <label for="keterangan{{ $item->id }}">Keterangan</label>
-                                <input type="text" class="form-control" id="keterangan{{ $item->id }}"
-                                    name="keterangan" value="{{ $item->keterangan }}" required readonly>
+                                <label for="title{{ $item->id }}">Nama Layanan</label>
+                                <input type="text" class="form-control" id="title{{ $item->id }}" name="title"
+                                    value="{{ $item->title }}" required>
                             </div>
                             <div class="form-group">
-                                <label for="value{{ $item->id }}">Value</label>
-                                <input type="text" class="form-control" id="value{{ $item->id }}" name="value"
-                                    value="{{ $item->value }}" required>
+                                <label for="gambar{{ $item->id }}">Gambar</label>
+                                <input type="file" class="form-control-file" id="gambar{{ $item->id }}"
+                                    name="gambar" value="{{ $item->gambar }}" required>
                             </div>
                             <div class="text-right">
                                 <button type="submit" class="btn btn-primary"
                                     style="background-color: #0088FF; color: white" data-toggle="modal"
-                                    data-target="#successUpdateSetWeb">Simpan</button>
+                                    data-target="#successUpdateLayanan">Simpan</button>
                             </div>
                         </form>
                     </div>
@@ -159,8 +148,8 @@
         </div>
     @endforeach
 
-    <!-- Notifikasi Success Update Pengaturan Web -->
-    <div class="modal fade" id="successUpdateSetWeb" tabindex="-1" role="dialog" aria-labelledby="successModalLabel"
+    <!-- Notifikasi Success Update Layanan -->
+    <div class="modal fade" id="successUpdateLayanan" tabindex="-1" role="dialog" aria-labelledby="successModalLabel"
         aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content" style="border-radius: 10px;">
@@ -180,50 +169,39 @@
         </div>
     </div>
 
-    {{-- Modal edit pengaturan banner --}}
-    @foreach ($banners as $banner)
-        <div class="modal fade" id="editBannerModal{{ $banner->id }}" tabindex="-1" role="dialog"
-            aria-labelledby="editBannerLabel{{ $banner->id }}" aria-hidden="true">
-            <div class="modal-dialog modal-lg" role="document"> <!-- Tambahkan kelas modal-lg untuk ukuran besar -->
+    {{--  Modal Edit Why Choose Us --}}
+    @foreach ($memilih as $item)
+        <div class="modal fade" id="editMemilihModal{{ $item->id }}" tabindex="-1" role="dialog"
+            aria-labelledby="editMemilihLabel{{ $item->id }}" aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document">
                 <div class="modal-content">
                     <div class="modal-header" style="background-color: #4D6957; color: white;">
-                        <h5 class="modal-title" id="editBannerLabel{{ $banner->id }}">Edit Banner</h5>
+                        <h5 class="modal-title" id="editMemilihLabel{{ $item->id }}">Edit Mengapa Harus Memilih Kami
+                        </h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"
                             style="color: white; opacity: 1;">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
                     <div class="modal-body">
-                        <form action="{{ route('admin.banner.update', $banner->id) }}" method="POST"
-                            enctype="multipart/form-data">
+                        <form action="{{ route('admin.memilih.update', $item->id) }}" method="POST">
                             @csrf
                             @method('PUT')
                             <div class="form-group">
-                                <label for="title{{ $banner->id }}">Title</label>
-                                <input type="text" class="form-control" id="title{{ $banner->id }}" name="title"
-                                    value="{{ $banner->title }}" required>
+                                <label for="title{{ $item->id }}">Nama Memilih</label>
+                                <input type="text" class="form-control" id="title{{ $item->id }}" name="title"
+                                    value="{{ $item->title }}" required>
                             </div>
                             <div class="form-group">
-                                <label for="gambar{{ $banner->id }}">Gambar</label>
-                                <input type="file" name="gambar" class="form-control-file"
-                                    id="gambar{{ $banner->id }}" accept=".jpg, .jpeg, .png, .gif">
-                                <small>Gambar saat ini:</small><br>
-                                <img src="{{ asset('storage/banner/' . $banner->gambar) }}" alt="Current Image"
-                                    style="width: 100px; height: auto;">
-                            </div>
-                            <div class="form-group">
-                                <label for="deskripsi{{ $banner->id }}">Deskripsi</label>
-                                <textarea class="form-control" id="deskripsi{{ $banner->id }}" name="deskripsi" rows="3" required>{{ $banner->deskripsi }}</textarea>
-                            </div>
-                            <div class="form-group">
-                                <label for="link{{ $banner->id }}">Link</label>
-                                <input type="text" class="form-control" id="link{{ $banner->id }}" name="link"
-                                    value="{{ $banner->link }}" required>
+                                <label for="gambar{{ $item->id }}">Gambar</label>
+                                <input type="file" class="form-control-file" id="gambar{{ $item->id }}"
+                                    name="gambar" value="{{ $item->gambar }}" accept=".jpg, .jpeg, .png, .gif"
+                                    style="border: 1px solid #ced4da; border-radius: 0.25rem; padding: 5px; width: 100%; box-sizing: border-box;"required>
                             </div>
                             <div class="text-right">
                                 <button type="submit" class="btn btn-primary"
                                     style="background-color: #0088FF; color: white" data-toggle="modal"
-                                    data-target="#successUpdateBanner">Simpan</button>
+                                    data-target="#successUpdateLayanan">Simpan</button>
                             </div>
                         </form>
                     </div>
@@ -231,9 +209,8 @@
             </div>
         </div>
     @endforeach
-
-    <!-- Notifikasi Success Update Banner -->
-    <div class="modal fade" id="successUpdateBanner" tabindex="-1" role="dialog" aria-labelledby="successModalLabel"
+    <!-- Notifikasi Success Update Memilih -->
+    <div class="modal fade" id="successUpdateMemilih" tabindex="-1" role="dialog" aria-labelledby="successModalLabel"
         aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content" style="border-radius: 10px;">

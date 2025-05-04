@@ -31,7 +31,7 @@ class ProdukController extends Controller
             'nama_produk' => 'required|string|max:255',
             'harga' => 'required|numeric',
             'deskripsi' => 'nullable|string',
-            'tipe' => 'required|string|in:Paket,Desain',
+            // 'tipe' => 'required|string|in:Paket,Desain',
             'gambar1' => 'required|image|mimes:jpg,jpeg,png,gif',
             'gambar2' => 'nullable|image|mimes:jpg,jpeg,png,gif',
             'gambar3' => 'nullable|image|mimes:jpg,jpeg,png,gif'
@@ -41,7 +41,7 @@ class ProdukController extends Controller
         $produk = Produk::create([
             'id_admin' => Auth::guard('admin')->user()->id,
             'nama_produk' => $request->nama_produk,
-            'tipe' => $request->tipe,
+            // 'tipe' => $request->tipe,
             'harga' => $request->harga,
             'deskripsi' => $request->deskripsi,
         ]);
@@ -92,7 +92,7 @@ class ProdukController extends Controller
             'nama_produk' => 'required|string|max:255',
             'harga' => 'required|numeric',
             'deskripsi' => 'nullable|string',
-            'tipe' => 'required|string|in:Paket,Desain',
+            // 'tipe' => 'required|string|in:Paket,Desain',
             'gambar1' => 'nullable|image|mimes:jpg,jpeg,png,gif',
             'gambar2' => 'nullable|image|mimes:jpg,jpeg,png,gif',
             'gambar3' => 'nullable|image|mimes:jpg,jpeg,png,gif',
@@ -105,7 +105,7 @@ class ProdukController extends Controller
         $produk->update([
             'id_admin' => Auth::guard('admin')->user()->id,
             'nama_produk' => $request->nama_produk,
-            'tipe' => $request->tipe,
+            // 'tipe' => $request->tipe,
             'harga' => $request->harga,
             'deskripsi' => $request->deskripsi,
         ]);

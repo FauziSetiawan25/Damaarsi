@@ -16,13 +16,6 @@ hr {
     margin: 15px 0; /* Jarak atas dan bawah */
 }
 
-.underline-heading {
-    text-decoration: underline; /* Apply underline to the text */
-    text-decoration-color: #000; /* Optional: specify the color of the underline */
-}
-
-
-
 /* ----------LAYOUT BLADE---------- */
 /* Menu navigasi di tengah */
 .navbar-collapse {
@@ -86,6 +79,15 @@ footer {
 
 /* ---------------INDEX BLADE--------------- */
 /* --- Tombol Carousel di Banner --- */
+.index-background {
+    height: 100%;
+    background-image: url(/images/motif.png),linear-gradient(to bottom, #275241, #000000);
+    background-repeat: repeat;
+        background-size: cover;
+        background-attachment: fixed;
+        /* Efek parallax */
+        color: white;
+}
 .banner-control-prev, .banner-control-next {
     width: 60px;
     height: 60px;
@@ -173,8 +175,15 @@ footer {
     color:#F4D2A3; /* Ganti dengan warna yang diinginkan */
 }
 
+.container h3 {
+    color: #F4D2A3;
+}
+.container-fluid h3 {
+    color: #F4D2A3;
+}
+
 .container .info h2{
-    color: #0A4833;
+    color: #F4D2A3;
     font-size: 40px;
 }
 
@@ -190,19 +199,116 @@ footer {
     box-shadow: 0 8px 8px rgba(0, 0, 0, 0.1);
 }
 
+.card.custom-card-recommendations {
+    height: 300px;
+    overflow: hidden;
+    position: relative;
+}
+
+.card.custom-card-recommendations img {
+    object-fit: cover;
+    height: 300px;
+    width: 100%;
+    display: block;
+}
+
+.card.custom-card-recommendations .hover-title {
+    position: absolute;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.6);
+    color: #fff;
+    width: 100%;
+    padding: 10px;
+    text-align: left;
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+}
+
+.card.custom-card-recommendations:hover .hover-title {
+    opacity: 1;
+}
+
 .why-choose-us {
     margin-top: 100px !important;
 }
 .why-choose-us .card {
-    min-height: 350px; /* Adjust this value as needed */
+    min-height: 300px; /* Adjust this value as needed */
+}
+.bg-dark-green {
+    background-color: #275241;
+    /* Hijau tua */
+    color: white;
+}
+
+.layanan {
+    margin-top: 100px !important;
+}
+.layanan .card {
+    min-height: 200px;
 }
 
 .design-packages {
     margin-top: 100px !important;
 }
 
+.card.custom-card-packages {
+    height: 350px;
+    overflow: hidden;
+    position: relative;
+}
+
+.card.custom-card-packages img {
+    object-fit: cover;
+    height: 350px;
+    width: 100%;
+}
+
+.card.custom-card-packages .hover-title {
+    position: absolute;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.6);
+    color: #fff;
+    width: 100%;
+    padding: 10px;
+    text-align: left;
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+}
+
+.card.custom-card-packages:hover .hover-title {
+    opacity: 1;
+}
+
 .latest-projects {
     margin-top: 100px !important;
+}
+
+.card.custom-card-portofolio {
+    height: 350px;
+    overflow: hidden;
+    position: relative;
+}
+
+.card.custom-card-portofolio img {
+    object-fit: cover;
+    height: 350px;
+    width: 100%;
+}
+
+.card.custom-card-portofolio .hover-title {
+    position: absolute;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.6);
+    color: #fff;
+    width: 100%;
+    padding: 10px;
+    text-align: left;
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+}
+
+.card.custom-card-portofolio:hover .hover-title {
+    opacity: 1;
 }
 
 .image-container {
@@ -304,11 +410,11 @@ footer {
     position: fixed;
     bottom: 20px;
     right: 20px;
-    background-color: #275241;
+    background-color: #0EA845;
     color: white;
     padding: 15px; /* Adjust padding to give it a rectangular shape */
     border-radius: 12px; /* Rounded corners */
-    border:2px solid #4D6957;
+    border:2px solid #275241;
     font-size: 18px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     z-index: 9999;
@@ -331,24 +437,47 @@ footer {
   
 
 /* ---------------CATALOG BLADE-------------- */
+.catalog-background {
+    background-image: url(/images/motif.png);
+    background-repeat: repeat;
+    background-size: cover;
+    background-attachment: fixed;
+}
+.package-background {
+    background-image: url(/images/motif.png);
+    background-repeat: repeat;
+    background-size: cover;
+    background-attachment: fixed;
+}
 .card {
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
-
-.card img {
+.card.custom-card-catalog {
+    height: 400px;
+    overflow: hidden;
+    position: relative;
+}
+.card.custom-card-catalog img {
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
-    height: 200px;
+    height: 300px;
+    object-fit: cover;
+}
+.card.custom-card-package {
+    height: 500px;
+    overflow: hidden;
+    position: relative;
+}
+.card.custom-card-package img {
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    height: 350px;
     object-fit: cover;
 }
 
 .card-body {
     text-align: left;
-}
-
-.card-title {
-    margin-top: 10px;
 }
 
 .input-group .form-control {
@@ -397,16 +526,29 @@ footer {
     color: #C1C1C1; /* Placeholder color */
 }
 
+.price-icon {
+    width: 16px;
+    height: 16px;
+    margin-right: 4px;
+    /* opsional jika ingin beri jarak dari teks */
+}
+
 /* ------------PORTOFOLIO BLADE----------- */
+.portofolio-background {
+    background-image: url(/images/motif.png);
+    background-repeat: repeat;
+    background-size: cover;
+    background-attachment: fixed;
+}
 .line-horizontal {
-    width: 40%;
+    width: 25%;
     height: 2px;
     background-color: #000;
     margin: 10px 0;
 }
 
 .logo {
-    max-width: 100px;
+    max-width: 50px;
     height: auto;
     margin-right: 10px;
 }
@@ -416,11 +558,54 @@ footer {
     font-size: 1.2em;
 }
 
+.card.custom-card-portofoliopage {
+    height: 250px;
+    border-radius: 16px;
+    overflow: hidden;
+    position: relative;
+}
+
+.card.custom-card-portofoliopage a {
+    display: block;
+    height: 100%;
+    width: 100%;
+}
+
+.card.custom-card-portofoliopage img {
+    object-fit: cover;
+    height: 100%;
+    width: 100%;
+    display: block;
+    border-radius: 0 !important; 
+}
+.card.custom-card-portofoliopage .hover-title {
+    position: absolute;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.6);
+    color: #fff;
+    width: 100%;
+    padding: 10px;
+    text-align: left;
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+}
+
+.card.custom-card-portofoliopage:hover .hover-title {
+    opacity: 1;
+}
+
 /* ------------CONTACT BLADE-------------- */
+.contact-background {
+    height: 100%;
+    background-image: url(/images/motif.png);
+    background-repeat: repeat;
+    background-size: cover;
+    background-attachment: fixed;
+}
 /* Gaya untuk Header Contact */
 .contact-header {
     position: relative;
-    background-image: url('/images/bgcontact.png'); /* Ganti dengan path gambar yang benar */
+    background-image: url('/images/bg-contact.png'); /* Ganti dengan path gambar yang benar */
     background-size: cover;
     background-position: center;
     height: 100px;
@@ -460,6 +645,17 @@ iframe {
 }
 
 /* ------------------DETAIL KATALOG----------------- */
+.detail-background {
+    height: 100%;
+    background-image: url(/images/motif.png);
+    background-color: #FFFAF3;
+    background-repeat: repeat;
+    background-size: cover;
+    background-attachment: fixed;
+}
+.desc h3 {
+    color: black;
+}
 /* Custom style for carousel indicators as dots */
 .carousel-indicators [data-bs-target] {
     width: 10px;
@@ -473,4 +669,45 @@ iframe {
 
 .custom-border {
     border: 1px solid black; /* Ubah warna border sesuai keinginan */
+}
+
+/*--------------DETAIL PORTOFOLIO-------------*/
+.detailporto-background {
+    height: 100%;
+    background-image: url(/images/motif.png);
+    background-color: #FFFAF3;
+    background-repeat: repeat;
+    background-size: cover;
+    background-attachment: fixed;
+}
+
+/*--------------RESPONSIVE---------------*/
+
+/* katalog page */
+@media (max-width: 768px) {
+    .btn-whatsapp {
+        bottom: 10px;
+        right: 10px;
+        width: 50px;
+        height: 50px;
+    }
+
+    .search-bar {
+        width: 100%;
+        margin: auto;
+    }
+    .search-bar input {
+        width: 100%;
+        padding-left: 40px;
+    }
+    .search-btn {
+        width: 40px;
+        padding: 0;
+    }
+    .search-bar i {
+        left: 10px;
+    }
+    .search-bar input::placeholder {
+        font-size: 14px;
+    }
 }

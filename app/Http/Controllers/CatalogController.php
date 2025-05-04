@@ -6,8 +6,53 @@ use Illuminate\Http\Request;
 
 class CatalogController extends Controller
 {
+    public function listPackages()
+    {
+        $packages = [
+            (object)[
+                'id' => 1,
+                'title' => 'Paket Bronze',
+                'description' => 'lorem ipsum dolor sit amet',
+                'image' => 'https://picsum.photos/300/200?random=1',
+            ],
+            (object)[
+                'id' => 2,
+                'title' => 'Paket Gold',
+                'description' => 'lorem ipsum dolor sit amet',
+                'image' => 'https://picsum.photos/300/200?random=2',
+            ],
+            (object)[
+                'id' => 3,
+                'title' => 'Paket Gold',
+                'description' => 'lorem ipsum dolor sit amet',
+                'image' => 'https://picsum.photos/300/200?random=2',
+            ],
+            (object)[
+                'id' => 4,
+                'title' => 'Paket Gold',
+                'description' => 'lorem ipsum dolor sit amet',
+                'image' => 'https://picsum.photos/300/200?random=2',
+            ],
+            (object)[
+                'id' => 5,
+                'title' => 'Paket Gold',
+                'description' => 'lorem ipsum dolor sit amet',
+                'image' => 'https://picsum.photos/300/200?random=2',
+            ],
+            (object)[
+                'id' => 6,
+                'title' => 'Paket Gold',
+                'description' => 'lorem ipsum dolor sit amet',
+                'image' => 'https://picsum.photos/300/200?random=2',
+            ],
+        ];
+
+        return view('catalog.package', compact('packages'));
+    }
+
     public function showPackage($id)
     {
+
         $package = (object) [
             'id' => $id,
             'title' => 'Modern Minimalis',

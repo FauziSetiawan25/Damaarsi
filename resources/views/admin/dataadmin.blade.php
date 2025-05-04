@@ -1,36 +1,36 @@
 @extends('admin.layout.navbar')
 @section('content')
-
-@if(session('success'))
-    <div class="alert alert-success mx-3">
-        {{ session('success') }}
-    </div>
-@endif
-
-<!-- Begin Page Content -->
-<div class="container-fluid">
-
-    <!-- Page Heading -->
-    <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <h1 class="h3 mb-0 text-white">Daftar Admin</h1>
-    </div>
-    <div class="card shadow mb-4 animated--grow-in">
-        <div class="card-header py-3 d-flex justify-content-between align-items-center">
-            <h6 class="m-0 font-weight-bold text-dark">Tabel Admin</h6>
-            <a href="#" class="btn" style="background-color: #0088FF; color: white" data-toggle="modal" data-target="#addAdminModal">Tambah Admin</a>
+    @if (session('success'))
+        <div class="alert alert-success mx-3">
+            {{ session('success') }}
         </div>
+    @endif
+
+    <!-- Begin Page Content -->
+    <div class="container-fluid">
+
+        <!-- Page Heading -->
+        <div class="d-sm-flex align-items-center justify-content-between mb-4">
+            <h1 class="h3 mb-0 text-white">Daftar Admin</h1>
+        </div>
+        <div class="card shadow mb-4 animated--grow-in">
+            <div class="card-header py-3 d-flex justify-content-between align-items-center">
+                <h6 class="m-0 font-weight-bold text-dark">Tabel Admin</h6>
+                <a href="#" class="btn" style="background-color: #0088FF; color: white" data-toggle="modal"
+                    data-target="#addAdminModal">Tambah</a>
+            </div>
             <div class="card-body">
                 <div class="table-responsive">
                     <table class="table table-bordered text-dark" id="dataTable" width="100%" cellspacing="0">
                         <thead>
                             <tr>
-                            <th>No</th>
-                            <th>Nama</th>
-                            <th>Username</th>
-                            <th>No Telp</th>
-                            <th>Email</th>
-                            <th>Status</th>
-                            <th>Aksi</th>
+                                <th>No</th>
+                                <th>Nama</th>
+                                <th>Username</th>
+                                <th>No Telp</th>
+                                <th>Email</th>
+                                <th>Status</th>
+                                <th>Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -47,131 +47,252 @@
                                             <div>
                                                 <form action="{{ route('admin.ubahrole', $admin->id) }}" method="POST">
                                                     @csrf
-                                                    <button type="submit" class="btn {{ $admin->role === 'admin' ? 'btn-danger' : 'btn-success' }} btn-sm" style="width: 100px; color: white;">
+                                                    <button type="submit"
+                                                        class="btn {{ $admin->role === 'admin' ? 'btn-danger' : 'btn-success' }} btn-sm"
+                                                        style="width: 100px; color: white;">
                                                         {{ $admin->role === 'admin' ? 'Nonaktifkan' : 'Aktifkan' }}
                                                     </button>
                                                 </form>
                                             </div>
                                             <div class="mx-2">
-                                                <button type="button" class="btn btn-warning btn-sm edit-admin" style="width: 70px;" 
-                                                data-toggle="modal" 
-                                                data-target="#editAdminModal{{ $admin->id }}">
-                                                Edit
+                                                <button type="button" class="btn btn-danger btn-sm" style="width: 70px;"
+                                                    onclick="showDeleteAdminModal('{{ route('admin.destroy', $admin->id) }}', '{{ $admin->id }}')">
+                                                    Hapus
                                                 </button>
                                             </div>
                                             <div>
-                                                <form action="{{ route('admin.destroy', $admin->id) }}" method="POST" onsubmit="return confirm('Anda yakin ingin menghapus?');">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <button type="submit" class="btn btn-danger btn-sm" style="width: 70px;">Hapus</button>
-                                                </form>
+                                                <button type="button" class="btn btn-warning btn-sm edit-admin"
+                                                    style="width: 70px;" data-toggle="modal"
+                                                    data-target="#editAdminModal{{ $admin->id }}">
+                                                    Edit
+                                                </button>
                                             </div>
                                         </div>
                                     </td>
                                 </tr>
                             @endforeach
-                        </tbody>                        
+                        </tbody>
                     </table>
                 </div>
             </div>
         </div>
     </div>
-</div>
+    </div>
 
-{{-- Modal tambah admin --}}
-<div class="modal fade" id="addAdminModal" tabindex="-1" role="dialog" aria-labelledby="addAdminLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="addAdminLabel">Tambah Admin</h5>
-                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+    {{-- Modal tambah admin --}}
+    <div class="modal fade" id="addAdminModal" tabindex="-1" role="dialog" aria-labelledby="addAdminLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header" style="background-color: #4D6957; color: white;">
+                    <h5 class="modal-title" id="addAdminLabel">Tambah Admin</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close"
+                        style="color: white; opacity: 1;">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form action="{{ route('admin.store') }}" method="POST">
+                        @csrf
+                        <div class="form-group d-flex align-items-start">
+                            <div class="flex-fill mr-3" style="max-width: 50%;">
+                                <label for="adminName">Nama</label>
+                                <input type="text" class="form-control" id="adminName" name="nama" required>
+                            </div>
+                            <div class="flex-fill mr-3" style="max-width: 50%;">
+                                <label for="adminTelp">No Telp</label>
+                                <input type="number" class="form-control" id="adminTelp" name="telp" required>
+                            </div>
+                        </div>
+                        <div class="form-group d-flex align-items-start">
+                            <div class="flex-fill mr-3" style="max-width: 50%;">
+                                <label for="adminUsername">Username</label>
+                                <input type="text" class="form-control" id="adminUsername" name="username" required>
+                            </div>
+                            <div class="flex-fill mr-3" style="max-width: 50%;">
+                                <label for="adminEmail">Email</label>
+                                <input type="email" class="form-control" id="adminEmail" name="email" required>
+                            </div>
+                        </div>
+                        <div class="form-group d-flex align-items-start">
+                            <div class="flex-fill mr-3" style="max-width: 50%;">
+                                <label for="adminPassword">Password</label>
+                                <input type="password" class="form-control" id="adminPassword" name="password" required>
+                            </div>
+                            <div class="flex-fill mr-3" style="max-width: 50%;">
+                                <label for="adminPasswordConfirmation">Konfirmasi Password</label>
+                                <input type="password" class="form-control" id="adminPasswordConfirmation"
+                                    name="password_confirmation" required>
+                            </div>
+                        </div>
+                        <div class="text-right">
+                            <button type="submit" class="btn btn-primary"
+                                style="background-color: #0088FF; color: white" data-toggle="modal"
+                                data-target="#successAddAdmin">Tambah</button>
+                        </div>
+                    </form>
+                </div>
             </div>
-            <div class="modal-body">
-                <form action="{{ route('admin.store') }}" method="POST">
-                    @csrf
-                    <div class="form-group d-flex align-items-start">
-                        <div class="flex-fill mr-3" style="max-width: 50%;">
-                            <label for="adminName">Nama</label>
-                            <input type="text" class="form-control" id="adminName" name="nama" required>
-                        </div>
-                        <div class="flex-fill mr-3" style="max-width: 50%;">
-                            <label for="adminTelp">No Telp</label>
-                            <input type="number" class="form-control" id="adminTelp" name="telp" required>
-                        </div>
-                    </div>
-                    <div class="form-group d-flex align-items-start">
-                        <div class="flex-fill mr-3" style="max-width: 50%;">
-                            <label for="adminUsername">Username</label>
-                            <input type="text" class="form-control" id="adminUsername" name="username" required>
-                        </div>
-                        <div class="flex-fill mr-3" style="max-width: 50%;">
-                            <label for="adminEmail">Email</label>
-                            <input type="email" class="form-control" id="adminEmail" name="email" required>
-                        </div>
-                    </div>
-                    <div class="form-group d-flex align-items-start">
-                        <div class="flex-fill mr-3" style="max-width: 50%;">
-                            <label for="adminPassword">Password</label>
-                            <input type="password" class="form-control" id="adminPassword" name="password" required>
-                        </div>
-                        <div class="flex-fill mr-3" style="max-width: 50%;">
-                            <label for="adminPasswordConfirmation">Konfirmasi Password</label>
-                            <input type="password" class="form-control" id="adminPasswordConfirmation" name="password_confirmation" required>
-                        </div>
-                    </div>
-                    <div class="text-right">
-                        <button type="submit" class="btn btn-primary" style="background-color: #0088FF; color: white">Tambah</button>
-                    </div>
-                </form>                
-            </div>            
         </div>
     </div>
-</div>
 
-{{-- Modal edit admin --}}
-@foreach ($admins as $admin)
-<div class="modal fade" id="editAdminModal{{ $admin->id }}" tabindex="-1" role="dialog" aria-labelledby="editAdminLabel{{ $admin->id }}" aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="editAdminLabel{{ $admin->id }}">Edit Admin</h5>
-                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+    <!-- Notifikasi Success Add Admin -->
+    <div class="modal fade" id="successAddAdmin" tabindex="-1" role="dialog" aria-labelledby="successModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content" style="border-radius: 10px;">
+                <div class="modal-header"
+                    style="background-color: #4D6957; color: white; border-top-left-radius: 10px; border-top-right-radius: 10px;">
+                    <h5 class="modal-title" id="successModalLabel">Notifikasi</h5>
+                    <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close"
+                        style="color: white; opacity: 1;">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body text-center">
+                    <img src="https://cdn-icons-png.flaticon.com/128/845/845646.png" width="50" alt="Success">
+                    <p class="mt-3">Data Berhasil Tersimpan</p>
+                </div>
             </div>
-            <div class="modal-body">
-                <form action="{{ route('admin.update', $admin->id) }}" method="POST">
-                    @csrf
-                    @method('PUT')
-                    <div class="form-group d-flex align-items-start">
-                        <div class="flex-fill mr-3" style="max-width: 50%;">
-                            <label for="adminName{{ $admin->id }}">Nama</label>
-                            <input type="text" class="form-control" id="adminName" name="nama" value="{{ $admin->nama_admin }}" required>
-                        </div>
-                        <div class="flex-fill mr-3" style="max-width: 50%;">
-                            <label for="adminTelp{{ $admin->id }}">No Telp</label>
-                            <input type="number" class="form-control" id="adminTelp" name="telp" value="{{ $admin->no_telp }}" required>
-                        </div>
-                    </div>
-                    <div class="form-group d-flex align-items-start">
-                        <div class="flex-fill mr-3" style="max-width: 50%;">
-                            <label for="adminUsername{{ $admin->id }}">Username</label>
-                            <input type="text" class="form-control" id="adminUsername{{ $admin->id }}" name="username" value="{{ $admin->username }}" required>
-                        </div>
-                        <div class="flex-fill mr-3" style="max-width: 50%;">
-                            <label for="adminEmail{{ $admin->id }}">Email</label>
-                            <input type="email" class="form-control" id="adminEmail{{ $admin->id }}" name="email" value="{{ $admin->email }}" required>
-                        </div>
-                    </div>
-                    <div class="text-right">
-                        <button type="submit" class="btn btn-primary" style="background-color: #0088FF; color: white">Simpan</button>
-                    </div>
-                </form>
-            </div>  
         </div>
     </div>
-</div>
-@endforeach
+
+    {{-- Modal edit admin --}}
+    @foreach ($admins as $admin)
+        <div class="modal fade" id="editAdminModal{{ $admin->id }}" tabindex="-1" role="dialog"
+            aria-labelledby="editAdminLabel{{ $admin->id }}" aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header" style="background-color: #4D6957; color: white;">
+                        <h5 class="modal-title" id="editAdminLabel{{ $admin->id }}">Edit Admin</h5>
+                        <button class="close" type="button" data-dismiss="modal" aria-label="Close"
+                            style="color: white; opacity: 1;">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form action="{{ route('admin.update', $admin->id) }}" method="POST">
+                            @csrf
+                            @method('PUT')
+                            <div class="form-group d-flex align-items-start">
+                                <div class="flex-fill mr-3" style="max-width: 50%;">
+                                    <label for="adminName{{ $admin->id }}">Nama</label>
+                                    <input type="text" class="form-control" id="adminName" name="nama"
+                                        value="{{ $admin->nama_admin }}" required>
+                                </div>
+                                <div class="flex-fill mr-3" style="max-width: 50%;">
+                                    <label for="adminTelp{{ $admin->id }}">No Telp</label>
+                                    <input type="number" class="form-control" id="adminTelp" name="telp"
+                                        value="{{ $admin->no_telp }}" required>
+                                </div>
+                            </div>
+                            <div class="form-group d-flex align-items-start">
+                                <div class="flex-fill mr-3" style="max-width: 50%;">
+                                    <label for="adminUsername{{ $admin->id }}">Username</label>
+                                    <input type="text" class="form-control" id="adminUsername{{ $admin->id }}"
+                                        name="username" value="{{ $admin->username }}" required>
+                                </div>
+                                <div class="flex-fill mr-3" style="max-width: 50%;">
+                                    <label for="adminEmail{{ $admin->id }}">Email</label>
+                                    <input type="email" class="form-control" id="adminEmail{{ $admin->id }}"
+                                        name="email" value="{{ $admin->email }}" required>
+                                </div>
+                            </div>
+                            <div class="text-right">
+                                <button type="submit" class="btn btn-primary"
+                                    style="background-color: #0088FF; color: white" data-toggle="modal"
+                                    data-target="#successUpdateAdmin">Simpan</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    @endforeach
+
+    <!-- Notifikasi Success Update Admin -->
+    <div class="modal fade" id="successUpdateAdmin" tabindex="-1" role="dialog" aria-labelledby="successModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content" style="border-radius: 10px;">
+                <div class="modal-header"
+                    style="background-color: #4D6957; color: white; border-top-left-radius: 10px; border-top-right-radius: 10px;">
+                    <h5 class="modal-title" id="successModalLabel">Notifikasi</h5>
+                    <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close"
+                        style="color: white; opacity: 1;">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body text-center">
+                    <img src="https://cdn-icons-png.flaticon.com/128/845/845646.png" width="50" alt="Success">
+                    <p class="mt-3">Data Berhasil Diperbarui</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Konfirmasi Hapus -->
+    <div class="modal fade" id="deleteConfirmPorto" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header" style="background-color: #4D6957; color: white;">
+                    <h5 class="modal-title">Notifikasi</h5>
+                    <button type="button" class="close text-white" data-dismiss="modal">
+                        <span>&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body text-center">
+                    <p>Apakah yakin ingin menghapus data?</p>
+                    <p id="deleteDataInfo"></p>
+                </div>
+                <div class="modal-footer justify-content-center">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                    <form id="deleteForm" method="POST">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="btn btn-danger">Hapus</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal Notifikasi Sukses hapus-->
+    <div class="modal fade" id="successDeletePorto" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header" style="background-color: #4D6957; color: white;">
+                    <h5 class="modal-title">Notifikasi</h5>
+                    <button type="button" class="close text-white" data-dismiss="modal">
+                        <span>&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body text-center">
+                    <img src="{{ asset('images/trash-icon.png') }}" alt="Deleted" width="125">
+                    <p class="mt-3">Data Berhasil Dihapus</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Menampilkan modal konfirmasi hapus
+        function showDeleteAdminModal(actionUrl, id) {
+            document.getElementById('deleteForm').action = actionUrl;
+            document.getElementById('deleteDataInfo').innerHTML = "ID = " + id;
+            $('#deleteConfirmPorto').modal('show');
+        }
+        document.getElementById('deleteForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // Hentikan penghapusan langsung
+
+            $('#deleteConfirmModal').modal('hide'); // Tutup modal konfirmasi
+
+            setTimeout(() => {
+                $('#successDeletePorto').modal('show'); // Tampilkan notifikasi sukses
+            }, 500);
+
+            setTimeout(() => {
+                this.submit(); // Lanjutkan penghapusan setelah notifikasi
+            }, 2000);
+        });
+    </script>
 @endsection
