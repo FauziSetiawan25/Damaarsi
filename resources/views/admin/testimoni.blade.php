@@ -42,7 +42,7 @@
                                     <td>
                                         <div class="d-flex flex-column align-items-start">
                                             <button type="button" class="btn btn-danger btn-sm" style="width: 70px;"
-                                                    onclick="showDeleteModal('{{ route('admin.testimoni.destroy', $testimoni->id) }}', '{{ $testimoni->id }}')">
+                                                    onclick="showDeleteTestiModal('{{ route('admin.testimoni.destroy', $testimoni->id) }}', '{{ $testimoni->id }}')">
                                                     Hapus
                                                 </button>
                                             </form>
@@ -124,6 +124,49 @@
         </div>
     </div>
 
+    <!-- Modal Konfirmasi Hapus -->
+    <div class="modal fade" id="deleteConfirmTesti" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header" style="background-color: #4D6957; color: white;">
+                    <h5 class="modal-title">Notifikasi</h5>
+                    <button type="button" class="close text-white" data-dismiss="modal">
+                        <span>&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body text-center">
+                    <p>Apakah yakin ingin menghapus data?</p>
+                    <p id="deleteDataInfo"></p>
+                </div>
+                <div class="modal-footer justify-content-center">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                    <form id="deleteForm" method="POST">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="btn btn-danger" data-toggle="modal"data-target="#successDeleteTesti">Hapus</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal Notifikasi Sukses hapus-->
+    <div class="modal fade" id="successDeleteTesti" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header" style="background-color: #4D6957; color: white;">
+                    <h5 class="modal-title">Notifikasi</h5>
+                    <button type="button" class="close text-white" data-dismiss="modal">
+                        <span>&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body text-center">
+                    <img src="{{ asset('images/trash-icon.png') }}" alt="Deleted" width="125">
+                    <p class="mt-3">Data Berhasil Dihapus</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
     {{-- Js untuk menyalin link tambah testimoni --}}
     <script>
         document.getElementById('copyLinkBtn').addEventListener('click', function() {
@@ -134,6 +177,26 @@
             }).catch(err => {
                 console.error('Error copying link: ', err);
             });
+        });
+
+        // Menampilkan modal konfirmasi hapus
+        function showDeleteTestiModal(actionUrl, id) {
+            document.getElementById('deleteForm').action = actionUrl;
+            document.getElementById('deleteDataInfo').innerHTML = "ID = " + id;
+            $('#deleteConfirmTesti').modal('show');
+        }
+        document.getElementById('deleteForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // Hentikan penghapusan langsung
+
+            $('#deleteConfirmTesti').modal('hide'); // Tutup modal konfirmasi
+
+            setTimeout(() => {
+                $('#successDeleteTesti').modal('show'); // Tampilkan notifikasi sukses
+            }, 5000);
+
+            setTimeout(() => {
+                this.submit(); // Lanjutkan penghapusan setelah notifikasi
+            }, 2000);
         });
     </script>
 @endsection
