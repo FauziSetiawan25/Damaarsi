@@ -40,7 +40,7 @@
             <div class="card mt-3" style="border-radius: 20px">
                 <section class="px-5 py-3">
                     <h2>Katalog Paket</h2>
-                    <div class="row mt-4">
+                    {{-- <div class="row mt-4">
                         @foreach ($packages as $package)
                             <div class="col-md-4 mb-4">
                                 <div class="card custom-card-package">
@@ -55,10 +55,59 @@
                                 </div>
                             </div>
                         @endforeach
+                    </div> --}}
+                    <div class="row mt-4" id="packageCatalogContainer">
+                        <!-- Konten akan dimuat di sini -->
                     </div>
                 </section>
             </div>
 
         </div>
     </div>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        fetch('/api/produk')
+            .then(response => response.json())
+            .then(data => {
+                const container = document.getElementById('packageCatalogContainer');
+                container.innerHTML = ''; // Kosongkan kontainer
+
+                const packages = data.data.filter(product => product.tipe === 'Paket'); // Filter tipe Paket
+
+                if (packages.length === 0) {
+                    container.innerHTML = `
+                        <div class="col-12">
+                            <p class="text-center">Tidak ada paket tersedia.</p>
+                        </div>
+                    `;
+                    return;
+                }
+
+                packages.forEach(product => {
+                        const firstImage = product.gambar_produk.length > 0 ? product.gambar_produk[0]
+                            .gambar : null;
+                        const imageUrl = firstImage ? `/storage/produk/${firstImage}` :
+                            '/images/no-image.jpg'; // fallback jika tidak ada gambar
+
+                    const cardHTML = `
+                        <div class="col-md-4 mb-4">
+                            <div class="card custom-card-package">
+                                <img src="${imageUrl}" class="card-img-top" alt="${product.nama_produk}">
+                                <div class="card-body">
+                                    <h5 class="card-title">${product.nama_produk}</h5>
+                                    <span class="text-muted d-block mb-2" style="font-size: 16px">Apa yang terdapat di dalam paket?</span>
+                                    <span class="text-muted d-block" style="font-size: 16px">${product.deskripsi}</span>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    container.innerHTML += cardHTML;
+                });
+            })
+            .catch(error => console.error('Gagal memuat paket:', error));
+    });
+</script>
+
+
 @endsection

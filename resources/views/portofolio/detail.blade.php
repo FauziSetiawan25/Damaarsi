@@ -11,7 +11,8 @@
                     style="background-color: #616161; color: white"><span class="material-symbols-outlined me-2">
                         undo
                     </span>Kembali</a>
-                <span class="badge px-3 py-2" style="background-color: #0A4833; font-size: 16px; font-weight:500; min-height:20px">Rumah
+                <span class="badge px-3 py-2"
+                    style="background-color: #0A4833; font-size: 16px; font-weight:500; min-height:20px">Rumah
                     {{ $portfolio->owner_name }}</span>
             </div>
             <div class="desc card p-3"
