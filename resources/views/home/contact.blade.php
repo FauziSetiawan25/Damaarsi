@@ -23,13 +23,13 @@
                         <div class="col-12 col-md-6"> <!-- Kolom Kanan -->
                             <div class="p-4">
                                 <h4>Address</h4>
-                                <p>{{ $contactInfo['address'] }}</p>
+                                <p id="contactAddress"></p>
 
                                 <h4>Let's Talk</h4>
-                                <p>{{ $contactInfo['phone'] }}</p>
+                                <p id="contactPhone"></p>
 
                                 <h4>Support</h4>
-                                <p>{{ $contactInfo['email'] }}</p>
+                                <p id="contactEmail"></p>
                             </div>
                         </div>
                     </div>
@@ -43,7 +43,7 @@
                     <div class="card shadow-sm">
                         <iframe
                             src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15814.911479032511!2d109.97933791054759!3d-7.712321740641388!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e7aebca9d942d21%3A0x417e3f7f83b87702!2sJl.%20Mr.%20Wilopo%2C%20Doplang%2C%20Kec.%20Purworejo%2C%20Kabupaten%20Purworejo%2C%20Jawa%20Tengah!5e0!3m2!1sid!2sid!4v1729772903512!5m2!1sid!2sid"
-                            width="800" height="400" style="border:0;" allowfullscreen="" loading="lazy"
+                            width="800" height="300" style="border:0;" allowfullscreen="" loading="lazy"
                             referrerpolicy="no-referrer-when-downgrade"></iframe>
                     </div>
                 </div>
@@ -51,5 +51,24 @@
         </div>
 
     </div>
-
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    fetch('/api/pengaturan')
+        .then(response => response.json())
+        .then(data => {
+            const contactInfo = data.pengaturan;
+            // Mencari dan menampilkan informasi kontak
+            contactInfo.forEach(info => {
+                if (info.keterangan === "Alamat") {
+                    document.getElementById('contactAddress').innerText = info.value;
+                } else if (info.keterangan === "Whatsapp") {
+                    document.getElementById('contactPhone').innerText = info.value;
+                } else if (info.keterangan === "Email") {
+                    document.getElementById('contactEmail').innerText = info.value;
+                }
+            });
+        })
+        .catch(error => console.error('Gagal memuat informasi kontak:', error));
+});
+</script>
 @endsection

@@ -103,7 +103,7 @@
                         const cardHTML = `
                     <div class="col-md-4 mb-4">
                         <div class="card custom-card-catalog">
-                            <a href="/catalog/design-detail/${design.id}">
+                            <a href="/catalog/design/${design.id}">
                                 <img src="${imageUrl}" class="card-img-top" alt="${design.nama_produk}">
                             </a>
                             <div class="card-body">

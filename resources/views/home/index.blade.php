@@ -327,7 +327,7 @@
         <div class="container-fluid p-0">
             <!-- Testimonial Section -->
             <section class="testimonial my-5">
-                <div class="container">
+                <div class="container mb-4">
                     <h3>Testimonial</h3>
                 </div>
 
@@ -434,23 +434,28 @@
 
                     activeBanners.forEach((item, index) => {
                         const gambarUrl = item.gambar.startsWith('http') || item.gambar.startsWith(
-                                '/') ?
+                            '/') ?
                             item.gambar :
                             "{{ asset('storage/banner') }}/" + item.gambar;
 
                         const div = document.createElement('div');
                         div.className = 'carousel-item' + (index === 0 ? ' active' : '');
                         div.innerHTML = `
-                    <div class="row d-flex align-items-center" style="background-color: #21443a; color: white; padding: 5rem; height: 100vh">
-                        <div class="col-md-6">
-                            <h1 class="custom-text">${item.title}</h1>
-                            <p class="custom-text">${item.deskripsi}</p>
-                            <a href="${item.link}" class="btn btn-light" target="_blank">Selengkapnya</a>
-                        </div>
-                        <div class="col-md-6 mt-4">
-                            <img src="${gambarUrl}" alt="${item.title}" class="img-fluid" style="max-height: 100%; object-fit: contain;">
-                        </div>
-                    </div>`;
+                        <div class="row d-flex align-items-center" style="background: linear-gradient(rgba(33, 68, 58, 0.9), rgba(20, 40, 35, 0.7)); color: white; padding: 5rem; height: 100vh">
+                            <div class="col-md-6">
+                                <h1 class="custom-text">${item.title}</h1>
+                                <h4 class="custom-text">${item.deskripsi}</h4>
+                                <a href="${item.link}" class="btn btn-light" target="_blank">Selengkapnya</a>
+                            </div>
+                            <div class="col-md-6">
+                                <img src="${gambarUrl}" alt="${item.title}" class="img-fluid w-100" style="style="
+             max-width: 100%;
+             max-height: 100%;
+             width: 100%;
+             height: auto;
+             object-fit: contain;">
+                            </div>
+                        </div>`;
                         container.appendChild(div);
                     });
                 })
@@ -472,23 +477,26 @@
                 .then(data => {
                     container.innerHTML = '';
 
-                    if (!data.data || data.data.length === 0) {
-                        container.innerHTML = `<div class="carousel-item active">
-                    <div class="row justify-content-center">
-                        <div class="col-12">
-                            <p class="text-center">Tidak ada rekomendasi desain tersedia.</p>
-                        </div>
-                    </div>
-                </div>`;
+                    // Filter hanya produk bertipe "Desain"
+                    const designs = data.data.filter(item => item.tipe === 'Desain');
+
+                    if (!designs || designs.length === 0) {
+                        container.innerHTML = `
+                        <div class="carousel-item active">
+                            <div class="row justify-content-center">
+                                <div class="col-12">
+                                    <p class="text-center">Tidak ada rekomendasi desain tersedia.</p>
+                                </div>
+                            </div>
+                        </div>`;
                         return;
                     }
 
-                    // Tentukan jumlah item per slide tergantung lebar layar
                     const isMobile = window.innerWidth < 768;
                     const itemsPerSlide = isMobile ? 1 : 3;
 
-                    for (let i = 0; i < data.data.length; i += itemsPerSlide) {
-                        const group = data.data.slice(i, i + itemsPerSlide);
+                    for (let i = 0; i < designs.length; i += itemsPerSlide) {
+                        const group = designs.slice(i, i + itemsPerSlide);
                         const carouselItem = document.createElement('div');
                         carouselItem.className = 'carousel-item' + (i === 0 ? ' active' : '');
 
@@ -497,20 +505,20 @@
                         group.forEach(item => {
                             const gambarUrl = item.gambar_produk && item.gambar_produk.length > 0 ?
                                 '/storage/produk/' + item.gambar_produk[0].gambar :
-                                '';
+                                '/images/no-image.jpg'; // fallback
 
                             innerHTML += `
-                        <div class="col-12 ${!isMobile ? 'col-md-6 col-xl-4' : ''}">
-                            <div class="card mt-4 custom-card-recommendations">
-                                <a href="/design/detail/${item.id}">
-                                    <img src="${gambarUrl}" class="card-img-top" alt="${item.nama_produk}">
-                                </a>
-                                <div class="hover-title text-left">
-                                    <h5>${item.nama_produk}</h5>
+                            <div class="col-12 ${!isMobile ? 'col-md-6 col-xl-4' : ''}">
+                                <div class="card mt-4 custom-card-recommendations">
+                                    <a href="/catalog/design/${item.id}">
+                                        <img src="${gambarUrl}" class="card-img-top" alt="${item.nama_produk}">
+                                    </a>
+                                    <div class="hover-title text-left">
+                                        <h5>${item.nama_produk}</h5>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    `;
+                        `;
                         });
 
                         innerHTML += '</div>';
@@ -523,6 +531,7 @@
                 });
         });
     </script>
+
 
     {{-- Why Choose Us Section --}}
     <script>
@@ -611,7 +620,7 @@
                             innerHTML += `
                         <div class="col-12 ${!isMobile ? 'col-md-6 col-xl-4' : ''}">
                             <div class="card mt-4 custom-card-packages">
-                                <a href="/design/detail/${item.id}">
+                                <a href="/catalog/design/${item.id}">
                                     <img src="${gambarUrl}" class="card-img-top" alt="${item.nama_produk}">
                                 </a>
                                 <div class="hover-title text-left">
@@ -723,7 +732,7 @@
                         <div class="row justify-content-center">
                             <div class="col-12 col-md-6">
                                 <div class="card mt-4 custom-card-portofolio">
-                                    <a href="/design/detail/${item.id}">
+                                    <a href="/portofolio/detail/${item.id}">
                                         <img src="${gambarUrl1}" class="card-img-top" alt="${item.nama}">
                                     </a>
                                     <div class="hover-title text-left">
@@ -732,7 +741,7 @@
                                 </div>
                             </div>`;
 
-                        if (i % 3 === 0 && nextItem) {
+                        if (i % 2 === 0 && nextItem) {
                             slideHTML += `
                             <div class="col-md-6 d-none d-md-block">
                                 <div class="card mt-4 custom-card-portofolio">
@@ -758,18 +767,19 @@
         });
     </script>
 
+    {{-- Testimonial Section --}}
     <script>
-    document.addEventListener('DOMContentLoaded', function () {
-        fetch('/api/testimoni')
-            .then(response => response.json())
-            .then(data => {
-                const container = document.getElementById('testimonialContainer');
-                container.innerHTML = ''; // Kosongkan dulu kontainer
+        document.addEventListener('DOMContentLoaded', function() {
+            fetch('/api/testimoni')
+                .then(response => response.json())
+                .then(data => {
+                    const container = document.getElementById('testimonialContainer');
+                    container.innerHTML = ''; // Kosongkan dulu kontainer
 
-                const testimonials = data.data; // Ambil data testimoni
+                    const testimonials = data.data; // Ambil data testimoni
 
-                if (!testimonials || testimonials.length === 0) {
-                    container.innerHTML = `
+                    if (!testimonials || testimonials.length === 0) {
+                        container.innerHTML = `
                         <div class="carousel-item active">
                             <div class="d-flex flex-column flex-md-row justify-content-between align-items-stretch px-0"
                                 style="background-color: #2C2C2C;">
@@ -781,15 +791,16 @@
                             </div>
                         </div>
                     `;
-                    return;
-                }
+                        return;
+                    }
 
-                testimonials.forEach((testimonial, index) => {
-                    const gambarUrl = testimonial.gambar.startsWith('http') || testimonial.gambar.startsWith('/')
-                        ? testimonial.gambar
-                        : "{{ asset('storage/testimoni') }}/" + testimonial.gambar;
+                    testimonials.forEach((testimonial, index) => {
+                        const gambarUrl = testimonial.gambar.startsWith('http') || testimonial.gambar
+                            .startsWith('/') ?
+                            testimonial.gambar :
+                            "{{ asset('storage/testimoni') }}/" + testimonial.gambar;
 
-                    const carouselItem = `
+                        const carouselItem = `
                         <div class="carousel-item ${index === 0 ? 'active' : ''}">
                             <div class="d-flex flex-column flex-md-row justify-content-between align-items-stretch px-0"
                                 style="background-color: #2C2C2C; height: 50vh">
@@ -815,18 +826,18 @@
                                     </button>
                                     <button class="btn btn-next" type="button" data-bs-target="#testimonialCarousel"
                                         data-bs-slide="next">
-                                        <i class="bi bi-caret-right-fill"></i>
+                                        <i class=",,bi bi-caret-right-fill"></i>
                                     </button>
                                 </div>
                             </div>
                         </div>
                     `;
-                    container.innerHTML += carouselItem;
-                });
-            })
-            .catch(error => console.error('Gagal memuat testimoni:', error));
-    });
-</script>
+                        container.innerHTML += carouselItem;
+                    });
+                })
+                .catch(error => console.error('Gagal memuat testimoni:', error));
+        });
+    </script>
 
 
 

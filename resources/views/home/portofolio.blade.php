@@ -39,35 +39,35 @@
         </div>
     </div>
 
-   <script>
-document.addEventListener('DOMContentLoaded', function () {
-    fetch('/api/portofolio')
-        .then(response => response.json())
-        .then(data => {
-            const container = document.getElementById('portofolioContainer');
-            container.innerHTML = ''; // Kosongkan dulu kontainer
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            fetch('/api/portofolio')
+                .then(response => response.json())
+                .then(data => {
+                    const container = document.getElementById('portofolioContainer');
+                    container.innerHTML = ''; // Kosongkan dulu kontainer
 
-            const portofolios = data.data; // Ambil data portofolio
+                    const portofolios = data.data; // Ambil data portofolio
 
-            if (!portofolios || portofolios.length === 0) {
-                container.innerHTML = `
+                    if (!portofolios || portofolios.length === 0) {
+                        container.innerHTML = `
                     <div class="col-12">
                         <p class="text-center">Tidak ada portofolio tersedia.</p>
                     </div>
                 `;
-                return;
-            }
+                        return;
+                    }
 
-            portofolios.forEach(portofolio => {
-                // Ambil gambar pertama jika tersedia
-                const firstImage = portofolio.gambar_portofolio.length > 0
-                    ? portofolio.gambar_portofolio[0].gambar
-                    : null;
-                const imageUrl = firstImage
-                    ? `/storage/portofolio/${firstImage}`
-                    : '/images/no-image.jpg'; // fallback jika tidak ada gambar
+                    portofolios.forEach(portofolio => {
+                        // Ambil gambar pertama jika tersedia
+                        const firstImage = portofolio.gambar_portofolio.length > 0 ?
+                            portofolio.gambar_portofolio[0].gambar :
+                            null;
+                        const imageUrl = firstImage ?
+                            `/storage/portofolio/${firstImage}` :
+                            '/images/no-image.jpg'; // fallback jika tidak ada gambar
 
-                const cardHTML = `
+                        const cardHTML = `
                     <div class="col-md-6">
                         <div class="card mt-4 custom-card-portofoliopage">
                             <a href="/portofolio/detail/${portofolio.id}">
@@ -77,12 +77,12 @@ document.addEventListener('DOMContentLoaded', function () {
                         </div>
                     </div>
                 `;
-                container.innerHTML += cardHTML;
-            });
-        })
-        .catch(error => console.error('Gagal memuat portofolio:', error));
-});
-</script>
+                        container.innerHTML += cardHTML;
+                    });
+                })
+                .catch(error => console.error('Gagal memuat portofolio:', error));
+        });
+    </script>
 
 
 @endsection

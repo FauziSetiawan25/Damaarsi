@@ -11,14 +11,16 @@
                     style="background-color: #616161; color: white"><span class="material-symbols-outlined me-2">
                         undo
                     </span>Kembali</a>
-                <span class="badge px-3 py-2"
-                    style="background-color: #0A4833; font-size: 16px; font-weight:500">{{ $design->title }}</span>
+                {{-- <span class="badge px-3 py-2"
+                    style="background-color: #0A4833; font-size: 16px; font-weight:500">{{ $design->title }}</span> --}}
+                    <span class="badge px-3 py-2"
+                    style="background-color: #0A4833; font-size: 16px; font-weight:500" id="productName"></span>
             </div>
 
             <!-- Image Carousel -->
             <div class="rounded overflow-hidden mb-4">
-                <div id="designCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="5000">
-                    <!-- Indicators -->
+                <div id="designCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="3000">
+                    {{-- <!-- Indicators -->
                     <div class="carousel-indicators">
                         @foreach ($design->images as $index => $image)
                             <button type="button" data-bs-target="#designCarousel" data-bs-slide-to="{{ $index }}"
@@ -34,7 +36,11 @@
                                     alt="design Image {{ $index + 1 }}">
                             </div>
                         @endforeach
-                    </div>
+                    </div> --}}
+                    <!-- Indicators -->
+                    <div class="carousel-indicators" id="carouselIndicators"></div>
+                    <!-- Carousel Items -->
+                    <div class="carousel-inner" id="carouselItems"></div>
                 </div>
             </div>
 
@@ -43,7 +49,7 @@
                 <div class="card p-3"
                     style="background-color: #FBF9F9; border-radius: 10px; min-height: 200px; overflow-y: auto;">
                     <h3>Deskripsi</h3>
-                    <p>{{ $design->description }}</p>
+                    <p id="productDescription"></p>
                 </div>
                 <div class="row mt-4 gx-5 gy-4">
                     <div class="col-md-8 mb-3">
@@ -129,5 +135,56 @@
 
         </main>
     </div>
-
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Ambil ID produk dari URL, misal URL: /catalog/design/1
+            const pathSegments = window.location.pathname.split('/');
+            const productId = pathSegments[pathSegments.length - 1];
+        
+            fetch(`/api/produk/${productId}`)
+                .then(response => response.json())
+                .then(data => {
+                    const produk = data.data;
+        
+                    // Tampilkan nama produk
+                    document.getElementById('productName').innerText = produk.nama_produk;
+        
+                    // Tampilkan deskripsi produk
+                    document.getElementById('productDescription').innerText = produk.deskripsi;
+        
+                    // Tampilkan gambar produk dalam carousel
+                    const indicatorsContainer = document.getElementById('carouselIndicators');
+                    const carouselInner = document.getElementById('carouselItems');
+        
+                    indicatorsContainer.innerHTML = '';
+                    carouselInner.innerHTML = '';
+        
+                    produk.gambar_produk.forEach((image, index) => {
+                        // Buat tombol indikator carousel
+                        const indicator = document.createElement('button');
+                        indicator.type = 'button';
+                        indicator.setAttribute('data-bs-target', '#productCarousel');
+                        indicator.setAttribute('data-bs-slide-to', index);
+                        indicator.setAttribute('aria-label', `Slide ${index + 1}`);
+                        if (index === 0) {
+                            indicator.classList.add('active');
+                            indicator.setAttribute('aria-current', 'true');
+                        }
+                        indicatorsContainer.appendChild(indicator);
+        
+                        // Buat elemen carousel item
+                        const carouselItem = document.createElement('div');
+                        carouselItem.className = 'carousel-item' + (index === 0 ? ' active' : '');
+                        carouselItem.innerHTML = `
+                            <img src="/storage/produk/${image.gambar}" class="d-block w-100 rounded" style="height: 500px; object-fit: cover;" alt="Product Image ${index + 1}">
+                        `;
+                        carouselInner.appendChild(carouselItem);
+                    });
+                })
+                .catch(error => {
+                    console.error('Gagal memuat detail produk:', error);
+                });
+        });
+        </script>
+        
 @endsection

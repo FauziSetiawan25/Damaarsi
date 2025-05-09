@@ -82,6 +82,6 @@ class CatalogController extends Controller
             ],
             'price' => 850000000
         ];
-        return view('catalog.design-detail', compact('design'));
+        return view('catalog.detail', compact('design'));
     }
 }
