@@ -18,6 +18,7 @@ return new class extends Migration
             $table->enum('tipe',['Desain','Paket']);
             $table->text('deskripsi');
             $table->integer('harga');
+            $table->enum('recomen', ['aktif', 'nonaktif']);
             $table->timestamps();
             
             $table->foreign('id_admin')->references('id')->on('admin')->onUpdate('cascade')->onDelete('cascade');

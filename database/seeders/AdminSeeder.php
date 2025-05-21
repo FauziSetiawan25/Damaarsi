@@ -61,7 +61,7 @@ class AdminSeeder extends Seeder
                 'Solusi terbaik untuk Anda yang membutuhkan produk dengan daya tahan lama dan desain menarik.',
                 'Produk ini memiliki fitur terbaru yang memudahkan kegiatan Anda sehari-hari.',
                 'Dengan desain modern dan elegan, produk ini menjadi pilihan sempurna untuk kebutuhan Anda.',
-                'Produk ini sangat direkomendasikan untuk Anda yang menginginkan kualitas dengan harga terjangkau.',
+                'Produk ini sangat direcomendasikan untuk Anda yang menginginkan kualitas dengan harga terjangkau.',
                 'Dapatkan kenyamanan maksimal dengan produk kami yang telah teruji kualitasnya.',
                 'Solusi cerdas untuk kebutuhan Anda, hadir dengan berbagai fitur menarik dan fungsional.',
                 'Produk ini dirancang dengan bahan ramah lingkungan yang mendukung gaya hidup hijau.',
@@ -77,6 +77,7 @@ class AdminSeeder extends Seeder
                     'tipe' => 'Paket',
                     'deskripsi' => $descProduk[$i],
                     'harga' => $faker->numberBetween(10, 30) * 10000,
+                    'recomen'  => 'nonaktif'
                 ]);
             }
 
@@ -119,10 +120,10 @@ class AdminSeeder extends Seeder
                 ]);
             }
 
-            $ketWeb = ['Whatsapp', 'Email', 'Alamat', 'Instagram'];
-            $valWeb = ['08123478990', 'damaarsi@gmail.com', 'Jalan Soekarno-Hatta, Borokulon, Banyuurip, Purworejo', '@damaarsi'];
+            $ketWeb = ['Whatsapp', 'Email', 'Alamat', 'Instagram', 'Maps'];
+            $valWeb = ['08123478990', 'damaarsi@gmail.com', 'Jalan Soekarno-Hatta, Borokulon, Banyuurip, Purworejo', '@damaarsi', '<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15814.911479032511!2d109.97933791054759!3d-7.712321740641388!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e7aebca9d942d21%3A0x417e3f7f83b87702!2sJl.%20Mr.%20Wilopo%2C%20Doplang%2C%20Kec.%20Purworejo%2C%20Kabupaten%20Purworejo%2C%20Jawa%20Tengah!5e0!3m2!1sid!2sid!4v1729772903512!5m2!1sid!2sid" width="800" height="300" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>'];
             // Membuat Pengaturan Web
-            for ($i = 0; $i < 4; $i++) {
+            for ($i = 0; $i < 5; $i++) {
                 PengaturanWeb::create([
                     'keterangan' => $ketWeb[$i],
                     'value' => $valWeb[$i],

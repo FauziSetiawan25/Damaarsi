@@ -22,13 +22,23 @@ class PengaturanBannerApiController extends Controller
         ]);
     }
 
+    public function getBannerActive()
+    {
+        $banners = PengaturanBanner::where('status', 'aktif')->get();
+
+        return response()->json([
+            'banners' => $banners
+        ]);
+    }
+
+
     /**
      * (LIMIT) Mengubah status banner (aktif/nonaktif).
      */
-    public function ubahStatus($id)
+    public function ubahStatus(Request $request, $id)
     {
         $banner = PengaturanBanner::findOrFail($id);
-        $banner->status = $banner-> status === 'aktif' ? 'nonaktif' : 'aktif';;
+        $banner->status = $request->status;
         $banner->save();
 
         return response()->json([
@@ -37,6 +47,7 @@ class PengaturanBannerApiController extends Controller
             'data' => $banner
         ]);
     }
+
 
     /**
      * Menampilkan banner berdasarkan ID.

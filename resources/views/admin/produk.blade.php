@@ -54,10 +54,20 @@
                                     <td>
                                         <!-- Tombol Edit -->
                                         <div class="d-flex flex-column align-items-start">
-                                            <div>
+                                            <div class="mt-2">
                                                 <button type="button" class="btn btn-warning btn-sm" style="width: 70px;"
                                                     data-toggle="modal"
                                                     data-target="#editProductModal{{ $item->id }}">Edit</button>
+                                            </div>
+                                            <div class="mt-2">
+                                                <button 
+                                                    type="button"
+                                                    class="btn btn-sm {{ $item->recomen == 'aktif' ? 'btn-danger' : 'btn-success' }} toggle-recomen-btn"
+                                                    data-id="{{ $item->id }}"
+                                                    data-status="{{ $item->recomen }}"
+                                                    style="width: 100%;">
+                                                    {{ $item->recomen == 'aktif' ? 'Unrecomen' : 'Recomen' }}
+                                                </button>
                                             </div>
                                             <div class="mt-2">
                                                 <button type="button" class="btn btn-danger btn-sm" style="width: 70px;"
@@ -414,6 +424,44 @@
                 });
 
                 $('#imageModal').modal('show');
+            });
+        });
+
+        document.addEventListener('DOMContentLoaded', function () {
+            document.querySelectorAll('.toggle-recomen-btn').forEach(button => {
+                button.addEventListener('click', function () {
+                    const produkId = this.getAttribute('data-id');
+                    const currentStatus = this.getAttribute('data-status');
+                    const newStatus = currentStatus === 'aktif' ? 'nonaktif' : 'aktif';
+    
+                    fetch(`/api/produk/recomen/${produkId}`, {
+                        method: 'PUT',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                            'Accept': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            status: newStatus
+                        })
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            // Update tampilan tombol
+                            this.setAttribute('data-status', data.data.recomen);
+                            this.classList.toggle('btn-danger');
+                            this.classList.toggle('btn-success');
+                            this.textContent = data.data.recomen === 'aktif' ? 'Unrecomen' : 'Recomen';
+                        } else {
+                            alert('Gagal memperbarui status.');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        alert('Terjadi kesalahan saat menghubungi server.');
+                    });
+                });
             });
         });
 
