@@ -21,7 +21,7 @@
                             </div>
                         </div>
                         <div class="col-12 col-md-6"> <!-- Kolom Kanan -->
-                            <div class="p-4">
+                            <div class="p-5">
                                 <h4>Address</h4>
                                 <p id="contactAddress"></p>
 

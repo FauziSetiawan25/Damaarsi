@@ -13,8 +13,8 @@
                     </span>Kembali</a>
                 {{-- <span class="badge px-3 py-2"
                     style="background-color: #0A4833; font-size: 16px; font-weight:500">{{ $design->title }}</span> --}}
-                    <span class="badge px-3 py-2"
-                    style="background-color: #0A4833; font-size: 16px; font-weight:500" id="productName"></span>
+                <span class="badge px-3 py-2" style="background-color: #0A4833; font-size: 16px; font-weight:500"
+                    id="productName"></span>
             </div>
 
             <!-- Image Carousel -->
@@ -45,22 +45,22 @@
             </div>
 
             <!-- design Description -->
-            <div class="desc mb-4">
+            <div class="desc mb-1">
                 <div class="card p-3"
                     style="background-color: #FBF9F9; border-radius: 10px; min-height: 200px; overflow-y: auto;">
                     <h3>Deskripsi</h3>
                     <p id="productDescription"></p>
                 </div>
                 <div class="row mt-4 gx-5 gy-4">
-                    <div class="col-md-8 mb-3">
+                    <div class="col-md-8">
                         <h3>Konsultasi Desain Langsung Dengan Tim Kami!</h3>
                     </div>
-                    <div class="col-md-3 mb-3 ms-auto">
+                    {{-- <div class="col-md-3 mb-3 ms-auto">
                         <a href="https://wa.me/your_number?text=Consultation%20for%20{{ urlencode($design->title) }}"
                             class="btn btn-success mb-3 w-100">
                             <i class="bi bi-whatsapp"></i> Konsultasi Langsung
                         </a>
-                    </div>
+                    </div> --}}
                 </div>
             </div>
 
@@ -87,13 +87,14 @@
                     </div>
                     <div class="col-md-6 mb-3 text-start">
                         <p class="mb-1">Perkiraan Harga</p>
-                        <h2>Rp {{ $design->price }}</h2>
+                        <h2 id="productPrice"></h2>
+
                     </div>
                 </div>
 
                 <!-- Consultation Form -->
                 <div class="mt-5">
-                    <form class="border rounded shadow-sm overflow-hidden">
+                    <form id="consultationForm" class="border rounded shadow-sm overflow-hidden">
                         <!-- Form Title as Part of the Form Background -->
                         <div class="text-white p-3"
                             style="border-top-left-radius: 5px; border-top-right-radius: 5px; background-color: #275241;">
@@ -140,25 +141,30 @@
             // Ambil ID produk dari URL, misal URL: /catalog/design/1
             const pathSegments = window.location.pathname.split('/');
             const productId = pathSegments[pathSegments.length - 1];
-        
+
             fetch(`/api/produk/${productId}`)
                 .then(response => response.json())
                 .then(data => {
                     const produk = data.data;
-        
+
                     // Tampilkan nama produk
                     document.getElementById('productName').innerText = produk.nama_produk;
-        
+
                     // Tampilkan deskripsi produk
                     document.getElementById('productDescription').innerText = produk.deskripsi;
-        
+
+                    // Tampilkan harga produk
+                    document.getElementById('productPrice').innerText =
+                        `Rp ${Number(produk.harga).toLocaleString('id-ID')}`;
+
+
                     // Tampilkan gambar produk dalam carousel
                     const indicatorsContainer = document.getElementById('carouselIndicators');
                     const carouselInner = document.getElementById('carouselItems');
-        
+
                     indicatorsContainer.innerHTML = '';
                     carouselInner.innerHTML = '';
-        
+
                     produk.gambar_produk.forEach((image, index) => {
                         // Buat tombol indikator carousel
                         const indicator = document.createElement('button');
@@ -171,7 +177,7 @@
                             indicator.setAttribute('aria-current', 'true');
                         }
                         indicatorsContainer.appendChild(indicator);
-        
+
                         // Buat elemen carousel item
                         const carouselItem = document.createElement('div');
                         carouselItem.className = 'carousel-item' + (index === 0 ? ' active' : '');
@@ -185,6 +191,73 @@
                     console.error('Gagal memuat detail produk:', error);
                 });
         });
-        </script>
-        
+    </script>
+    <script>
+        document.getElementById('consultationForm').addEventListener('submit', async function(e) {
+    e.preventDefault();
+
+    const name = document.getElementById('name').value.trim();
+    const phone = document.getElementById('phone').value.trim();
+    const email = document.getElementById('email').value.trim();
+
+    if (!name || !phone || !email) {
+        alert('Mohon isi semua field terlebih dahulu.');
+        return;
+    }
+
+    const formData = new FormData();
+    formData.append('name', name);
+    formData.append('phone', phone);
+    formData.append('email', email);
+
+    try {
+        // Submit data ke backend simpan ke DB
+        const response = await fetch('/api/customer/add', {
+            method: 'POST',
+            body: formData,
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest',
+            }
+        });
+        const result = await response.json();
+
+        if(result.success){
+            // Ambil nomor WA dari API pengaturan
+            const pengaturanRes = await fetch('/api/pengaturan'); // ganti sesuai URL API kamu
+            const pengaturanJson = await pengaturanRes.json();
+
+            // Cari keterangan "Whatsapp"
+            const waSetting = pengaturanJson.pengaturan.find(item => item.keterangan.toLowerCase() === 'whatsapp');
+
+            if(!waSetting || !waSetting.value) {
+                alert('Nomor WhatsApp tujuan tidak ditemukan.');
+                return;
+            }
+
+            // Format nomor WA (hilangkan spasi, tanda +, atau awalan 0 jadi format internasional)
+            let waNumber = waSetting.value.trim();
+            if(waNumber.startsWith('0')) {
+                // Contoh untuk Indonesia, ganti 0 dengan 62
+                waNumber = '62' + waNumber.substring(1);
+            }
+            waNumber = waNumber.replace(/[^0-9]/g, ''); // hapus karakter bukan angka
+
+            // Buat pesan WA
+            const message = `Halo, saya ingin konsultasi:\n\nNama: ${name}\nNomor Telepon: ${phone}\nEmail: ${email}`;
+            const encodedMessage = encodeURIComponent(message);
+            const waUrl = `https://wa.me/${waNumber}?text=${encodedMessage}`;
+
+            window.open(waUrl, '_blank');
+            document.getElementById('consultationForm').reset();
+        } else {
+            alert('Gagal menyimpan data. Silakan coba lagi.');
+        }
+    } catch(error) {
+        console.error(error);
+        alert('Terjadi kesalahan pada server atau API.');
+    }
+});
+
+    </script>
+
 @endsection

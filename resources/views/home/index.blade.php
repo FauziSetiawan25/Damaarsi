@@ -412,7 +412,7 @@
 
 
         <!-- Floating WhatsApp Button -->
-        <a href="https://wa.me/yourwhatsappphonenumber" target="_blank" class="btn-whatsapp">
+        <a href="javascript:void(0);" id="btnWhatsApp" target="_blank" rel="noopener noreferrer" class="btn-whatsapp">
             <i class="fab fa-whatsapp"></i>
         </a>
 
@@ -434,21 +434,21 @@
 
                     activeBanners.forEach((item, index) => {
                         const gambarUrl = item.gambar.startsWith('http') || item.gambar.startsWith(
-                            '/') ?
+                                '/') ?
                             item.gambar :
                             "{{ asset('storage/banner') }}/" + item.gambar;
 
                         const div = document.createElement('div');
                         div.className = 'carousel-item' + (index === 0 ? ' active' : '');
                         div.innerHTML = `
-                        <div class="row d-flex align-items-center" style="background: linear-gradient(rgba(33, 68, 58, 0.9), rgba(20, 40, 35, 0.7)); color: white; padding: 5rem; height: 100vh">
+                        <div class="row d-flex align-items-center" style="background: linear-gradient(rgba(33, 68, 58, 0.9), rgba(20, 40, 35, 0.7)); color: white; padding: 5rem; height: 100vh;">
                             <div class="col-md-6">
                                 <h1 class="custom-text">${item.title}</h1>
                                 <h4 class="custom-text">${item.deskripsi}</h4>
                                 <a href="${item.link}" class="btn btn-light" target="_blank">Selengkapnya</a>
                             </div>
                             <div class="col-md-6">
-                                <img src="${gambarUrl}" alt="${item.title}" class="img-fluid w-100" style="style="
+                                <img src="${gambarUrl}" alt="${item.title}" class="img-fluid w-100" style="
              max-width: 100%;
              max-height: 100%;
              width: 100%;
@@ -711,7 +711,8 @@
                         return;
                     }
 
-                    const portofolios = data.data;
+                    const portofolios = data.data.sort((a, b) => new Date(b.created_at) - new Date(a
+                        .created_at));
 
                     for (let i = 0; i < portofolios.length; i++) {
                         const item = portofolios[i];
@@ -838,6 +839,32 @@
                 .catch(error => console.error('Gagal memuat testimoni:', error));
         });
     </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            fetch('/api/pengaturan')
+                .then(response => response.json())
+                .then(data => {
+                    const pengaturan = data.pengaturan || [];
+                    const waData = pengaturan.find(item => item.keterangan.toLowerCase() === 'whatsapp');
+
+                    if (waData && waData.value) {
+                        let waNumber = waData.value.replace(/\D/g, '');
+                        if (waNumber.startsWith('0')) {
+                            waNumber = '62' + waNumber.slice(1);
+                        }
+
+                        const btn = document.getElementById('btnWhatsApp');
+                        btn.href =
+                            `https://api.whatsapp.com/send/?phone=${waNumber}&text=Halo,%20saya%20ingin%20konsultasi`;
+                        btn.style.display = 'inline-block';
+                    }
+                })
+                .catch(error => {
+                    console.error('Gagal ambil data WhatsApp:', error);
+                });
+        });
+    </script>
+
 
 
 

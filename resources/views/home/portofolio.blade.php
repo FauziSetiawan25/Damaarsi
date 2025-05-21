@@ -47,7 +47,8 @@
                     const container = document.getElementById('portofolioContainer');
                     container.innerHTML = ''; // Kosongkan dulu kontainer
 
-                    const portofolios = data.data; // Ambil data portofolio
+                    const portofolios = data.data.sort((a, b) => new Date(b.created_at) - new Date(a
+                        .created_at)); // Ambil data portofolio
 
                     if (!portofolios || portofolios.length === 0) {
                         container.innerHTML = `

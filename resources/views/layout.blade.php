@@ -26,7 +26,7 @@
     <header>
         <nav class="navbar navbar-expand-lg bg-body-tertiary shadow fixed-top">
             <div class="container">
-                <a class="navbar-brand" href="#">
+                <a class="navbar-brand" href="/">
                   <img src="/images/logo1.png" alt="Damaarsi brand" class="img-fluid" width="200">
                 </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
