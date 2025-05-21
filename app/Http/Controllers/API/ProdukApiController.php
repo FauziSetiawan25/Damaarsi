@@ -23,6 +23,15 @@ class ProdukApiController extends Controller
         return response()->json(['data' => $produk], 200);
     }
 
+    public function getRecomenProducts()
+    {
+        $produk = Produk::with('gambarProduk')
+        ->where('recomen', 'aktif')
+        ->get();
+
+        return response()->json(['data' => $produk], 200);
+    }
+
     /**
      * Menampilkan jumlah produk.
      */
@@ -145,6 +154,19 @@ class ProdukApiController extends Controller
         }
 
         return response()->json(['message' => 'Produk berhasil diperbarui', 'data' => $produk], 200);
+    }
+
+    public function ubahRecomen(Request $request, $id)
+    {
+        $produk = Produk::findOrFail($id);
+        $produk->recomen = $request->status;
+        $produk->save();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Status produk berhasil diperbarui.',
+            'data' => $produk
+        ]);
     }
 
     /**

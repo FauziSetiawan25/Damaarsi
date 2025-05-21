@@ -6,6 +6,7 @@ namespace App\Http\Controllers\API;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Layanan;
+use Illuminate\Support\Facades\Storage;
 
 class LayananApiController extends Controller
 {
@@ -28,17 +29,28 @@ class LayananApiController extends Controller
     {
         $request->validate([
             'title' => 'required|string|max:255',
-            'gambar' => 'required|string|max:255',
+            'gambar' => 'nullable|file|image|mimes:jpg,jpeg,png,gif|max:2048',
         ]);
 
         $layanan = Layanan::findOrFail($id);
         
-        $layanan->update([
-            // 'id_admin' => Auth::guard('admin')->user()->id,
-            // 'id_admin' => 1,
-            'title' => $request->title,
-            'gambar' => $request->gambar,
-        ]);
+        // Handle upload gambar baru jika ada
+        if ($request->hasFile('gambar')) {
+            // Hapus gambar lama jika ada
+            if ($layanan->gambar) {
+                Storage::disk('public')->delete('layanan/' . $layanan->gambar);
+            }
+
+            // Simpan gambar baru ke folder 'layanan/' di disk 'public'
+            $imageName = uniqid() . '.' . $request->file('gambar')->getClientOriginalExtension();
+            $request->file('gambar')->storeAs('layanan', $imageName, 'public');
+
+            $layanan->gambar = $imageName;
+        }
+
+        // Update title dan id_admin (hardcoded 1, sesuaikan jika pakai Auth)
+        $layanan->title = $request->title;
+        $layanan->save();
 
         return response()->json([
             'message' => 'Layanan berhasil diperbarui',

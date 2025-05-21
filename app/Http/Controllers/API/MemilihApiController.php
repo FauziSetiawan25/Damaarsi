@@ -6,6 +6,8 @@ namespace App\Http\Controllers\API;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Memilih;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class MemilihApiController extends Controller
 {
@@ -28,17 +30,28 @@ class MemilihApiController extends Controller
     {
         $request->validate([
             'title' => 'required|string|max:255',
-            'gambar' => 'required|string|max:255',
+            'gambar' => 'nullable|file|image|mimes:jpg,jpeg,png,gif|max:2048',
         ]);
 
         $memilih = Memilih::findOrFail($id);
-        
-        $memilih->update([
-            // 'id_admin' => Auth::guard('admin')->user()->id,
-            'id_admin' => 1,
-            'title' => $request->title,
-            'gambar' => $request->gambar,
-        ]);
+
+        // Handle upload gambar baru jika ada
+        if ($request->hasFile('gambar')) {
+            // Hapus gambar lama jika ada
+            if ($memilih->gambar) {
+                Storage::disk('public')->delete('memilih/' . $memilih->gambar);
+            }
+
+            // Simpan gambar baru ke folder 'memilih/' di disk 'public'
+            $imageName = uniqid() . '.' . $request->file('gambar')->getClientOriginalExtension();
+            $request->file('gambar')->storeAs('memilih', $imageName, 'public');
+
+            $memilih->gambar = $imageName;
+        }
+
+        // Update title dan id_admin (hardcoded 1, sesuaikan jika pakai Auth)
+        $memilih->title = $request->title;
+        $memilih->save();
 
         return response()->json([
             'message' => 'Alasan memilih berhasil diperbarui',

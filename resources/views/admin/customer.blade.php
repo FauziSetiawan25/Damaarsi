@@ -40,9 +40,9 @@
                     </table>
 
                     <div style="text-align: right; margin-top: 20px;">
-                        <a href="#" id="copyEmailsButton" class="btn"
-                            style="background-color: #0088FF; color: white;" data-toggle="modal"
-                            data-target="#successCopyEmail">Get Email</a>
+                        <button id="copyEmailsButton" class="btn" style="background-color: #0088FF; color: white;">
+                            Get Email
+                        </button>
                     </div>
                 </div>
             </div>
@@ -72,25 +72,36 @@
 
     {{-- JS untuk menyalin email customer --}}
     <script>
-        document.getElementById('copyEmailsButton').addEventListener('click', function() {
-            const emails = [];
-            const emailCells = document.querySelectorAll('#dataTable tbody tr td:nth-child(4)');
+    document.addEventListener('DOMContentLoaded', function () {
+        const copyButton = document.getElementById('copyEmailsButton');
 
-            emailCells.forEach(cell => {
-                emails.push(cell.innerText);
-            });
+        copyButton.addEventListener('click', function (e) {
+            e.preventDefault();
 
-            const uniqueEmails = [...new Set(emails)];
-            const emailString = uniqueEmails.join(', ');
+            fetch('/api/customer')
+                .then(response => response.json())
+                .then(data => {
+                    // Ambil hanya field email
+                    const emails = data.map(item => item.email).join(', ');
 
-            // navigator.clipboard.writeText(emailString).then(() => {
-            //     alert('Email customer telah disalin');
-            // }).catch(err => {
-            //     console.error('Error copying text: ', err);
-            // });
+                    // Salin ke clipboard
+                    navigator.clipboard.writeText(emails)
+                        .then(() => {
+                            alert('Emails copied to clipboard!');
+                        })
+                        .catch(err => {
+                            console.error('Clipboard error:', err);
+                            alert('Failed to copy emails.');
+                        });
+                })
+                .catch(error => {
+                    console.error('Fetch error:', error);
+                    alert('Failed to fetch emails.');
+                });
         });
     });
-</script>
+    </script>
+
 
 {{-- <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script>

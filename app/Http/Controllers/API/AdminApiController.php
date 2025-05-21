@@ -77,7 +77,7 @@ class AdminApiController extends Controller
 
         $admin = Admin::findOrFail($id);
         $admin->update([
-            'nama' => $request->nama,
+            'nama_admin' => $request->nama,
             'username' => $request->username,
             'no_telp' => $request->telp,
             'email' => $request->email

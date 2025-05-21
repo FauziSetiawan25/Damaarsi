@@ -79,8 +79,8 @@ Route::middleware('admin')->group(function () {
 
     Route::controller(BerandaController::class)->group(function () {
         Route::get('/admin/beranda', 'index')->name('admin.beranda');
-        Route::put('/admin/beranda/{id}', 'updateLayanan')->name('admin.layanan.update');
-        Route::put('/admin/beranda/alasan/{id}', 'updateAlasan')->name('admin.memilih.update');
+        // Route::put('/admin/beranda/{id}', 'updateLayanan')->name('admin.layanan.update');
+        // Route::put('/admin/beranda/alasan/{id}', 'updateAlasan')->name('admin.memilih.update');
     });
 
     Route::get('/admin/customer', function () {
@@ -92,16 +92,16 @@ Route::middleware('superadmin')->group(function () {
 
     Route::controller(AdminController::class)->group(function () {
         Route::get('/admin/dataadmin', 'show')->name('admin.dataadmin');
-        Route::post('/admin/dataadmin/{id}', 'ubahrole')->name('admin.ubahrole');
-        Route::delete('/admin/dataadmin/{id}', 'destroy')->name('admin.destroy');
-        Route::put('/admin/dataadmin/{id}', 'update')->name('admin.update');
-        Route::post('/admin/dataadmin', 'store')->name('admin.store');
+        // Route::post('/admin/dataadmin/{id}', 'ubahrole')->name('admin.ubahrole');
+        // Route::delete('/admin/dataadmin/{id}', 'destroy')->name('admin.destroy');
+        // Route::put('/admin/dataadmin/{id}', 'update')->name('admin.update');
+        // Route::post('/admin/dataadmin', 'store')->name('admin.store');
     });
 
     Route::controller(PengaturanController::class)->group(function () {
         Route::get('/admin/pengaturan', 'index')->name('admin.pengaturan');
-        Route::put('/admin/pengaturan/{id}', 'updatePengaturan')->name('admin.pengaturan.update');
-        Route::post('/admin/pengaturan/banner/{id}', 'ubahStatus')->name('admin.banner.ubahStatus');
-        Route::put('/admin/pengaturan/banner/{id}', 'updateBanner')->name('admin.banner.update');
+        // Route::put('/admin/pengaturan/{id}', 'updatePengaturan')->name('admin.pengaturan.update');
+        // Route::post('/admin/pengaturan/banner/{id}', 'ubahStatus')->name('admin.banner.ubahStatus');
+        // Route::put('/admin/pengaturan/banner/{id}', 'updateBanner')->name('admin.banner.update');
     });
 });

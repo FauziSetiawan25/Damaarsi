@@ -95,19 +95,15 @@
                                                     </button>
                                                 </div>
                                                 <div class="mt-2">
-                                                    <form action="{{ route('admin.banner.ubahStatus', $banner->id) }}"
-                                                        method="POST">
-                                                        @csrf
-                                                        @method('POST')
-                                                        <input type="hidden" name="status"
-                                                            value="{{ $banner->status == 'aktif' ? 'nonaktif' : 'aktif' }}">
-                                                        <button type="submit"
-                                                            class="btn btn-sm {{ $banner->status == 'aktif' ? 'btn-danger' : 'btn-success' }}"
-                                                            style="width: 100%;">
-                                                            {{ $banner->status == 'aktif' ? 'Nonaktifkan' : 'Aktifkan' }}
-                                                        </button>
-                                                    </form>
-                                                </div>
+                                                    <button 
+                                                        type="button"
+                                                        class="btn btn-sm {{ $banner->status == 'aktif' ? 'btn-danger' : 'btn-success' }} toggle-status-btn"
+                                                        data-id="{{ $banner->id }}"
+                                                        data-status="{{ $banner->status }}"
+                                                        style="width: 100%;">
+                                                        {{ $banner->status == 'aktif' ? 'Nonaktifkan' : 'Aktifkan' }}
+                                                    </button>
+                                                </div>                                                
                                             </td>
                                         </tr>
                                     @endforeach
@@ -134,9 +130,9 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        <form action="{{ route('admin.pengaturan.update', $item->id) }}" method="POST">
+                        <form class="form-edit-pengaturan" data-id="{{ $item->id }}">
                             @csrf
-                            @method('PUT')
+                            <input type="hidden" name="_method" value="PUT">
                             <div class="form-group">
                                 <label for="keterangan{{ $item->id }}">Keterangan</label>
                                 <input type="text" class="form-control" id="keterangan{{ $item->id }}"
@@ -194,10 +190,9 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        <form action="{{ route('admin.banner.update', $banner->id) }}" method="POST"
-                            enctype="multipart/form-data">
+                        <form class="form-edit-banner" data-id="{{ $banner->id }}" enctype="multipart/form-data">
                             @csrf
-                            @method('PUT')
+                            <input type="hidden" name="_method" value="PUT">
                             <div class="form-group">
                                 <label for="title{{ $banner->id }}">Title</label>
                                 <input type="text" class="form-control" id="title{{ $banner->id }}" name="title"
@@ -252,4 +247,104 @@
             </div>
         </div>
     </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            document.querySelectorAll('.form-edit-pengaturan').forEach(form => {
+                form.addEventListener('submit', function (e) {
+                    e.preventDefault();
+
+                    const id = this.getAttribute('data-id');
+                    const formData = new FormData(this);
+
+                    fetch(`/api/pengaturan/${id}`, {
+                        method: 'POST', // FormData hanya bisa POST
+                        headers: {
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                            'Accept': 'application/json'
+                        },
+                        body: formData,
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            location.reload(); // reload agar perubahan tampil
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        // Tidak perlu alert
+                    });
+                });
+            });
+        });
+        
+        document.addEventListener('DOMContentLoaded', function () {
+            document.querySelectorAll('.form-edit-banner').forEach(form => {
+                form.addEventListener('submit', function (e) {
+                    e.preventDefault();
+
+                    const id = this.getAttribute('data-id');
+                    const formData = new FormData(this);
+
+                    fetch(`/api/banner/${id}`, {
+                        method: 'POST',
+                        headers: {
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                            'Accept': 'application/json'
+                        },
+                        body: formData,
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            location.reload();
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        alert('Terjadi kesalahan saat menghubungi server.');
+                    });
+                });
+            });
+        });
+
+        document.addEventListener('DOMContentLoaded', function () {
+            document.querySelectorAll('.toggle-status-btn').forEach(button => {
+                button.addEventListener('click', function () {
+                    const bannerId = this.getAttribute('data-id');
+                    const currentStatus = this.getAttribute('data-status');
+                    const newStatus = currentStatus === 'aktif' ? 'nonaktif' : 'aktif';
+    
+                    fetch(`/api/banner/status/${bannerId}`, {
+                        method: 'PUT',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                            'Accept': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            status: newStatus
+                        })
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            // Update tampilan tombol
+                            this.setAttribute('data-status', data.data.status);
+                            this.classList.toggle('btn-danger');
+                            this.classList.toggle('btn-success');
+                            this.textContent = data.data.status === 'aktif' ? 'Nonaktifkan' : 'Aktifkan';
+                        } else {
+                            alert('Gagal memperbarui status.');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        alert('Terjadi kesalahan saat menghubungi server.');
+                    });
+                });
+            });
+        });
+    </script>        
 @endsection

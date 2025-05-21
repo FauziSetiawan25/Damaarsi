@@ -123,9 +123,9 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        <form action="{{ route('admin.layanan.update', $item->id) }}" method="POST">
+                        <form class="form-edit-layanan" data-id="{{ $item->id }}" enctype="multipart/form-data">
                             @csrf
-                            @method('PUT')
+                            <input type="hidden" name="_method" value="PUT">
                             <div class="form-group">
                                 <label for="title{{ $item->id }}">Nama Layanan</label>
                                 <input type="text" class="form-control" id="title{{ $item->id }}" name="title"
@@ -134,7 +134,7 @@
                             <div class="form-group">
                                 <label for="gambar{{ $item->id }}">Gambar</label>
                                 <input type="file" class="form-control-file" id="gambar{{ $item->id }}"
-                                    name="gambar" value="{{ $item->gambar }}" required>
+                                    name="gambar" value="{{ $item->gambar }}">
                             </div>
                             <div class="text-right">
                                 <button type="submit" class="btn btn-primary"
@@ -176,17 +176,16 @@
             <div class="modal-dialog modal-lg" role="document">
                 <div class="modal-content">
                     <div class="modal-header" style="background-color: #4D6957; color: white;">
-                        <h5 class="modal-title" id="editMemilihLabel{{ $item->id }}">Edit Mengapa Harus Memilih Kami
-                        </h5>
+                        <h5 class="modal-title" id="editMemilihLabel{{ $item->id }}">Edit Mengapa Harus Memilih Kami</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"
                             style="color: white; opacity: 1;">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
                     <div class="modal-body">
-                        <form action="{{ route('admin.memilih.update', $item->id) }}" method="POST">
+                        <form class="form-edit-memilih" data-id="{{ $item->id }}" enctype="multipart/form-data">
                             @csrf
-                            @method('PUT')
+                            <input type="hidden" name="_method" value="PUT">
                             <div class="form-group">
                                 <label for="title{{ $item->id }}">Nama Memilih</label>
                                 <input type="text" class="form-control" id="title{{ $item->id }}" name="title"
@@ -195,13 +194,13 @@
                             <div class="form-group">
                                 <label for="gambar{{ $item->id }}">Gambar</label>
                                 <input type="file" class="form-control-file" id="gambar{{ $item->id }}"
-                                    name="gambar" value="{{ $item->gambar }}" accept=".jpg, .jpeg, .png, .gif"
-                                    style="border: 1px solid #ced4da; border-radius: 0.25rem; padding: 5px; width: 100%; box-sizing: border-box;"required>
+                                    name="gambar" accept=".jpg, .jpeg, .png, .gif"
+                                    style="border: 1px solid #ced4da; border-radius: 0.25rem; padding: 5px; width: 100%; box-sizing: border-box;">
                             </div>
                             <div class="text-right">
                                 <button type="submit" class="btn btn-primary"
                                     style="background-color: #0088FF; color: white" data-toggle="modal"
-                                    data-target="#successUpdateLayanan">Simpan</button>
+                                    data-target="#successUpdateMemilih">Simpan</button>
                             </div>
                         </form>
                     </div>
@@ -209,6 +208,7 @@
             </div>
         </div>
     @endforeach
+
     <!-- Notifikasi Success Update Memilih -->
     <div class="modal fade" id="successUpdateMemilih" tabindex="-1" role="dialog" aria-labelledby="successModalLabel"
         aria-hidden="true">
@@ -229,4 +229,76 @@
             </div>
         </div>
     </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            document.querySelectorAll('.form-edit-layanan').forEach(form => {
+                form.addEventListener('submit', function (e) {
+                    e.preventDefault();
+        
+                    const id = this.getAttribute('data-id');
+                    const formData = new FormData(this);
+        
+                    fetch(`/api/layanan/${id}`, {
+                        method: 'POST',
+                        headers: {
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                            'Accept': 'application/json',
+                            'X-Requested-With': 'XMLHttpRequest'
+                        },
+                        body: formData
+                    })
+                    .then(async response => {
+                        if (!response.ok) {
+                            const err = await response.json();
+                            throw new Error(err.message || 'Terjadi kesalahan');
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        location.reload();
+                    })
+                    .catch(error => {
+                        console.error('Gagal update:', error);
+                        alert('Gagal memperbarui data: ' + error.message);
+                    });
+                });
+            });
+        });
+
+        document.addEventListener('DOMContentLoaded', function () {
+            document.querySelectorAll('.form-edit-memilih').forEach(form => {
+                form.addEventListener('submit', function (e) {
+                    e.preventDefault();
+        
+                    const id = this.getAttribute('data-id');
+                    const formData = new FormData(this);
+        
+                    fetch(`/api/memilih/${id}`, {
+                        method: 'POST',
+                        headers: {
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                            'Accept': 'application/json',
+                            'X-Requested-With': 'XMLHttpRequest'
+                        },
+                        body: formData
+                    })
+                    .then(async response => {
+                        if (!response.ok) {
+                            const err = await response.json();
+                            throw new Error(err.message || 'Terjadi kesalahan');
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        location.reload();
+                    })
+                    .catch(error => {
+                        console.error('Gagal update:', error);
+                        alert('Gagal memperbarui data: ' + error.message);
+                    });
+                });
+            });
+        });
+    </script>        
 @endsection

@@ -42,6 +42,7 @@ Route::middleware(['auth:sanctum', 'role:admin,superadmin'])->group(function () 
     Route::post('/logout', [LoginApiController::class, 'logout']);
 
     Route::post('/produk', [ProdukApiController::class, 'store']);
+    Route::put('/produk/recomen/{id}', [ProdukApiController::class, 'ubahRecomen']);
     Route::put('/produk/{id}', [ProdukApiController::class, 'update']);
     Route::delete('/produk/{id}', [ProdukApiController::class, 'destroy']);
 
@@ -75,6 +76,7 @@ Route::middleware(['auth:sanctum', 'role:admin,superadmin'])->group(function () 
 Route::post('/login', [LoginApiController::class, 'authenticate']);
 
 Route::get('/produk', [ProdukApiController::class, 'getAllProducts']);
+Route::get('/produk/recomen', [ProdukApiController::class, 'getRecomenProducts']);
 Route::get('/produk/count', [ProdukApiController::class, 'getProductCount']);
 Route::get('/produk/{id}', [ProdukApiController::class, 'show']);
 
@@ -89,6 +91,7 @@ Route::get('/pengaturan', [PengaturanWebApiController::class, 'getAllPWeb']);
 Route::get('/pengaturan/{keterangan}', [PengaturanWebApiController::class, 'showByKeterangan']);
 
 Route::get('/banner', [PengaturanBannerApiController::class, 'getAllPBanner']);
+Route::get('/banner/active', [PengaturanBannerApiController::class, 'getBannerActive']);
 Route::get('/banner/{id}', [PengaturanBannerApiController::class, 'show']);
 
 Route::get('/layanan', [LayananApiController::class, 'getAllLayanan']);
