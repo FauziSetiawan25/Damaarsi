@@ -196,6 +196,9 @@
         document.getElementById('consultationForm').addEventListener('submit', async function(e) {
     e.preventDefault();
 
+    const pathSegments = window.location.pathname.split('/');
+    const productId = pathSegments[pathSegments.length - 1]; // Ambil id dari URL
+
     const name = document.getElementById('name').value.trim();
     const phone = document.getElementById('phone').value.trim();
     const email = document.getElementById('email').value.trim();
@@ -206,12 +209,12 @@
     }
 
     const formData = new FormData();
+    formData.append('produk', productId); // Tambahkan ID produk dari URL
     formData.append('name', name);
     formData.append('phone', phone);
     formData.append('email', email);
 
     try {
-        // Submit data ke backend simpan ke DB
         const response = await fetch('/api/customer/add', {
             method: 'POST',
             body: formData,
@@ -219,30 +222,27 @@
                 'X-Requested-With': 'XMLHttpRequest',
             }
         });
-        const result = await response.json();
 
-        if(result.success){
-            // Ambil nomor WA dari API pengaturan
-            const pengaturanRes = await fetch('/api/pengaturan'); // ganti sesuai URL API kamu
+        const result = await response.json();
+        console.log(result); 
+
+        if (result.message && result.message.toLowerCase().includes("berhasil")) {
+            const pengaturanRes = await fetch('/api/pengaturan');
             const pengaturanJson = await pengaturanRes.json();
 
-            // Cari keterangan "Whatsapp"
             const waSetting = pengaturanJson.pengaturan.find(item => item.keterangan.toLowerCase() === 'whatsapp');
 
-            if(!waSetting || !waSetting.value) {
+            if (!waSetting || !waSetting.value) {
                 alert('Nomor WhatsApp tujuan tidak ditemukan.');
                 return;
             }
 
-            // Format nomor WA (hilangkan spasi, tanda +, atau awalan 0 jadi format internasional)
             let waNumber = waSetting.value.trim();
-            if(waNumber.startsWith('0')) {
-                // Contoh untuk Indonesia, ganti 0 dengan 62
+            if (waNumber.startsWith('0')) {
                 waNumber = '62' + waNumber.substring(1);
             }
-            waNumber = waNumber.replace(/[^0-9]/g, ''); // hapus karakter bukan angka
+            waNumber = waNumber.replace(/[^0-9]/g, '');
 
-            // Buat pesan WA
             const message = `Halo, saya ingin konsultasi:\n\nNama: ${name}\nNomor Telepon: ${phone}\nEmail: ${email}`;
             const encodedMessage = encodeURIComponent(message);
             const waUrl = `https://wa.me/${waNumber}?text=${encodedMessage}`;
@@ -252,11 +252,12 @@
         } else {
             alert('Gagal menyimpan data. Silakan coba lagi.');
         }
-    } catch(error) {
+    } catch (error) {
         console.error(error);
         alert('Terjadi kesalahan pada server atau API.');
     }
 });
+
 
     </script>
 

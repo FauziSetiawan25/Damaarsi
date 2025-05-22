@@ -76,9 +76,9 @@
           <!-- Ikon Media Sosial -->
           <div class="col-md-3 text-center text-md-end">
             <div class="social-icons d-flex justify-content-center justify-content-md-end gap-3">
-              <a href="#" class="text-white"><i class="bi bi-instagram"></i></a>
+              <a id="igLink" href="#" class="text-white"><i class="bi bi-instagram"></i></a>
               <a href="#" class="text-white"><i class="bi bi-facebook"></i></a>
-              <a href="#" class="text-white"><i class="bi bi-whatsapp"></i></a>
+              <a id="waLink" class="text-white"><i class="bi bi-whatsapp"></i></a>
               <a href="#" class="text-white"><i class="bi bi-linkedin"></i></a>
               <a href="#" class="text-white"><i class="bi bi-twitter-x"></i></a>
             </div>
@@ -91,6 +91,30 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY"></script>
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+          fetch('/api/pengaturan')
+              .then(response => response.json())
+              .then(data => {
+                  const settings = data.pengaturan;
+      
+                  settings.forEach(item => {
+                      switch (item.keterangan) {
+                          case "Instagram":
+                              const igLink = document.getElementById("igLink");
+                              if (igLink) igLink.href = item.value;
+                              break;
+                          case "Whatsapp":
+                              const waLink = document.getElementById("waLink");
+                              if (waLink) waLink.href = "https://wa.me/" + item.value.replace(/^0/, "62"); // ubah 08.. jadi 628..
+                              break;
+                      }
+                  });
+              })
+              .catch(error => console.error("Gagal memuat sosial media:", error));
+      });
+      </script>
+      
 
 </body>
 </html>

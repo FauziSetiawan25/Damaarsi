@@ -424,7 +424,7 @@
     {{-- Banner Section --}}
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            fetch('/api/banner')
+            fetch('/api/banner/active')
                 .then(response => response.json())
                 .then(data => {
                     const container = document.getElementById('carouselItemsContainer');
@@ -472,7 +472,7 @@
             const container = recommendationCarousel.querySelector('.carousel-inner');
             if (!container) return;
 
-            fetch('/api/produk')
+            fetch('/api/produk/recomen')
                 .then(res => res.json())
                 .then(data => {
                     container.innerHTML = '';
