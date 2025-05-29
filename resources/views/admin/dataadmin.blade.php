@@ -293,7 +293,7 @@
                 .then(response => response.json())
                 .then(data => {
                     if (data.message) {
-                        location.reload(); // reload halaman setelah tambah admin berhasil
+                        location.reload(); 
                     }
                 })
                 .catch(error => {

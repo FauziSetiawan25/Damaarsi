@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Controllers\Controller;
-
+use Illuminate\Support\Facades\Auth;
 
 class ProdukApiController extends Controller
 {
@@ -53,8 +53,7 @@ class ProdukApiController extends Controller
             'harga' => 'required|numeric',
             'deskripsi' => 'nullable|string',
             'tipe' => 'required|string|in:Paket,Desain',
-            // 'gambar1' => 'required|image|mimes:jpg,jpeg,png,gif',
-            'gambar1' => 'required|string',
+            'gambar1' => 'required|image|mimes:jpg,jpeg,png,gif',
             'gambar2' => 'nullable|image|mimes:jpg,jpeg,png,gif',
             'gambar3' => 'nullable|image|mimes:jpg,jpeg,png,gif'
         ]);
@@ -63,17 +62,14 @@ class ProdukApiController extends Controller
             return response()->json(['error' => $validator->errors()], 400);
         }
 
-        // Menyimpan produk baru
         $produk = Produk::create([
-            // 'id_admin' => Auth::guard('admin')->user()->id,
-            'id_admin' => 1,
+            'id_admin' => Auth::guard('admin')->user()->id,
             'nama_produk' => $request->nama_produk,
             'tipe' => $request->tipe,
             'harga' => $request->harga,
             'deskripsi' => $request->deskripsi,
         ]);
 
-        // Menyimpan gambar produk
         $gambarFiles = ['gambar1', 'gambar2', 'gambar3'];
         foreach ($gambarFiles as $gambar) {
             if ($request->hasFile($gambar)) {
@@ -94,7 +90,6 @@ class ProdukApiController extends Controller
      */
     public function show($id)
     {
-        // Menampilkan produk berdasarkan ID
         $produk = Produk::with('gambarProduk')->find($id);
         if ($produk) {
             return response()->json(['data' => $produk], 200);
@@ -123,10 +118,8 @@ class ProdukApiController extends Controller
         }
 
         $produk = Produk::findOrFail($id);
-        // $produk->update($request->only(['nama_produk', 'tipe', 'harga', 'deskripsi']));
         $produk->update([
-            // 'id_admin' => Auth::guard('admin')->user()->id,
-            'id_admin' => 1,
+            'id_admin' => Auth::guard('admin')->user()->id,
             'nama_produk' => $request->nama_produk,
             'tipe' => $request->tipe,
             'harga' => $request->harga,
@@ -180,13 +173,11 @@ class ProdukApiController extends Controller
             return response()->json(['error' => 'Produk tidak ditemukan'], 404);
         }
 
-        // Menghapus gambar terkait produk
         foreach ($produk->gambarProduk as $gambar) {
             Storage::disk('public')->delete('produk/' . $gambar->gambar);
             $gambar->delete();
         }
 
-        // Menghapus produk dari database
         $produk->delete();
 
         return response()->json(['message' => 'Produk berhasil dihapus'], 200);

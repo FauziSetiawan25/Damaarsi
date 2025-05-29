@@ -63,7 +63,7 @@
                                             </div>
                                             <div class="mt-2">
                                                 <button type="button" class="btn btn-danger btn-sm" style="width: 70px;"
-                                                    onclick="showDeletePortoModal('{{ route('admin.portofolio.destroy', $item->id) }}', '{{ $item->id }}')">
+                                                    onclick="showDeletePortoModal('/api/portofolio/{{ $item->id }}', '{{ $item->id }}')">
                                                     Hapus
                                                 </button>
                                             </div>
@@ -91,7 +91,7 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form action="{{ route('admin.portofolio.store') }}" method="POST" enctype="multipart/form-data">
+                    <form id="formAddPorto" enctype="multipart/form-data">
                         @csrf
                         <div class="form-group d-flex align-items-start">
                             <div class="flex-fill mr-3" style="max-width: 50%;">
@@ -196,11 +196,9 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        <form action="{{ route('admin.portofolio.update', $item->id) }}" method="POST"
-                            enctype="multipart/form-data">
+                        <form id="editPortoForm{{ $item->id }}" data-id="{{ $item->id }}" enctype="multipart/form-data">
                             @csrf
-                            @method('PUT')
-
+                            <input type="hidden" name="_method" value="PUT">
                             <div class="form-group d-flex align-items-start">
                                 <div class="flex-fill mr-3" style="max-width: 50%;">
                                     <label for="nama_pemesan">Nama Pemesan</label>
@@ -430,24 +428,116 @@
             });
         });
 
+        // Kirim data porto baru ke API
+        document.addEventListener('DOMContentLoaded', function () {
+            const addForm = document.querySelector('#formAddPorto');
+
+            addForm.addEventListener('submit', function (e) {
+                e.preventDefault();
+
+                const formData = new FormData(this);
+
+                fetch('/api/portofolio', {
+                    method: 'POST',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Authorization': 'Bearer {{ auth()->guard("admin")->user()->token ?? '' }}',
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+                    },
+                    body: formData
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.message) {
+                        location.reload();
+                    } else if (data.error) {
+                        alert('Gagal menambahkan portofolio:\n' + Object.values(data.error).join('\n'));
+                    }
+                })
+                .catch(error => {
+                    cconsole.error('Error:', error);
+                });
+            });
+        });
+
+        // Edit porto via API
+        document.addEventListener('DOMContentLoaded', function () {
+            const editForms = document.querySelectorAll('form[id^="editPortoForm"]');
+
+            editForms.forEach(form => {
+                form.addEventListener('submit', function (e) {
+                    e.preventDefault();
+
+                    const portofolioId = this.dataset.id;
+                    const formData = new FormData(this);
+
+                    fetch(`/api/portofolio/${portofolioId}`, {
+                        method: 'POST',
+                        headers: {
+                            'Accept': 'application/json',
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+                        },
+                        body: formData
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.message) {
+                            location.reload();
+                        } else if (data.error) {
+                            alert('Gagal mengedit portofolio:\n' + Object.values(data.error).join('\n'));
+                        }
+                    })
+                    .catch(error => {
+                        cconsole.error('Error:', error);
+                    });
+                });
+            });
+        });
+
         // Menampilkan modal konfirmasi hapus
         function showDeletePortoModal(actionUrl, id) {
-            document.getElementById('deleteForm').action = actionUrl;
+             const deleteForm = document.getElementById('deleteForm');
+            deleteForm.setAttribute('data-id', id); 
+            deleteForm.setAttribute('data-url', `/api/portofolio/${id}`);
+
             document.getElementById('deleteDataInfo').innerHTML = "ID = " + id;
             $('#deleteConfirmPorto').modal('show');
         }
-        document.getElementById('deleteForm').addEventListener('submit', function(event) {
-            event.preventDefault(); // Hentikan penghapusan langsung
 
-            $('#deleteConfirmModal').modal('hide'); // Tutup modal konfirmasi
+        document.getElementById('deleteForm').addEventListener('submit', function (event) {
+            event.preventDefault(); // Hentikan submit form biasa
 
-            setTimeout(() => {
-                $('#successDeletePorto').modal('show'); // Tampilkan notifikasi sukses
-            }, 500);
+            const deleteForm = this;
+            const id = deleteForm.getAttribute('data-id');
+            const apiUrl = deleteForm.getAttribute('data-url');
 
-            setTimeout(() => {
-                this.submit(); // Lanjutkan penghapusan setelah notifikasi
-            }, 2000);
+            $('#deleteConfirmPorto').modal('hide'); // Tutup modal konfirmasi
+
+            fetch(apiUrl, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                }
+            })
+            .then(response => {
+                if (!response.ok) throw new Error('Gagal menghapus portofolio');
+                return response.json();
+            })
+            .then(data => {
+                setTimeout(() => {
+                    $('#successDeletePorto').modal('show'); // Tampilkan modal sukses
+                }, 500);
+
+                setTimeout(() => {
+                    location.reload(); // Reload halaman untuk perbarui tampilan
+                }, 2000);
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Terjadi kesalahan saat menghapus portofolio.');
+            });
         });
     </script>
 @endsection

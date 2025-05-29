@@ -42,7 +42,7 @@
                                     <td>
                                         <div class="d-flex flex-column align-items-start">
                                             <button type="button" class="btn btn-danger btn-sm" style="width: 70px;"
-                                                    onclick="showDeleteTestiModal('{{ route('admin.testimoni.destroy', $testimoni->id) }}', '{{ $testimoni->id }}')">
+                                                    onclick="showDeleteTestiModal('/api/testimoni/{{ $testimoni->id }}', '{{ $testimoni->id }}')">
                                                     Hapus
                                                 </button>
                                             </form>
@@ -70,8 +70,7 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form id="testimoniForm" action="{{ route('testimoni.store') }}" method="POST"
-                        enctype="multipart/form-data">
+                    <form id="testimoniForm" enctype="multipart/form-data">
                         @csrf
                         <div class="form-group d-flex align-items-start">
                             <div class="flex-fill mr-3" style="max-width: 50%;">
@@ -167,36 +166,83 @@
         </div>
     </div>
 
-    {{-- Js untuk menyalin link tambah testimoni --}}
     <script>
-        document.getElementById('copyLinkBtn').addEventListener('click', function() {
-            const testimoniLink = "{{ route('testimoni.add') }}";
+        // Kirim data testi baru ke API
+        document.addEventListener('DOMContentLoaded', function () {
+            const testimoniForm = document.getElementById('testimoniForm');
 
-            navigator.clipboard.writeText(testimoniLink).then(() => {
-                alert('Link Tambah Testimoni telah disalin');
-            }).catch(err => {
-                console.error('Error copying link: ', err);
+            testimoniForm.addEventListener('submit', function (e) {
+                e.preventDefault();
+
+                const formData = new FormData(this);
+
+                fetch('/api/testimoni', {
+                    method: 'POST',
+                    headers: {
+                        'Accept': 'application/json',
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+                    },
+                    body: formData
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        return response.json().then(err => { throw err; });
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    location.reload();
+                })
+                .catch(error => {
+                    console.error('Gagal mengirim:', error);
+                });
             });
         });
 
         // Menampilkan modal konfirmasi hapus
         function showDeleteTestiModal(actionUrl, id) {
-            document.getElementById('deleteForm').action = actionUrl;
+            const deleteForm = document.getElementById('deleteForm');
+            deleteForm.setAttribute('data-id', id); 
+            deleteForm.setAttribute('data-url', `/api/testimoni/${id}`);
+
             document.getElementById('deleteDataInfo').innerHTML = "ID = " + id;
             $('#deleteConfirmTesti').modal('show');
         }
-        document.getElementById('deleteForm').addEventListener('submit', function(event) {
-            event.preventDefault(); // Hentikan penghapusan langsung
+
+        document.getElementById('deleteForm').addEventListener('submit', function (event) {
+            event.preventDefault(); // Hentikan submit form biasa
+
+            const deleteForm = this;
+            const id = deleteForm.getAttribute('data-id');
+            const apiUrl = deleteForm.getAttribute('data-url');
 
             $('#deleteConfirmTesti').modal('hide'); // Tutup modal konfirmasi
 
-            setTimeout(() => {
-                $('#successDeleteTesti').modal('show'); // Tampilkan notifikasi sukses
-            }, 5000);
+            fetch(apiUrl, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                }
+            })
+            .then(response => {
+                if (!response.ok) throw new Error('Gagal menghapus testimoni');
+                return response.json();
+            })
+            .then(data => {
+                setTimeout(() => {
+                    $('#successDeletePorto').modal('show'); // Tampilkan modal sukses
+                }, 500);
 
-            setTimeout(() => {
-                this.submit(); // Lanjutkan penghapusan setelah notifikasi
-            }, 2000);
+                setTimeout(() => {
+                    location.reload(); // Reload halaman untuk perbarui tampilan
+                }, 2000);
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Terjadi kesalahan saat menghapus testimoni.');
+            });
         });
     </script>
 @endsection

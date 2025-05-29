@@ -3,18 +3,15 @@
 namespace Database\Seeders;
 
 use App\Models\Admin;
-use App\Models\Alasan;
 use App\Models\Produk;
 use App\Models\Layanan;
 use App\Models\Customer;
 use App\Models\Testimoni;
 use App\Models\Portofolio;
 use Faker\Factory as Faker;
-use App\Models\GambarAlasan;
 use App\Models\GambarProduk;
 use App\Models\Memilih;
 use App\Models\PengaturanBanner;
-use App\Models\GambarLayanan;
 use App\Models\PengaturanWeb;
 use Illuminate\Database\Seeder;
 use App\Models\GambarPortofolio;
@@ -246,31 +243,45 @@ class AdminSeeder extends Seeder
             }
 
             $titleLayanan = [
-                'Layanan Konsultasi',
-                'Layanan Pengaduan',
-                'Layanan Bantuan',
-                'Layanan Informasi',
-                'Layanan Customer Service',
-                'Layanan Estimasi Biaya'
+                'Desain 3D Siap Pakai',
+                'Rancangan Biaya Terbaru',
+                'Desain 3D Siap Pakai',
+                'Desain 3D Siap Pakai',
+                'Rancangan Biaya Terbaru',
+                'Desain 3D Siap Pakai',
+            ];
+            $imageLayanan = [
+                'des3d.png',
+                'biaya.png',
+                'des3d.png',
+                'des3d.png',
+                'biaya.png',
+                'des3d.png',
             ];
     
             for ($i = 0; $i < count($titleLayanan); $i++) {
                 Layanan::create([
-                    'gambar' => 'smile.png',
+                    'gambar' => $imageLayanan[$i],
                     'title' => $titleLayanan[$i]
                 ]);
             }
 
             $titleMemilih = [
-                'Pelayanan cepat',
-                'Harga Terjangkau',
-                'Kualitas Terjamin',
+                'Pelayanan',
+                'Pengerjaan',
+                'Tepat Waktu',
                 'Tim Profesional'
+            ];
+            $imageMemilih = [
+                'lay1.png',
+                'lay2.png',
+                'lay3.png',
+                'lay4.png'
             ];
     
             for ($i = 0; $i < count($titleMemilih); $i++) {
                 Memilih::create([
-                    'gambar' => 'smile.png',
+                    'gambar' => $imageMemilih[$i],
                     'title' => $titleMemilih[$i]
                 ]);
             }

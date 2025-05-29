@@ -51,7 +51,7 @@ Route::middleware(['auth:sanctum', 'role:admin,superadmin'])->group(function () 
     Route::delete('/portofolio/{id}', [PortofolioApiController::class, 'destroy']);
 
     Route::post('/testimoni', [TestimoniApiController::class, 'store']);
-    Route::put('/testimoni/{id}', [TestimoniApiController::class, 'ubahStatus']);
+    // Route::put('/testimoni/{id}', [TestimoniApiController::class, 'ubahStatus']);
     Route::delete('/testimoni/{id}', [TestimoniApiController::class, 'destroy']);
 
     Route::put('/pengaturan/{id}', [PengaturanWebApiController::class, 'updatePengaturan']);

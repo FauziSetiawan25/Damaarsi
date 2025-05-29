@@ -43,7 +43,6 @@ class PengunjungApiController extends Controller
      */
     public function getVisitorCount()
     {
-        // Menghitung jumlah pengunjung di database
         $count = Visitor::count();
         return response()->json([
             'total_pengunjung' => $count

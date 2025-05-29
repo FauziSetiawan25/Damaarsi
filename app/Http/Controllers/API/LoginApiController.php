@@ -19,13 +19,11 @@ class LoginApiController extends Controller
             'password' => 'required|string',
         ]);
 
-        // Autentikasi menggunakan guard 'admin'
         if (Auth::guard('admin')->attempt($credentials)) {
-            $admin = Auth::guard('admin')->user();  // User yang terautentikasi
+            $admin = Auth::guard('admin')->user();  
 
-            // Cek apakah role-nya 'nonaktif'
             if ($admin->role === 'nonaktif') {
-                Auth::guard('admin')->logout(); // Logout kalau login session-based
+                Auth::guard('admin')->logout(); 
                 return response()->json([
                     'message' => 'Akun Anda nonaktif. Silakan hubungi administrator.'
                 ], 403);

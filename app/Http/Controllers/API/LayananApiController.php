@@ -16,10 +16,7 @@ class LayananApiController extends Controller
     public function getAllLayanan()
     {
         $layanan = Layanan::all();
-
-        return response()->json([
-            'data' => $layanan
-        ]);
+        return response()->json(['data' => $layanan]);
     }
 
     /**
@@ -41,14 +38,12 @@ class LayananApiController extends Controller
                 Storage::disk('public')->delete('layanan/' . $layanan->gambar);
             }
 
-            // Simpan gambar baru ke folder 'layanan/' di disk 'public'
             $imageName = uniqid() . '.' . $request->file('gambar')->getClientOriginalExtension();
             $request->file('gambar')->storeAs('layanan', $imageName, 'public');
 
             $layanan->gambar = $imageName;
         }
 
-        // Update title dan id_admin (hardcoded 1, sesuaikan jika pakai Auth)
         $layanan->title = $request->title;
         $layanan->save();
 

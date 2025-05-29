@@ -37,7 +37,7 @@
                                         <tr>
                                             <td>{{ $loop->iteration }}</td>
                                             <td>{{ $item->keterangan }}</td>
-                                            <td>{{ $item->value }}</td>
+                                            <td>{{ Str::limit($item->value, 50, '...') }}</td>
                                             <td>
                                                 <div class="mx-2">
                                                     <button type="button" class="btn btn-warning btn-sm edit-pengaturan"

@@ -6,7 +6,6 @@ namespace App\Http\Controllers\API;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Memilih;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
 class MemilihApiController extends Controller
@@ -42,14 +41,12 @@ class MemilihApiController extends Controller
                 Storage::disk('public')->delete('memilih/' . $memilih->gambar);
             }
 
-            // Simpan gambar baru ke folder 'memilih/' di disk 'public'
             $imageName = uniqid() . '.' . $request->file('gambar')->getClientOriginalExtension();
             $request->file('gambar')->storeAs('memilih', $imageName, 'public');
 
             $memilih->gambar = $imageName;
         }
 
-        // Update title dan id_admin (hardcoded 1, sesuaikan jika pakai Auth)
         $memilih->title = $request->title;
         $memilih->save();
 

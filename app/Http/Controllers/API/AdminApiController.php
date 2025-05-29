@@ -91,7 +91,6 @@ class AdminApiController extends Controller
      */
     public function show($id)
     {
-        // Menampilkan admin berdasarkan ID
         $admins = Admin::whereIn('role', ['admin', 'nonaktif'])->find($id);
         if ($admins) {
             return response()->json(['data' => $admins], 200);

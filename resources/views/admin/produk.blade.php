@@ -71,7 +71,7 @@
                                             </div>
                                             <div class="mt-2">
                                                 <button type="button" class="btn btn-danger btn-sm" style="width: 70px;"
-                                                    onclick="showDeleteModal('{{ route('admin.produk.destroy', $item->id) }}', '{{ $item->id }}')">
+                                                    onclick="showDeleteModal('/api/produk/{{ $item->id }}', '{{ $item->id }}')">
                                                     Hapus
                                                 </button>
                                             </div>
@@ -99,8 +99,7 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form id="addProductForm" action="{{ route('admin.produk.store') }}" method="POST"
-                        enctype="multipart/form-data">
+                    <form class="form-add-produk">
                         @csrf
                         <div class="form-group d-flex align-items-start">
                             <div class="flex-fill mr-3" style="max-width: 50%;">
@@ -128,17 +127,13 @@
                             </div>
                         </div>
                         <div class="form-group d-flex align-items-start">
-                            {{-- <div class="flex-fill mr-3" style="max-width: 50%;">
+                            <div class="flex-fill mr-3" style="max-width: 50%;">
                             <label for="productType">Tipe Produk</label>
                                 <select class="form-control" id="productType" name="tipe" required>
                                     <option value="" disabled selected>Pilih Nama Produk</option>
                                     <option value="Paket">Paket</option>
                                     <option value="Desain">Desain</option>
                                 </select>
-                        </div> --}}
-                            <div class="flex-fill mr-3" style="max-width: 50%;">
-                                <label for="productDescription">Deskripsi</label>
-                                <textarea class="form-control" id="productDescription" name="deskripsi" rows="3" required></textarea>
                             </div>
                             <div class="flex-fill mr-3" style="max-width: 50%;">
                                 <label for="gambar3">Unggah Gambar 3</label>
@@ -147,12 +142,12 @@
                                 <small class="text-danger">*format .jpg, .jpeg, .png, .gif</small>
                             </div>
                         </div>
-                        {{-- <div class="form-group d-flex align-items-start">
-                        <div class="flex-fill mr-3" style="max-width: 50%;">
-                            <label for="productDescription">Deskripsi Produk</label>
-                            <textarea class="form-control" id="productDescription" name="deskripsi" rows="3" required></textarea>
+                        <div class="form-group d-flex align-items-start">
+                            <div class="flex-fill mr-3" style="max-width: 50%;">
+                                <label for="productDescription">Deskripsi Produk</label>
+                                <textarea class="form-control" id="productDescription" name="deskripsi" rows="3" required></textarea>
+                            </div>
                         </div>
-                    </div> --}}
                         <div class="text-right">
                             <button type="submit" class="btn btn-primary"
                                 style="background-color: #0088FF; color: white" data-toggle="modal"
@@ -199,11 +194,9 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        <form action="{{ route('admin.produk.update', $item->id) }}" method="POST"
-                            enctype="multipart/form-data">
+                        <form id="editProdukForm{{ $item->id }}" data-id="{{ $item->id }}" enctype="multipart/form-data">
                             @csrf
-                            @method('PUT')
-
+                            <input type="hidden" name="_method" value="PUT">
                             <div class="form-group d-flex align-items-start">
                                 <div class="flex-fill mr-3" style="max-width: 50%;">
                                     <label for="productName">Nama Katalog</label>
@@ -233,16 +226,12 @@
                             </div>
 
                             <div class="form-group d-flex align-items-start">
-                                {{-- <div class="flex-fill mr-3" style="max-width: 50%;">
-                                <label for="productType">Tipe Produk</label>
+                                <div class="flex-fill mr-3" style="max-width: 50%;">
+                                    <label for="productType">Tipe Produk</label>
                                     <select class="form-control" id="productType" name="tipe" required>
                                         <option value="Paket" {{ $item->tipe == 'Paket' ? 'selected' : '' }}>Paket</option>
                                         <option value="Desain" {{ $item->tipe == 'Desain' ? 'selected' : '' }}>Desain</option>
                                     </select>
-                            </div> --}}
-                                <div class="flex-fill mr-3" style="max-width: 50%;">
-                                    <label for="productDescription">Deskripsi Produk</label>
-                                    <textarea class="form-control" name="deskripsi" id="productDescription" rows="3" required>{{ old('deskripsi', $item->deskripsi) }}</textarea>
                                 </div>
                                 <div class="flex-fill mr-3" style="max-width: 50%;">
                                     <label for="gambar3">Unggah Gambar 3</label>
@@ -250,13 +239,13 @@
                                         accept=".jpg, .jpeg, .png, .gif">
                                 </div>
                             </div>
-
-                            {{-- <div class="form-group d-flex align-items-start">
-                            <div class="flex-fill mr-3" style="max-width: 50%;">
-                                <label for="productDescription">Deskripsi Produk</label>
-                                <textarea class="form-control" name="deskripsi" id="productDescription" rows="3" required>{{ old('deskripsi', $item->deskripsi) }}</textarea>
+                            
+                            <div class="form-group d-flex align-items-start">
+                                <div class="flex-fill mr-3" style="max-width: 50%;">
+                                    <label for="productDescription">Deskripsi Produk</label>
+                                    <textarea class="form-control" name="deskripsi" id="productDescription" rows="3" required>{{ old('deskripsi', $item->deskripsi) }}</textarea>
+                                </div>
                             </div>
-                        </div> --}}
 
                             <!-- Gambar Lama -->
                             @if ($item->gambarProduk->count() > 0)
@@ -384,7 +373,6 @@
             </div>
         </div>
     </div>
-    <!-- Script untuk menangani klik tautan dan menampilkan gambar -->
     <script>
         document.querySelectorAll('.view-images').forEach(link => {
             link.addEventListener('click', function(event) {
@@ -465,25 +453,114 @@
             });
         });
 
+        document.addEventListener('DOMContentLoaded', function () {
+            const addForm = document.querySelector('.form-add-produk');
+
+            addForm.addEventListener('submit', function (e) {
+                e.preventDefault();
+
+                const formData = new FormData(this);
+
+                fetch('/api/produk', {
+                    method: 'POST',
+                    headers: {
+                        'Accept': 'application/json',
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+                    },
+                    body: formData
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.message) {
+                        location.reload();
+                    } else if (data.error) {
+                        alert('Gagal menambahkan portofolio:\n' + Object.values(data.error).join('\n'));
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Terjadi kesalahan saat mengirim data.');
+                });
+            });
+        });
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const editForms = document.querySelectorAll('form[id^="editProdukForm"]');
+
+            editForms.forEach(form => {
+                form.addEventListener('submit', function (e) {
+                    e.preventDefault();
+
+                    const produkId = this.dataset.id;
+                    const formData = new FormData(this);
+
+                    fetch(`/api/produk/${produkId}`, {
+                        method: 'POST',
+                        headers: {
+                            'Accept': 'application/json',
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+                        },
+                        body: formData
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.message) {
+                            location.reload();
+                        } else if (data.error) {
+                            alert('Gagal mengedit produk:\n' + Object.values(data.error).join('\n'));
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                    });
+                });
+            });
+        });
+
         // Menampilkan modal konfirmasi hapus
         function showDeleteModal(actionUrl, id) {
-            document.getElementById('deleteForm').action = actionUrl;
+             const deleteForm = document.getElementById('deleteForm');
+            deleteForm.setAttribute('data-id', id); 
+            deleteForm.setAttribute('data-url', `/api/produk/${id}`);
+
             document.getElementById('deleteDataInfo').innerHTML = "ID = " + id;
             $('#deleteConfirmModal').modal('show');
         }
 
-        document.getElementById('deleteForm').addEventListener('submit', function(event) {
-            event.preventDefault(); // Hentikan penghapusan langsung
+        document.getElementById('deleteForm').addEventListener('submit', function (event) {
+            event.preventDefault(); // Hentikan submit form biasa
+
+            const deleteForm = this;
+            const id = deleteForm.getAttribute('data-id');
+            const apiUrl = deleteForm.getAttribute('data-url');
 
             $('#deleteConfirmModal').modal('hide'); // Tutup modal konfirmasi
 
-            setTimeout(() => {
-                $('#successDeleteKatalog').modal('show'); // Tampilkan notifikasi sukses
-            }, 500);
+            fetch(apiUrl, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                }
+            })
+            .then(response => {
+                if (!response.ok) throw new Error('Gagal menghapus produk');
+                return response.json();
+            })
+            .then(data => {
+                setTimeout(() => {
+                    $('#successDeleteKatalog').modal('show'); // Tampilkan modal sukses
+                }, 500);
 
-            setTimeout(() => {
-                this.submit(); // Lanjutkan penghapusan setelah notifikasi
-            }, 2000);
+                setTimeout(() => {
+                    location.reload(); // Reload halaman untuk perbarui tampilan
+                }, 2000);
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Terjadi kesalahan saat menghapus produk.');
+            });
         });
     </script>
 @endsection

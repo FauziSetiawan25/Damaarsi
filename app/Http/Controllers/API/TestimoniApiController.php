@@ -26,46 +26,30 @@ class TestimoniApiController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(),[
-            'id_produk' => 'required|exists:produk,id',
             'nama' => 'required|string|max:255',
             'testimoni' => 'required|string',
-            // 'gambar' => 'required|image|mimes:jpg,jpeg,png|max:2048'
-            'gambar' => 'required|string'
+            'gambar' => 'required|image|mimes:jpg,jpeg,png|max:2048'
         ]);
 
         if ($validator->fails()) {
             return response()->json(['error' => $validator->errors()], 400);
         }
 
-        $imageName = uniqid() . '.' . $request->gambar;
+        $imageName = uniqid() . '.' . $request->file('gambar')->getClientOriginalExtension();
+        $request->file('gambar')->storeAs('testimoni', $imageName, 'public');
+
         $testimoni = Testimoni::create([
-            'id_produk' => $request->id_produk,
             'nama' => $request->nama,
             'testimoni' => $request->testimoni,
             'gambar' => $imageName,
         ]);
 
-        return response()->json(['message' => 'Testimoni berhasil ditambahkan', 'data' => $testimoni], 200);
+        return response()->json([
+            'message' => 'Testimoni berhasil ditambahkan',
+            'testimoni' => $testimoni
+        ], 201);
 
-
-        // if ($request->hasFile('gambar')) {
-        //     $imageName = uniqid() . '.' . $request->file('gambar')->getClientOriginalExtension();
-        //     $request->file('gambar')->storeAs('testimoni', $imageName, 'public');
-
-        //     $testimoni = Testimoni::create([
-        //         'id_produk' => $request->id_produk,
-        //         'nama' => $request->nama,
-        //         'testimoni' => $request->testimoni,
-        //         'gambar' => $imageName,
-        //     ]);
-
-        //     return response()->json([
-        //         'message' => 'Testimoni berhasil ditambahkan',
-        //         'testimoni' => $testimoni
-        //     ], 201);
-        // }
-
-        // return response()->json(['message' => 'Gambar tidak valid'], 400);
+        return response()->json(['message' => 'Gambar tidak valid'], 400);
     }
 
     /**

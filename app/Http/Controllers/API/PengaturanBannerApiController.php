@@ -6,7 +6,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Controllers\Controller;
 use App\Models\PengaturanBanner;
-use App\Models\PengaturanWeb;
 
 class PengaturanBannerApiController extends Controller
 {
@@ -83,7 +82,6 @@ class PengaturanBannerApiController extends Controller
                 Storage::disk('public')->delete('banner/' . $banner->gambar);
             }
 
-            // Simpan gambar baru dalam folder 'banner/' dan database
             $imageName = uniqid() . '.' . $request->file('gambar')->getClientOriginalExtension();
             $imagePath = $request->file('gambar')->storeAs('banner', $imageName, 'public'); // Menyimpan gambar di dalam folder banner/
             $banner->gambar = $imageName;

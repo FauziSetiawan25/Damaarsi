@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers\API;
 
-use App\Models\GambarProduk;
-use App\Models\Produk;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -30,8 +28,7 @@ class PortofolioApiController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'nama_pemesan' => 'required|string|max:255',
-            // 'gambar1' => 'required|image|mimes:jpg,jpeg,png,gif',
-            'gambar1' => 'required|string',
+            'gambar1' => 'required|image|mimes:jpg,jpeg,png,gif',
             'gambar2' => 'nullable|image|mimes:jpg,jpeg,png,gif',
             'gambar3' => 'nullable|image|mimes:jpg,jpeg,png,gif',
             'gambar4' => 'nullable|image|mimes:jpg,jpeg,png,gif',
@@ -48,8 +45,7 @@ class PortofolioApiController extends Controller
         $portofolio = Portofolio::create([
             'nama' => $request->nama_pemesan,
             'id_produk' => $request->nama_produk,
-            // 'id_admin' => Auth::guard('admin')->user()->id,
-            'id_admin' => 1,
+            'id_admin' => Auth::guard('admin')->user()->id,
             'tgl_selesai' => $request->tanggal_selesai,
             'luas' => $request->luas_bangunan,
         ]);
@@ -75,7 +71,6 @@ class PortofolioApiController extends Controller
      */
     public function show($id)
     {
-        // Menampilkan portofolio berdasarkan ID
         $portofolio = Portofolio::with('gambarPortofolio', 'produk')->find($id);
         if ($portofolio) {
             return response()->json(['data' => $portofolio], 200);
@@ -105,13 +100,10 @@ class PortofolioApiController extends Controller
         }
 
         $portofolio = Portofolio::findOrFail($id);
-        // $portofolio->update($request->only(['nama_produk', 'tipe', 'harga', 'deskripsi']));
-        // Update data portofolio
         $portofolio->update([
             'nama' => $request->nama_pemesan,
             'id_produk' => $request->nama_produk,
-            // 'id_admin' => Auth::guard('admin')->user()->id,
-            'id_admin' => 1,
+            'id_admin' => Auth::guard('admin')->user()->id,
             'tgl_selesai' => $request->tanggal_selesai,
             'luas' => $request->luas_bangunan,
         ]);
@@ -156,13 +148,11 @@ class PortofolioApiController extends Controller
             return response()->json(['error' => 'Portofolio tidak ditemukan'], 404);
         }
 
-        // Menghapus gambar terkait portofolio
         foreach ($portofolio->gambarPortofolio as $gambar) {
             Storage::disk('public')->delete('portofolio/' . $gambar->gambar);
             $gambar->delete();
         }
 
-        // Menghapus portofolio dari database
         $portofolio->delete();
 
         return response()->json(['message' => 'Portofolio berhasil dihapus'], 200);

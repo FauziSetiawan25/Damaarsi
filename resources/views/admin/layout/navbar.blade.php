@@ -200,73 +200,107 @@
                     <div class="modal-footer">
                         <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
 
-                        <form id="logout-form" action="{{ route('logout') }}" method="POST">
+                        <form id="logout-form" method="POST">
                             @csrf
-                            <button type="submit" class="btn btn-danger">Logout</button>
+                            <button id="logout-button" class="btn btn-danger">Logout</button>
                         </form>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Bootstrap core JavaScript-->
-        <script src="{{ asset('asset/vendor/jquery/jquery.min.js') }}"></script>
-        <script src="{{ asset('asset/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+<!-- Bootstrap core JavaScript-->
+<script src="{{ asset('asset/vendor/jquery/jquery.min.js') }}"></script>
+<script src="{{ asset('asset/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
 
-        <!-- Core plugin JavaScript-->
-        <script src="{{ asset('asset/}vendor/jquery-easing/jquery.easing.min.js') }}"></script>
+<!-- Core plugin JavaScript-->
+<script src="{{ asset('asset/}vendor/jquery-easing/jquery.easing.min.js') }}"></script>
 
-        <!-- Custom scripts for all pages-->
-        <script src="{{ asset('asset/js/sb-admin-2.min.js') }}"></script>
+<!-- Custom scripts for all pages-->
+<script src="{{ asset('asset/js/sb-admin-2.min.js') }}"></script>
 
-        <!-- Page level plugins -->
-        <script src="{{ asset('asset/vendor/chart.js/Chart.min.js') }}"></script>
-        <script src="{{ asset('asset/vendor/datatables/jquery.dataTables.min.js') }}"></script>
-        <script src="{{ asset('asset/vendor/datatables/dataTables.bootstrap4.min.js') }}"></script>
+<!-- Page level plugins -->
+<script src="{{ asset('asset/vendor/chart.js/Chart.min.js') }}"></script>
+<script src="{{ asset('asset/vendor/datatables/jquery.dataTables.min.js') }}"></script>
+<script src="{{ asset('asset/vendor/datatables/dataTables.bootstrap4.min.js') }}"></script>
 
-        <!-- Page level custom scripts -->
-        <script src="{{ asset('asset/js/demo/chart-area-demo.js') }}"></script>
-        <script src="{{ asset('asset/js/demo/chart-pie-demo.js') }}"></script>
-        <script src="{{ asset('asset/js/demo/datatables-demo.js') }}"></script>
+<!-- Page level custom scripts -->
+<script src="{{ asset('asset/js/demo/chart-area-demo.js') }}"></script>
+<script src="{{ asset('asset/js/demo/chart-pie-demo.js') }}"></script>
+<script src="{{ asset('asset/js/demo/datatables-demo.js') }}"></script>
 
-        <script>
-            document.addEventListener("DOMContentLoaded", function() {
-                let activeMenu = localStorage.getItem("activeMenu");
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        let activeMenu = localStorage.getItem("activeMenu");
 
-                if (activeMenu) {
-                    let activeItem = document.querySelector(`[data-menu="${activeMenu}"]`);
-                    if (activeItem) {
-                        setActiveState(activeItem);
-                    }
+        if (activeMenu) {
+            let activeItem = document.querySelector(`[data-menu="${activeMenu}"]`);
+            if (activeItem) {
+                setActiveState(activeItem);
+            }
+        }
+    });
+
+    function toggleIcon(clickedItem) {
+        let menuName = clickedItem.getAttribute("data-menu");
+
+        // Simpan menu aktif di localStorage
+        localStorage.setItem("activeMenu", menuName);
+
+        // Reset semua ikon
+        document.querySelectorAll(".nav-item").forEach(item => {
+            item.classList.remove("active");
+            let icon = item.querySelector(".menu-icon");
+            if (icon) icon.style.display = "none";
+        });
+
+        // Set ikon aktif
+        setActiveState(clickedItem);
+    }
+
+    function setActiveState(item) {
+        item.classList.add("active");
+        let icon = item.querySelector(".menu-icon");
+        if (icon) icon.style.display = "inline";
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+        const logoutButton = document.getElementById('logout-button');
+
+        if (logoutButton) {
+            logoutButton.addEventListener('click', function () {
+                const token = localStorage.getItem('admin_token');
+
+                if (!token) {
+                    alert('Token tidak ditemukan. Silakan login ulang.');
+                    window.location.href = '/login';
+                    return;
                 }
-            });
 
-            function toggleIcon(clickedItem) {
-                let menuName = clickedItem.getAttribute("data-menu");
-
-                // Simpan menu aktif di localStorage
-                localStorage.setItem("activeMenu", menuName);
-
-                // Reset semua ikon
-                document.querySelectorAll(".nav-item").forEach(item => {
-                    item.classList.remove("active");
-                    let icon = item.querySelector(".menu-icon");
-                    if (icon) icon.style.display = "none";
+                fetch('/api/logout', {
+                    method: 'POST',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Authorization': 'Bearer ' + token
+                    }
+                })
+                .then(response => {
+                    if (!response.ok) throw response;
+                    return response.json();
+                })
+                .then(data => {
+                    localStorage.removeItem('admin_token');
+                    window.location.href = '/admin';
+                })
+                .catch(async error => {
+                    const errText = await error.text();
+                    console.error('Logout error:', errText);
+                    alert('Gagal logout. Silakan coba lagi.');
                 });
-
-                // Set ikon aktif
-                setActiveState(clickedItem);
-            }
-
-            function setActiveState(item) {
-                item.classList.add("active");
-                let icon = item.querySelector(".menu-icon");
-                if (icon) icon.style.display = "inline"; // Tampilkan ikon
-            }
-        </script>
-
-
-
+            });
+        }
+    });
+</script>
 </body>
 
 </html>
